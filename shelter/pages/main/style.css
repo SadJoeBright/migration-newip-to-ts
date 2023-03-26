@@ -64,10 +64,11 @@ a {
 	line-height: 110%;
 	letter-spacing: 0.06em;
 	color: rgba(241, 205, 179, 1);
+    transition: all ease-in-out .5s;
 }
 
 .Logo:hover h1 {
-    color: #FDDCC4;
+    filter: brightness(115%);
 }
 
 
@@ -98,7 +99,6 @@ a {
 .nav_item {
 	list-style-type: none;
 	height: 24px;
-    border-bottom: solid 3px rgba(241, 205, 179, 0);
     transition: all ease-in-out .1s;
 }
 
@@ -386,6 +386,7 @@ a {
 .card:hover .button_secondary {
 	background: #FDDCC4;
 	cursor: pointer;
+    border: #FDDCC4;
 }
 
 .card img {
@@ -416,7 +417,7 @@ a {
 	height: 52px;
 	margin: 0 auto;
 	margin-bottom: 30px;
-	border: 2px solid #F1CDB3;
+	border: 2px solid rgba(241, 205, 179, 1);
 	box-sizing: border-box;
 	border-radius: 100px;
 	background: none;
@@ -650,6 +651,7 @@ a {
 	line-height: 18px;
 	color: #B2B2B2;
 }
+
 .Footer {
 	display: flex;
 	height: 354px;
@@ -723,7 +725,7 @@ a {
 }
 
 .Footer a:hover {
-    color: rgba(253, 220, 196, 1);
+    filter: brightness(120%);
 }
 
 .Mail {
@@ -766,7 +768,7 @@ a {
 
 
 .Footer-link:hover  img {
-    filter: brightness(110%);
+    filter: brightness(120%);
 }
 
 .Footer a img {
