@@ -386,7 +386,7 @@ a {
 .card:hover .button_secondary {
 	background: #FDDCC4;
 	cursor: pointer;
-    border: #FDDCC4;
+    border: 2px solid #FDDCC4;
 }
 
 .card img {
