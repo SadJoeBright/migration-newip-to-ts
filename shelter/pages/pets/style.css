@@ -442,3 +442,418 @@ ul {
 	height: 310px;
 }
 
+@media (max-width:1279px) {
+	.wrapper {
+		display: flex;
+		flex-wrap: wrap;
+		margin: 0 auto;
+	}
+
+	.Header {
+		width: 100%;
+		margin-left: 30px;
+		margin-right: 30px;
+	}
+
+	.Pets {
+		height: 1733px;
+		display: flex;
+		margin: 0 auto;
+	}
+
+	.Pets-content {
+		position: static;
+		height: 1603px;
+		margin-top: 60px;
+		margin-left: 30px;
+		margin-right: 30px;
+	}
+
+	.Pets-content .Heading {
+		margin-top: 20px;
+		margin-bottom: 0px;
+	}
+
+	.card__container {
+		justify-content: space-between;
+		align-content: space-between;
+		height: 1365px;
+		
+		margin-top: 30px;
+		margin-right: 9%;
+		margin-left: 9%;
+	}
+	
+	.card {
+		margin-top: 0px;
+		margin-bottom: 0px;
+	}
+
+	.card:nth-child(7), .card:nth-child(8) {
+		display: none;
+	}
+
+	.Navigation {
+		margin-top: 40px;
+		margin-bottom: 6px;
+	}
+	
+	.Footer {
+		width: 100%;
+		height: 639px;
+		top: 1853px;
+	}
+
+	.Footer__conteiner {
+		margin-top: 30px;
+		height: auto;
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: column;
+		align-items: space-between;
+	}
+
+	.Footer-content {
+		display: flex;
+		justify-content: space-around;
+		width: 100%;
+		margin: 0 auto;
+		height: auto;
+	}
+
+	.Contacts {
+		margin-top: 0px;
+		margin-left: 4.4%;
+	}
+	
+	.Location {
+		margin-top: 0px;
+		margin-right: 4.7%;
+	}
+
+	.footer-puppy {
+		margin: 0 auto;
+	}
+
+	.modal_window_opened {
+		width: 630px;
+		height: 350px;
+	}
+	
+	.close_button {
+		left: 621px;
+	}
+	
+	.modal_window-img {
+		width: 350px;
+		height: 350px;
+	}
+	
+	.modal_window-content {
+		width: 260px;
+		height: 303px;
+		margin: 10px 9px 37px 11px;
+	}
+
+	.modal_window-description {
+		font-size: 13px;
+		margin: 20px 0px;
+	}
+	.modal_window-spec {
+		gap: 5px;
+	}
+}
+
+	@media (max-width:767px) {
+
+		.Header {
+			margin-left: 3%;
+		}
+	
+		.burger {
+			z-index: 100;
+			position: absolute;
+			right: 22px;
+			display: flex;
+			flex-direction: column;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			width: 30px;
+			height: 22px;
+			margin-right: 0px;
+			transition: all 0.5s ease-in;
+		}
+	
+		.burger_active {
+			transition: all 0.5s ease-in;
+			transform: rotate(90deg);
+		}
+	
+		.burger div {
+			height: 2px;
+			background: #000000;
+		}
+
+		.burger_active div {
+			background: #F1CDB3;
+		}
+	
+		.Nav__menu {
+			width: 0;
+			overflow-x: hidden;
+			background: rgba(41, 41, 41, 0.6);
+		}
+	
+		
+		@keyframes slide-in {
+			from {
+			  right: -320px;
+			}	  
+			to {
+			  right: 0px; 
+			}
+		  }
+	
+		.slide-in {
+			animation: slide-in 3s;
+		}
+	
+		.menu-open {
+			position: fixed;
+			top: -30px;
+			left: -30px;
+			overflow: auto;
+			height: calc(100vh + 30px);
+			width: 100vw;
+			background: rgba(41, 41, 41, 0.6);
+		}	
+	
+		.nav_list {
+			position: fixed; 
+			top: 0px;
+			right: -320px;
+			margin: 0;
+			padding: 0;
+			width: 320px;
+			height: 100vh;
+			display: flex;
+			flex-wrap: nowrap;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			gap: 40px;
+			background: #292929;
+			transition: 3s;
+	
+		}
+	
+		.list-open {
+			position: fixed; 
+			top: 0px;
+			right: 0px;
+			margin: 0;
+			padding: 0;
+			width: 320px;
+			height: 100vh;
+			display: flex;
+			flex-wrap: nowrap;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			gap: 40px;
+			background: #292929;
+			animation: slide-in 1.5s;
+		}	
+	
+		.right_126 {
+			position: fixed;
+			right: 126px;
+			z-index: 100;
+		}
+
+		.right_126 h1 {
+			color: #F1CDB3;
+		}
+		.right_126 h3 {
+			color: #FFFFFF;
+		}
+	
+		.nav_item {
+			height: 54px;
+			margin: 0 auto;
+		}
+	
+		.nav_item a {
+			font-size: 32px;
+			color: #CDCDCD;
+		}	
+
+		.Pets {
+			height: 1649px;
+		}
+
+		.Pets-content {
+			width: 300px;
+			height: 1565px;
+			margin: 42px auto;
+		}
+
+		.Pets-content .Heading {
+			width: 300px;
+			height: 64px;
+			font-size: 25px;
+			text-align: center;
+			margin: 0 auto;
+		}
+
+		.card__container {
+			width: 270px;
+			height: 1365px;
+			flex-direction: column;
+			justify-content: space-between;
+			row-gap: 30px;
+			margin: 42px auto;
+		}
+
+		.card:nth-child(4), .card:nth-child(5), .card:nth-child(6), .card:nth-child(7), .card:nth-child(8) {
+			display: none;
+		}
+
+		.Navigation {
+			width: 300px;
+			margin: 0 auto;
+		}
+
+		.Footer {
+			width: 100%;
+			height: 809px;
+			top: 1769px;
+		}
+		
+		.Footer__conteiner {
+			margin-top: 30px;
+			width: 300px;
+			height: 779px;
+			display: flex;
+			flex-direction: column;
+			align-items: space-between;
+		}
+	
+		.footer-puppy {
+			width: 260px;
+			height: 269px;	
+			margin: 0 auto;
+		}
+	
+		.footer-puppy img {
+			width: 100%;
+			height: 100%;
+		}
+	
+		.Footer-content {
+			display: flex;
+			justify-content: space-around;		
+			margin: 0 auto;
+			height: 470px;
+		}
+	
+		.Contacts {
+			width: 278px;
+			height: 208px;
+			margin: 0 auto;
+		}
+	
+		.Mail {
+			display: flex;
+			justify-content: space-between;
+			align-items: baseline;
+			height: 32px;
+			margin: 20px auto 0px;
+		}
+	
+		.Phone {
+			display: flex;
+			justify-content: space-between;
+			align-items: baseline;
+			height: 32px;
+			margin: 40px auto 0px;
+		}
+	
+		.Location {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			width: 300px;
+			height: 222px;
+			margin: 40px auto;
+		}
+	
+		.Boston {
+			width: 300px;
+			height: 46px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin: auto;
+			margin-bottom: 13px;
+		}
+	
+		.London {
+			width: 300px;
+			height: 32px;
+			display: flex;
+			align-items: baseline;
+			justify-content: flex-start;
+			margin: 40px auto 0px;
+		}
+	
+		.Title {
+			font-size: 25px;
+			text-align: center;
+			margin: 0 auto;
+		}
+
+		
+	.modal_window_opened {
+		width: 240px;
+		height: auto;
+		max-height: 400px;
+		align-items: stretch;
+		justify-content: space-between;
+		
+	}
+	
+	.close_button {
+		left: 218px;
+	}
+	
+	.modal_window-img {
+		display: none;
+	}
+
+	.modal_window-content {
+		width: 220px;
+	}
+
+	.modal_window-name {
+		align-self: center;
+		text-align: center;
+	}
+
+	 .modal_window-breed {
+		
+		align-self: center;
+		text-align: center;
+		align-items: center;
+	}
+
+	.modal_window-description {
+		width: 220px;
+		text-align: justify;
+	}
+}
+
+		
+	
+	
+	
