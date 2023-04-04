@@ -567,7 +567,9 @@ ul {
 	@media (max-width:767px) {
 
 		.Header {
-			margin-left: 3%;
+			margin-left: 20px;
+			margin-right: 20px;
+
 		}
 	
 		.burger {
