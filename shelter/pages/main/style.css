@@ -1226,7 +1226,7 @@ a {
 	  }
 
 	.slide-in {
-		animation: slide-in 3s;
+		animation: slide-in .5s;
 	}
 
 	.menu-open {
@@ -1254,7 +1254,7 @@ a {
 		align-items: center;
 		gap: 40px;
 		background: #292929;
-		transition: 3s;
+		transition: .5s;
 
 	}
 
@@ -1273,15 +1273,10 @@ a {
 		align-items: center;
 		gap: 40px;
 		background: #292929;
-		animation: slide-in 1.5s;
+		animation: slide-in .5s;
 	}	
 
-	.right_126 {
-		position: fixed;
-		right: 126px;
-		z-index: 100;
-	}
-
+	
 	.nav_item {
 		height: 54px;
 		margin: 0 auto;

@@ -583,22 +583,20 @@ ul {
 			width: 30px;
 			height: 22px;
 			margin-right: 0px;
-			transition: all 0.5s ease-in;
+			transition: all .5s ease-in-out;
 		}
 	
 		.burger_active {
-			transition: all 0.5s ease-in;
+			transition: all .5s ease-in-out;
 			transform: rotate(90deg);
-		}
+		}	
 	
 		.burger div {
 			height: 2px;
 			background: #000000;
 		}
 
-		.burger_active div {
-			background: #F1CDB3;
-		}
+		
 	
 		.Nav__menu {
 			width: 0;
@@ -617,7 +615,7 @@ ul {
 		  }
 	
 		.slide-in {
-			animation: slide-in 3s;
+			animation: slide-in .5s;
 		}
 	
 		.menu-open {
@@ -644,8 +642,7 @@ ul {
 			justify-content: center;
 			align-items: center;
 			gap: 40px;
-			background: #292929;
-			transition: 3s;
+			transition: .5s;
 	
 		}
 	
@@ -663,22 +660,11 @@ ul {
 			justify-content: center;
 			align-items: center;
 			gap: 40px;
-			background: #292929;
-			animation: slide-in 1.5s;
+			background: #FFFFFF;
+			animation: slide-in .5s;
 		}	
 	
-		.right_126 {
-			position: fixed;
-			right: 126px;
-			z-index: 100;
-		}
-
-		.right_126 h1 {
-			color: #F1CDB3;
-		}
-		.right_126 h3 {
-			color: #FFFFFF;
-		}
+		
 	
 		.nav_item {
 			height: 54px;
@@ -687,7 +673,6 @@ ul {
 	
 		.nav_item a {
 			font-size: 32px;
-			color: #CDCDCD;
 		}	
 
 		.Pets {
