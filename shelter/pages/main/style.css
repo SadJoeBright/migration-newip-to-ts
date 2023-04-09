@@ -19,6 +19,7 @@ html {
 	box-sizing: border-box;	
 	margin: 0;
 	padding: 0;
+	scroll-behavior: smooth;
 }
 
 *::before, *::after {
@@ -1191,11 +1192,11 @@ a {
 		width: 30px;
 		height: 22px;
 		margin-right: 0px;
-		transition: all 0.5s ease-in;
+		transition: all 0.2s ease-in-out;
 	}
 
 	.burger_active {
-		transition: all 0.5s ease-in;
+		transition: all 0.2s ease-in-out;
 		transform: rotate(90deg);
 	}
 
