@@ -19,10 +19,15 @@ html {
 	box-sizing: border-box;	
 	margin: 0;
 	padding: 0;
+	/* overflow-y: overlay; */
     scroll-behavior: smooth;
 }
 
 body {
+	/* display: block; */
+	/* margin: 0; */
+	/* top: auto; */
+	bottom: auto;
 	left: 0;
 	right: 0;
 }
@@ -214,6 +219,9 @@ ul {
 }
 
 .card img {
+	width: 270px;
+	height: 270px;
+	object-fit: cover;
 	border-radius: 9px 9px 0px 0px;
 }
 .card h3 {	
