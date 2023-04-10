@@ -809,6 +809,7 @@ a {
 	box-sizing: border-box;
 	border-radius: 100px;
 	background: none;
+	transition: all ease-in-out .5s;
 }
 
 
@@ -1060,9 +1061,7 @@ a {
 		gap: 40px;
 	}	
 
-	.card:last-child {
-		/* display: none; */
-	}
+	
 
 	.Help {
 		width: 100%;
