@@ -292,24 +292,27 @@ a {
 }
 
 .Pets {	
-	/* height: 877px; */
-	/* margin: 0 auto;	 */
-	/* display: flex; */
-	/* align-items: center; */
-	padding-top: 80px;
+	height: 877px;
+	margin: 0 auto;	
+	display: flex;
+	align-items: center;
 	background: #F6F6F6;
 }
 
 .Pets-content {
-	max-width: 1200px;	
-	margin: 0 auto;
+	height: 697px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	margin: auto;
+	margin-top: 80px;
 }
 
 .Pets-content .Heading {
 	width: 400px;
 	height: 90px;
 	margin: 0 auto;
-	padding-bottom: 60px;
 
 	font-family: 'Georgia';
 	font-style: normal;
@@ -322,41 +325,33 @@ a {
 }
 
 .Slider {
+	width: 1200px;
+	height: 435px;
+	margin: 0 auto;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 }
 
 .slider-wrapper {
-	display: flex;
-	width: 100%;
-	/* justify-content: flex-start; */
-	position: relative;
-	/* max-width: 990px; */
+	width: 990px;
 	overflow: hidden;
-	/* border: solid 1px red; */
 }
 
+.item {
+	display: flex;
+	gap: 90px;
+}
 
 .card__container {
-	width: 990px;
-	position: relative;
-	justify-content: space-between;
-	/* left: 0; */
+	/* position: relative; */
+	/* left: -1080px; */
 	display: flex;
-	/* flex: 1; */
 	flex-wrap: nowrap;
-	/* width: 100%; */
-	/* height: 435px; */
-	margin: 0 53px;
+	width: 990px;
+	height: 435px;
+	margin: 0 auto;
 	gap: 90px;
-	border: solid 1px red;
-	transition: all ease-in-out 2s;
-}
-
-.move-right {
-	transform: translateX(-1080px);
-	transition: all ease-in-out	1s
 }
 
 .card {
@@ -368,14 +363,12 @@ a {
 	height: 435px;
 	background: #FAFAFA;
 	border-radius: 9px;
-	/* border: solid 1px blue; */
-	/* margin: 0; */
+	margin: auto;
+    transition: all ease-in-out .5s;
 }
 
 
-
 .card:hover {
-	transition: box-shadow ease-in-out .5s;
 	background: #FFFFFF;
 	cursor: pointer;
 	box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
@@ -389,6 +382,9 @@ a {
 }
 
 .card img {
+	width: 270px;
+	height: 270px;
+	object-fit: cover;
 	border-radius: 9px 9px 0px 0px;
 }
 .card h3 {
@@ -457,7 +453,7 @@ a {
 	justify-content: center;
 	width: 261px;
 	height: 52px;
-	margin: 60px auto 100px;
+	margin-bottom: 0px;
 	background: #F1CDB3;
 	border-radius: 100px;
 	border: none;
@@ -475,6 +471,7 @@ a {
 .button_2:hover{
 	background: #FDDCC4;
 }
+
 
 
 
@@ -1053,19 +1050,19 @@ a {
 		gap: 40px;
 	}
 
-	.carousel-wrapper {
+	.slider-wrapper {
 		width: 580px;
 	}
 
 	.card__container{
 		/* left: -620px; */
-		/* width: 580px; */
+		width: 580px;
 		gap: 40px;
-	}
+	}	
 
-	/* .card:last-child {
-		display: none;
-	} */
+	.card:last-child {
+		/* display: none; */
+	}
 
 	.Help {
 		width: 100%;
@@ -1431,7 +1428,7 @@ a {
 
 	.card__container {
 		/* left: -310px; */
-		/* width: 270px; */
+		width: 270px;
 		gap: 40px;
 		margin: 0 auto;
 	}

@@ -2,7 +2,7 @@ import  petsData  from "../main/petsData.mjs";
 let modal_winow = document.querySelector('.modal_window');
 let modal_wrapper = document.querySelector('.modal_wrapper');
 let close_btn = document.querySelector('.close_button');
-
+console.log(1);
 
 function openModal(event) {
 
@@ -25,9 +25,11 @@ function openModal(event) {
 		`<b>Inoculations: </b>${currentPet[0].inoculations}`;
 		document.querySelector('.modal_window-diseases').innerHTML = `<b>Diseases: </b>${currentPet[0].diseases}`;
 		document.querySelector('.modal_window-parasites').innerHTML = `<b>Parasites: </b>${currentPet[0].parasites}`;
-		// document.body.style.overflow = 'scroll';
-		document.body.style.position = 'fixed';
-  		document.body.style.overflowY = 'scroll';
+		// document.documentElement.style.overflowY = 'hidden';	
+		document.documentElement.style.overflow = 'hidden';
+		document.documentElement.style.marginRight = 'calc(-1 * (100vw - 100%))';
+		// document.body.style.position = 'fixed';
+  		// document.body.style.overflowY = 'scroll';
 	}
 }
 
@@ -36,8 +38,10 @@ function closeModal(event) {
 		event.currentTarget.classList.contains('close_button')) {
 		modal_winow.classList.remove('modal_window_opened');
 		modal_wrapper.classList.remove('modal_wrapper_opened');
-		document.body.style.position = 'static';
-      	document.body.style.overflowY = 'visible';
+		// document.body.style.position = 'static';
+      	document.documentElement.style.overflow = 'visible';
+		document.documentElement.style.marginRight = '0';
+		//   document.documentElement.style.overflowY = 'visible';	
 	}
 }
 
