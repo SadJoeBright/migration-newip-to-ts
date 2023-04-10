@@ -1,7 +1,5 @@
-import  petsData  from "../main/petsData.mjs";
+import  petsData  from "./petsData.mjs";
 let cardContainer = document.querySelector('.card__container')
-// let sliderWrapper = document.querySelector('.slider-wrapper');
-
 
 function createCard (petsNumber) {
     let petCard = document.createElement("div");
@@ -44,7 +42,21 @@ function fillCardContainer (numberOfCards, direction = 'right') {
 }
 
 fillCardContainer(getnumberOfCards());
-// window.addEventListener('resize', fillCardContainer(getnumberOfCards()))
+window.addEventListener('resize', () => {
+    if (cardContainer.children.length !== getnumberOfCards) {
+        let index = 0;
+        for(let i = 0; i < petsData.length; i++){
+            if(petsData[i].name === cardContainer.lastElementChild.getAttribute("id")){
+              index = i;
+              break;
+            }
+        }
+        cardContainer.append(createCard(index + 1));
+        while (cardContainer.children.length !== getnumberOfCards()) {
+            cardContainer.lastElementChild.remove();
+        }
+    }
+})
 
 function getnumberOfCards() {
     if (window.innerWidth >= 1280) return 3;
@@ -59,16 +71,17 @@ function moveRight () {
     fillCardContainer(getnumberOfCards());
     let containerWidth = window.getComputedStyle(cardContainer).width;
     let containerGap = window.getComputedStyle(cardContainer).gap;
-    cardContainer.style.transition = 'all ease-in-out 1s'; 
+    cardContainer.style.transition = 'all ease-in-out .5s'; 
     cardContainer.style.transform = `translatex(-${containerWidth}) translatex(-${containerGap})`;
-        setTimeout (() => {
-            for (let i = 0; i < getnumberOfCards(); i++) {
+        setTimeout (() => {            
+
+            while (cardContainer.children.length !== getnumberOfCards()) {
                 cardContainer.firstElementChild.remove();
             }
             cardContainer.style.transition = 'none'; 
             cardContainer.style.transform = 'translateX(0)';
             btnRight.addEventListener('click', moveRight)
-        }, 1000)
+        }, 500)
 }
 
 function moveLeft () {
@@ -77,21 +90,18 @@ function moveLeft () {
     fillCardContainer(getnumberOfCards(), 'left');
     let containerWidth = window.getComputedStyle(cardContainer).width;
     let containerGap = window.getComputedStyle(cardContainer).gap;
-    cardContainer.style.transition = 'all ease-in-out 1s'; 
+    cardContainer.style.transition = 'all ease-in-out .5s'; 
     cardContainer.style.transform = `translatex(${containerWidth}) translatex(${containerGap})`;
         setTimeout (() => {
-            for (let i = 0; i < getnumberOfCards(); i++) {
+            
+            while (cardContainer.children.length !== getnumberOfCards()) {
                 cardContainer.lastElementChild.remove();
             }
             cardContainer.style.transition = 'none'; 
             cardContainer.style.transform = 'translateX(0)';
             btnLeft.addEventListener('click', moveLeft)
-        }, 1000)
+        }, 500)
 }
-
-
-
-
 
 const btnRight = document.getElementById("btn-right");
 const btnLeft = document.getElementById("btn-left");

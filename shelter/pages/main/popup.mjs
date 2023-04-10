@@ -2,7 +2,6 @@ import  petsData  from "../main/petsData.mjs";
 let modal_winow = document.querySelector('.modal_window');
 let modal_wrapper = document.querySelector('.modal_wrapper');
 let close_btn = document.querySelector('.close_button');
-console.log(1);
 
 function openModal(event) {
 
