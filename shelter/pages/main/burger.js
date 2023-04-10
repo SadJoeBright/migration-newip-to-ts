@@ -8,7 +8,6 @@ function openMenu(){
 	burger.classList.add('burger_active');
 	nav.classList.add('menu-open');
 	list.classList.add('list-open');
-	// logo.classList.add('right_126');
 	document.body.style.overflow = 'hidden';
 }
 
@@ -16,7 +15,6 @@ function closeMenu(){
 	burger.classList.remove('burger_active');
 	nav.classList.remove('menu-open');
 	list.classList.remove('list-open');
-	// logo.classList.remove('right_126');	
 	document.body.style.overflow = 'visible';	
 }
 

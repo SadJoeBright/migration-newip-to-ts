@@ -31,6 +31,7 @@ function getnumberOfCards() {
 function createCard (petsNumber) {
     let petCard = document.createElement("div");
     petCard.setAttribute('class', 'card');
+    petCard.setAttribute('id', `${petsData[petsNumber].name}`);
     petCard.insertAdjacentHTML('beforeend', `<img class src=${petsData[petsNumber].img} alt=${petsData[petsNumber].name}><h3 class="pet_name">${petsData[petsNumber].name}</h3><button class="button_secondary">Learn more</button>`);
     return petCard
 }
