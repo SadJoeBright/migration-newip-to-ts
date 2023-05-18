@@ -3,38 +3,49 @@
   box-sizing: border-box;
 }
 .cell {
-  color: yellow;
+  color: rgba(0, 0, 0, 0);
   text-align: center;
   line-height: 30px;
-  border: solid 1px rgb(14, 78, 36);
-  /* border-radius: 2px; */
-  background: rgb(27, 135, 63);
+  background: rgb(39, 163, 27);
+  border-top: solid 3px rgb(149, 231, 141);;
+  border-left: solid 3px rgb(149, 231, 141);
+  border-bottom: solid 3px rgb(17, 108, 9);
+  border-right: solid 3px rgb(17, 108, 9);
+  transition: all ease-in-out .2s; 
   width: 30px;
   height: 30px;
-  opacity: 0;
-  /* transition: all ease-in-out .3s; */
   cursor: pointer;
-  /* box-shadow: inset 3px 2px 2px white; */
 }
+
 .cell_opened {
-  background: rgb(9, 50, 22);
+  background: rgb(21, 94, 14);
+  color: aquamarine;
+  border: solid 1px rgb(10, 75, 4);
   
-  /* width: 30px; */
-  /* height: 30px; */
-  opacity: 1;
 }
-img {
-  width: 30px;
-  height: 30px;
-  object-fit: cover;
-}
+
 .row {
   display: flex;
   margin: auto;
 }
 
 .mine-field {
-  background: rgb(23, 111, 52);
-  width: 300px;
+  /* background: rgb(23, 111, 52); */
+  border-top: solid 3px rgb(78, 78, 78);
+  border-left: solid 3px rgb(78, 78, 78);
+  /* width: 300px; */
   margin: auto;
 }
+
+.cell_flaged {
+  border: none;
+  background-image: url(flag.svg);
+  background-size: cover;
+}
+
+fil4 {fill:black}
+    .fil0 {fill:#CCCCCC}
+    .fil1 {fill:white}
+    .fil2 {fill:gray}
+    .fil3 {fill:#c6c6c6}
+    .fil5 {fill:url(#id0)}
