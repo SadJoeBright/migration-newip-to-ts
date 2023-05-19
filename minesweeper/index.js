@@ -1,9 +1,20 @@
-let numberOfRows = 10;
-let numberOfColumns = 10;
-let numberOfMines = 20;
-let mines = [];
+/* eslint-disable no-use-before-define */
+const numberOfRows = 10;
+const numberOfColumns = 10;
+const numberOfMines = 10;
+let minesGrid = [];
+const colors = {
+  1: 'rgb(34, 173, 34)',
+  2: 'blue',
+  3: 'red',
+  4: 'violet',
+  5: 'yellow',
+  6: 'orange',
+  7: 'rgb(213, 13, 163)',
+  8: 'black',
+};
 
-function createMatrix(rows, columns, mines, x ,y) {
+function createMatrix(rows, columns, mines, x, y) {
   const matrix = [];
   for (let i = 0; i < rows; i += 1) {
     matrix[i] = [];
@@ -15,38 +26,36 @@ function createMatrix(rows, columns, mines, x ,y) {
   while (minesCount < mines) {
     const randomRow = Math.floor(Math.random() * rows);
     const randomCol = Math.floor(Math.random() * columns);
-    if (matrix[randomRow][randomCol] !== '💣'  && (randomRow !== x || randomCol !== y)) {
+    if (matrix[randomRow][randomCol] !== '💣' && (randomRow !== x || randomCol !== y)) {
       matrix[randomRow][randomCol] = '💣';
       minesCount += 1;
     }
   }
-  let res = matrix.map(item => item.map(el => '💣'));
-	for (i = 0; i < matrix.length; i++) {		
-		for (j = 0; j < matrix[i].length; j++) {
+  const res = matrix.map((item) => item.map(() => '💣'));
+  for (let i = 0; i < matrix.length; i += 1) {
+    for (let j = 0; j < matrix[i].length; j += 1) {
       if (matrix[i][j] !== '💣') {
         let count = '';
-        if (matrix[i-1] && matrix[i-1][j-1]) count = +count + 1;
-        if (matrix[i-1] && matrix[i-1][j]) count = +count + 1;
-        if (matrix[i-1] && matrix[i-1][j+1])count = +count + 1;
-        if (matrix[i] && matrix[i][j-1]) count = +count + 1;
-        if (matrix[i] && matrix[i][j+1]) count = +count + 1;
-        if (matrix[i+1] && matrix[i+1][j-1]) count = +count + 1;
-        if (matrix[i+1] && matrix[i+1][j]) count = +count + 1;
-        if (matrix[i+1] && matrix[i+1][j+1]) count = +count + 1;
+        if (matrix[i - 1] && matrix[i - 1][j - 1]) count = +count + 1;
+        if (matrix[i - 1] && matrix[i - 1][j]) count = +count + 1;
+        if (matrix[i - 1] && matrix[i - 1][j + 1]) count = +count + 1;
+        if (matrix[i] && matrix[i][j - 1]) count = +count + 1;
+        if (matrix[i] && matrix[i][j + 1]) count = +count + 1;
+        if (matrix[i + 1] && matrix[i + 1][j - 1]) count = +count + 1;
+        if (matrix[i + 1] && matrix[i + 1][j]) count = +count + 1;
+        if (matrix[i + 1] && matrix[i + 1][j + 1]) count = +count + 1;
         res[i][j] = count;
       }
-      }
-	}
-	return res;  
+    }
+  }
+  return res;
 }
-
-
 
 const mineField = document.createElement('div');
 mineField.classList.add('mine-field');
-document.body.prepend(mineField); 
+document.body.prepend(mineField);
 
-for (let i = 0; i < numberOfColumns; i += 1 ) {
+for (let i = 0; i < numberOfColumns; i += 1) {
   const row = document.createElement('div');
   row.classList.add('row');
   for (let j = 0; j < numberOfRows; j += 1) {
@@ -54,50 +63,51 @@ for (let i = 0; i < numberOfColumns; i += 1 ) {
     cell.classList.add('cell');
     row.append(cell);
   }
-  mineField.append(row) 
+  mineField.append(row);
 }
 
 function setMines(event) {
   const rowIndex = [...document.querySelectorAll('.row')].indexOf(event.target.parentNode);
   const columnIndex = [...event.target.parentNode.querySelectorAll('.cell')].indexOf(event.target);
-  document.querySelectorAll('.cell').forEach(cell => cell.removeEventListener('click', setMines));
-  mines =  createMatrix(numberOfRows, numberOfColumns, numberOfMines, rowIndex, columnIndex);
-  for (let i = 0; i < numberOfColumns; i += 1 ) {
+  document.querySelectorAll('.cell').forEach((cell) => cell.removeEventListener('click', setMines));
+  minesGrid = createMatrix(numberOfRows, numberOfColumns, numberOfMines, rowIndex, columnIndex);
+  for (let i = 0; i < numberOfColumns; i += 1) {
     for (let j = 0; j < numberOfRows; j += 1) {
-      document.querySelectorAll('.row')[i].querySelectorAll('.cell')[j].innerHTML = mines[i][j];
+      document.querySelectorAll('.row')[i].querySelectorAll('.cell')[j].innerHTML = minesGrid[i][j];
     }
   }
-  document.querySelectorAll('.cell').forEach(cell => cell.removeEventListener('click', setMines));
+  document.querySelectorAll('.cell').forEach((cell) => cell.removeEventListener('click', setMines));
 }
 
-
-
+let openedCells = 0;
 function openCell(event) {
   const rowIndex = [...document.querySelectorAll('.row')].indexOf(event.target.parentNode);
   const columnIndex = [...event.target.parentNode.querySelectorAll('.cell')].indexOf(event.target);
   if (event.target.innerHTML === '💣') {
-    event.target.style.backgroundColor = 'red';
+    event.target.classList.add('exploded');
     document.querySelectorAll('.cell').forEach((cell) => {
       cell.removeEventListener('click', openCell);
       cell.removeEventListener('contextmenu', setFlag);
-      if (cell.innerHTML === '💣' && !cell.classList.contains('cell_flaged')) cell.classList.add('cell_opened')
+      if (cell.innerHTML === '💣' && !cell.classList.contains('cell_flaged')) cell.classList.add('cell_opened');
     });
-  }   
-  
+  }
+
   function openEmptyCells(row, col) {
-    const rows = document.querySelectorAll('.row'); 
+    const rows = document.querySelectorAll('.row');
     if (row < 0 || col < 0 || row >= rows.length) {
       return;
-    }  
-    const cells = rows[row].querySelectorAll('.cell');  
+    }
+    const cells = rows[row].querySelectorAll('.cell');
     if (cells && cells.length > col) {
       const cell = cells[col];
-  
+
       if (!cell.classList.contains('cell_opened')) {
         cell.classList.add('cell_opened');
+        cell.style.color = colors[`${cell.innerHTML}`];
+        if (cell.classList.contains('cell_flaged')) cell.classList.remove('cell_flaged');
         cell.removeEventListener('click', openCell);
-        cell.removeEventListener('contextmenu', setFlag)  
-  
+        cell.removeEventListener('contextmenu', setFlag);
+
         if (cell.innerHTML === '') {
           openEmptyCells(row - 1, col - 1);
           openEmptyCells(row - 1, col);
@@ -107,36 +117,42 @@ function openCell(event) {
           openEmptyCells(row + 1, col - 1);
           openEmptyCells(row + 1, col);
           openEmptyCells(row + 1, col + 1);
-        } else if (!isNaN(cell.innerHTML)) {
+        } else if (!Number.isNaN(cell.innerHTML)) {
           cell.classList.add('cell_opened');
+          if (cell.classList.contains('cell_flaged')) cell.classList.remove('cell_flaged');
           cell.removeEventListener('click', openCell);
-          cell.removeEventListener('contextmenu', setFlag)  
+          cell.removeEventListener('contextmenu', setFlag);
         }
       }
     }
   }
-  
   openEmptyCells(rowIndex, columnIndex);
+
   event.target.classList.add('cell_opened');
   event.target.removeEventListener('click', openCell);
-  event.target.removeEventListener('contextmenu', setFlag)  
+  event.target.removeEventListener('contextmenu', setFlag);
+  openedCells = [...document.querySelectorAll('.cell')].filter(((cell) => cell.classList.contains('cell_opened'))).length;
+  if ((numberOfColumns * numberOfRows - numberOfMines) === openedCells) {
+    document.querySelectorAll('.cell').forEach((cell) => {
+      cell.removeEventListener('click', openCell);
+      cell.removeEventListener('contextmenu', setFlag);
+    });
+    setTimeout(() => {
+      // alert('You win!');
+    }, 100);
+  }
 }
 
-
 function setFlag(event) {
-  event.preventDefault();
   event.target.classList.toggle('cell_flaged');
   if (event.target.classList.contains('cell_flaged')) {
     event.target.removeEventListener('click', openCell);
-    // event.target.innerHTML = content;
   } else {
     event.target.addEventListener('click', openCell);
   }
 }
-  
-  // 🚩
-  
-document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', setMines));
-document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', openCell));
-document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('contextmenu', setFlag));
-document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('contextmenu', (event) => event.preventDefault()));
+
+document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('click', setMines));
+document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('click', openCell));
+document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('contextmenu', setFlag));
+document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('contextmenu', (event) => event.preventDefault()));

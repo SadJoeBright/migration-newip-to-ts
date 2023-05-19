@@ -9,10 +9,10 @@ viewBox="0 0 1.11733 1.11733"
    <![CDATA[
     .str0 {stroke:black;stroke-width:0.00340562}
     .fil4 {fill:black}
-    .fil0 {fill:#CCCCCC}
-    .fil1 {fill:white}
-    .fil2 {fill:gray}
-    .fil3 {fill:#c6c6c6}
+    .fil0 {fill:rgb(39, 163, 27)}
+    .fil1 {fill:rgb(149, 231, 141)}
+    .fil2 {fill:rgb(17, 108, 9)}
+    .fil3 {fill:rgb(39, 163, 27)}
     .fil5 {fill:url(#id0)}
    ]]>
   </style>
