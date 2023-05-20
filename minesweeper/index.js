@@ -1,8 +1,10 @@
 /* eslint-disable no-use-before-define */
 const numberOfRows = 10;
 const numberOfColumns = 10;
-const numberOfMines = 10;
+const numberOfMines = 2;
 let minesGrid = [];
+let time = 0;
+let timerId;
 const colors = {
   1: 'rgb(34, 173, 34)',
   2: 'blue',
@@ -51,9 +53,25 @@ function createMatrix(rows, columns, mines, x, y) {
   return res;
 }
 
+const wrpapper = document.createElement('div');
+wrpapper.classList.add('wrapper');
+const header = document.createElement('header');
+header.classList.add('header');
+const timer = document.createElement('div');
+timer.classList.add('timer');
+timer.innerHTML = `${time}`.padStart(3, '0');
+const moves = document.createElement('div');
+moves.classList.add('moves');
+moves.innerHTML = '000';
+const newGameBtn = document.createElement('div');
+newGameBtn.classList.add('new-game-btn');
+header.append(timer, moves, newGameBtn);
 const mineField = document.createElement('div');
 mineField.classList.add('mine-field');
-document.body.prepend(mineField);
+const footer = document.createElement('footer');
+footer.classList.add('footer');
+wrpapper.append(header, mineField, footer);
+document.body.prepend(wrpapper);
 
 for (let i = 0; i < numberOfColumns; i += 1) {
   const row = document.createElement('div');
@@ -64,6 +82,12 @@ for (let i = 0; i < numberOfColumns; i += 1) {
     row.append(cell);
   }
   mineField.append(row);
+}
+function showTime() {
+  timerId = setInterval(() => {
+    time += 1;
+    timer.innerHTML = `${time}`.padStart(3, '0');
+  }, 1000);
 }
 
 function setMines(event) {
@@ -84,6 +108,7 @@ function openCell(event) {
   const rowIndex = [...document.querySelectorAll('.row')].indexOf(event.target.parentNode);
   const columnIndex = [...event.target.parentNode.querySelectorAll('.cell')].indexOf(event.target);
   if (event.target.innerHTML === '💣') {
+    if (timerId) clearInterval(timerId);
     event.target.classList.add('exploded');
     document.querySelectorAll('.cell').forEach((cell) => {
       cell.removeEventListener('click', openCell);
@@ -100,14 +125,12 @@ function openCell(event) {
     const cells = rows[row].querySelectorAll('.cell');
     if (cells && cells.length > col) {
       const cell = cells[col];
-
       if (!cell.classList.contains('cell_opened')) {
         cell.classList.add('cell_opened');
         cell.style.color = colors[`${cell.innerHTML}`];
         if (cell.classList.contains('cell_flaged')) cell.classList.remove('cell_flaged');
         cell.removeEventListener('click', openCell);
         cell.removeEventListener('contextmenu', setFlag);
-
         if (cell.innerHTML === '') {
           openEmptyCells(row - 1, col - 1);
           openEmptyCells(row - 1, col);
@@ -137,10 +160,12 @@ function openCell(event) {
       cell.removeEventListener('click', openCell);
       cell.removeEventListener('contextmenu', setFlag);
     });
+    if (timerId) clearInterval(timerId);
     setTimeout(() => {
-      // alert('You win!');
-    }, 100);
+      alert('You win!');
+    }, 500);
   }
+  document.querySelectorAll('.cell').forEach((cell) => cell.removeEventListener('click', showTime));
 }
 
 function setFlag(event) {
@@ -153,6 +178,8 @@ function setFlag(event) {
 }
 
 document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('click', setMines));
+document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('click', showTime));
 document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('click', openCell));
+document.addEventListener('mousemove', (event) => event.preventDefault());
 document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('contextmenu', setFlag));
 document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('contextmenu', (event) => event.preventDefault()));

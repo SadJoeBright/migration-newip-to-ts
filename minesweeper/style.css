@@ -2,10 +2,37 @@
 * {
   box-sizing: border-box;
 }
+
+.wrapper {
+  display: flex;
+  padding: 50px;
+  flex-direction: column;
+  align-items: center;
+  max-width: 70%;
+  background: gray;
+  margin: auto;
+}
+
+.header {
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  /* width: 500px; */
+  font-size: 30px;
+  border: solid 1px red;
+}
+
+.new-game-btn {
+  height: 60px;
+  width: 80px;
+  padding: 5px;
+  background: yellow;
+}
+
 .cell {
-  color: rgba(0, 0, 0, 0);
+  color: transparent;
   text-align: center;
-  line-height: 40px;
+  line-height: 25px;
   font-weight: 800;
   background: rgb(39, 163, 27);
   border-top: solid 3px rgb(149, 231, 141);
@@ -13,16 +40,15 @@
   border-bottom: solid 3px rgb(17, 108, 9);
   border-right: solid 3px rgb(17, 108, 9);
   transition: all ease-in-out .2s; 
-  width: 40px;
-  height: 40px;
+  width: 25px;
+  height: 25px;
   cursor: pointer;
 }
 
 .cell_opened {
   background: rgb(21, 94, 14);
-  color: aquamarine;
   border: solid 1px rgb(10, 75, 4);
-  
+  color: black;
 }
 
 .row {
@@ -30,11 +56,11 @@
   margin: auto;
 }
 
-.mine-field {
+/* .mine-field {
   border-top: solid 3px rgb(78, 78, 78);
   border-left: solid 3px rgb(78, 78, 78);
   margin: auto;
-}
+} */
 
 .cell_flaged {
   border: none;
