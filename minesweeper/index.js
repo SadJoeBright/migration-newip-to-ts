@@ -66,7 +66,14 @@ moveCounter.classList.add('move-counter');
 moveCounter.innerHTML = `${moves}`.padStart(3, '0');
 const newGameBtn = document.createElement('div');
 newGameBtn.classList.add('new-game-btn');
-header.append(timer, moveCounter, newGameBtn);
+newGameBtn.innerHTML = 'New game';
+const mineCounter = document.createElement('div');
+mineCounter.classList.add('mine-counter');
+mineCounter.innerHTML = `${numberOfMines}`.padStart(2, '0');
+const flagCounter = document.createElement('div');
+flagCounter.classList.add('flag-counter');
+flagCounter.innerHTML = '00';
+header.append(timer, moveCounter, newGameBtn, flagCounter, mineCounter);
 const mineField = document.createElement('div');
 mineField.classList.add('mine-field');
 const footer = document.createElement('footer');
@@ -183,6 +190,8 @@ function setFlag(event) {
   } else {
     event.target.addEventListener('click', openCell);
   }
+  flagCounter.innerHTML = [...document.querySelectorAll('.cell')].filter(((cell) => cell.classList.contains('cell_flaged'))).length;
+  mineCounter.innerHTML = numberOfMines - [...document.querySelectorAll('.cell')].filter(((cell) => cell.classList.contains('cell_flaged'))).length;
 }
 
 document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('click', setMines));
