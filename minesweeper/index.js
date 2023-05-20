@@ -1,10 +1,11 @@
 /* eslint-disable no-use-before-define */
 const numberOfRows = 10;
 const numberOfColumns = 10;
-const numberOfMines = 2;
+const numberOfMines = 10;
 let minesGrid = [];
 let time = 0;
 let timerId;
+let moves = 0;
 const colors = {
   1: 'rgb(34, 173, 34)',
   2: 'blue',
@@ -60,12 +61,12 @@ header.classList.add('header');
 const timer = document.createElement('div');
 timer.classList.add('timer');
 timer.innerHTML = `${time}`.padStart(3, '0');
-const moves = document.createElement('div');
-moves.classList.add('moves');
-moves.innerHTML = '000';
+const moveCounter = document.createElement('div');
+moveCounter.classList.add('move-counter');
+moveCounter.innerHTML = `${moves}`.padStart(3, '0');
 const newGameBtn = document.createElement('div');
 newGameBtn.classList.add('new-game-btn');
-header.append(timer, moves, newGameBtn);
+header.append(timer, moveCounter, newGameBtn);
 const mineField = document.createElement('div');
 mineField.classList.add('mine-field');
 const footer = document.createElement('footer');
@@ -88,6 +89,13 @@ function showTime() {
     time += 1;
     timer.innerHTML = `${time}`.padStart(3, '0');
   }, 1000);
+}
+
+function countMoves(event) {
+  if (!event.target.classList.contains('cell_opened') && !event.target.classList.contains('cell_flaged')) {
+    moves += 1;
+    moveCounter.innerHTML = `${moves}`.padStart(3, '0');
+  }
 }
 
 function setMines(event) {
@@ -178,8 +186,8 @@ function setFlag(event) {
 }
 
 document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('click', setMines));
+document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('click', countMoves));
 document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('click', showTime));
 document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('click', openCell));
-document.addEventListener('mousemove', (event) => event.preventDefault());
 document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('contextmenu', setFlag));
 document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('contextmenu', (event) => event.preventDefault()));
