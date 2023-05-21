@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
-const numberOfRows = 10;
-const numberOfColumns = 10;
-const numberOfMines = 10;
+let numberOfRows = 10;
+let numberOfColumns = 10;
+let numberOfMines = 10;
 let minesGrid = [];
 let time = 0;
 let timerId;
@@ -78,25 +78,95 @@ const mineField = document.createElement('div');
 mineField.classList.add('mine-field');
 const footer = document.createElement('footer');
 footer.classList.add('footer');
+
+const sizeSetter = document.createElement('div');
+sizeSetter.classList.add('settings-btn');
+const sizeRange = document.createElement('input');
+sizeRange.classList.add('range-slider');
+sizeRange.setAttribute('type', 'range');
+sizeRange.setAttribute('value', '0');
+sizeRange.setAttribute('step', '1');
+sizeRange.setAttribute('min', '0');
+sizeRange.setAttribute('max', '2');
+sizeSetter.append(document.createElement('span'), sizeRange);
+sizeSetter.querySelector('span').innerHTML = 'Size: 10x10';
+
+const mineSetter = document.createElement('div');
+mineSetter.classList.add('settings-btn');
+const mineRange = document.createElement('input');
+mineRange.classList.add('range-slider');
+mineRange.setAttribute('type', 'range');
+mineRange.setAttribute('value', '10');
+mineRange.setAttribute('step', '1');
+mineRange.setAttribute('min', '10');
+mineRange.setAttribute('max', '99');
+mineSetter.append(document.createElement('span'), mineRange);
+mineSetter.querySelector('span').innerHTML = `Mines: ${mineRange.value}`;
+
+function setFieldSize() {
+  let size;
+  if (sizeRange.value === '0') size = 10;
+  if (sizeRange.value === '1') size = 15;
+  if (sizeRange.value === '2') size = 25;
+  sizeSetter.querySelector('span').innerHTML = `Size: ${size}x${size}`;
+  numberOfColumns = size;
+  numberOfRows = size;
+}
+sizeRange.addEventListener('input', setFieldSize);
+
+function setNumberOfMines() {
+  mineSetter.querySelector('span').innerHTML = `Mines: ${mineRange.value}`;
+  numberOfMines = mineRange.value;
+}
+mineRange.addEventListener('input', setNumberOfMines);
+
+const scoreBtn = document.createElement('div');
+scoreBtn.classList.add('footer-btn');
+const soundBtn = document.createElement('div');
+soundBtn.classList.add('footer-btn');
+const themedBtn = document.createElement('div');
+themedBtn.classList.add('footer-btn');
+
+footer.append(sizeSetter, mineSetter, scoreBtn, soundBtn, themedBtn);
 wrpapper.append(header, mineField, footer);
 document.body.prepend(wrpapper);
 
-for (let i = 0; i < numberOfColumns; i += 1) {
-  const row = document.createElement('div');
-  row.classList.add('row');
-  for (let j = 0; j < numberOfRows; j += 1) {
-    const cell = document.createElement('div');
-    cell.classList.add('cell');
-    row.append(cell);
+function drawMineField(rows, columns) {
+  for (let i = 0; i < columns; i += 1) {
+    const row = document.createElement('div');
+    row.classList.add('row');
+    for (let j = 0; j < rows; j += 1) {
+      const cell = document.createElement('div');
+      cell.classList.add('cell');
+      row.append(cell);
+    }
+    mineField.append(row);
   }
-  mineField.append(row);
 }
+drawMineField(numberOfColumns, numberOfRows);
+
 function showTime() {
   timerId = setInterval(() => {
     time += 1;
     timer.innerHTML = `${time}`.padStart(3, '0');
   }, 1000);
 }
+
+function newGame() {
+  mineField.innerHTML = '';
+  time = 0;
+  moves = 0;
+  timer.innerHTML = `${time}`.padStart(3, '0');
+  if (timerId) clearInterval(timerId);
+  moveCounter.innerHTML = `${moves}`.padStart(3, '0');
+  flagCounter.innerHTML = '00';
+  mineCounter.innerHTML = `${numberOfMines - [...document.querySelectorAll('.cell')].filter(((cell) => cell.classList.contains('cell_flaged'))).length}`.padStart(2, '0');
+  drawMineField(numberOfColumns, numberOfRows);
+  document.querySelectorAll('.cell').forEach((cell) => cell.removeEventListener('click', showTime));
+  addListneners();
+}
+
+newGameBtn.addEventListener('click', newGame);
 
 function countMoves(event) {
   if (!event.target.classList.contains('cell_opened') && !event.target.classList.contains('cell_flaged')) {
@@ -190,13 +260,16 @@ function setFlag(event) {
   } else {
     event.target.addEventListener('click', openCell);
   }
-  flagCounter.innerHTML = [...document.querySelectorAll('.cell')].filter(((cell) => cell.classList.contains('cell_flaged'))).length;
-  mineCounter.innerHTML = numberOfMines - [...document.querySelectorAll('.cell')].filter(((cell) => cell.classList.contains('cell_flaged'))).length;
+  flagCounter.innerHTML = `${[...document.querySelectorAll('.cell')].filter(((cell) => cell.classList.contains('cell_flaged'))).length}`.padStart(2, '0');
+  mineCounter.innerHTML = `${numberOfMines - [...document.querySelectorAll('.cell')].filter(((cell) => cell.classList.contains('cell_flaged'))).length}`.padStart(2, '0');
 }
 
-document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('click', setMines));
-document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('click', countMoves));
-document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('click', showTime));
-document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('click', openCell));
-document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('contextmenu', setFlag));
-document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('contextmenu', (event) => event.preventDefault()));
+function addListneners() {
+  document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('click', setMines));
+  document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('click', countMoves));
+  document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('click', showTime));
+  document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('click', openCell));
+  document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('contextmenu', setFlag));
+  document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('contextmenu', (event) => event.preventDefault()));
+}
+addListneners();
