@@ -6,6 +6,7 @@ let minesGrid = [];
 let time = 0;
 let timerId;
 let moves = 0;
+let enableAudio = true;
 const colors = {
   1: 'rgb(34, 173, 34)',
   2: 'blue',
@@ -15,6 +16,14 @@ const colors = {
   6: 'orange',
   7: 'rgb(213, 13, 163)',
   8: 'black',
+};
+
+const audioFiles = {
+  click: 'assets/sounds/click.mp3',
+  mine: 'assets/sounds/mine.mp3',
+  win: 'assets/sounds/win.mp3',
+  loose: 'assets/sounds/loose.mp3',
+  flag: 'assets/sounds/flag.mp3',
 };
 
 function createMatrix(rows, columns, mines, x, y) {
@@ -224,6 +233,10 @@ function openCell(event) {
   if (event.target.innerHTML === '💣') {
     if (timerId) clearInterval(timerId);
     event.target.classList.add('exploded');
+    if (enableAudio) {
+      playAudio(audioFiles.mine);
+      playAudio(audioFiles.loose);
+    }
     document.querySelectorAll('.cell').forEach((cell) => {
       cell.removeEventListener('click', openCell);
       cell.removeEventListener('contextmenu', setFlag);
@@ -264,6 +277,7 @@ function openCell(event) {
     }
   }
   openEmptyCells(rowIndex, columnIndex);
+  if (enableAudio) playAudio(audioFiles.click);
 
   event.target.classList.add('cell_opened');
   event.target.removeEventListener('click', openCell);
@@ -279,6 +293,7 @@ function openCell(event) {
     if (modalList.children.length === 10 || modalList.children[0].innerHTML === 'No records') modalList.children[0].remove();
     record.innerHTML = `Size: ${numberOfColumns}x${numberOfRows} | Mines: ${numberOfMines} | Time: ${time}s | Moves: ${moves}`;
     modalList.append(record);
+    if (enableAudio) playAudio(audioFiles.win);
     setTimeout(() => {
       alert('You win!');
     }, 500);
@@ -287,6 +302,7 @@ function openCell(event) {
 }
 
 function setFlag(event) {
+  if (enableAudio) playAudio(audioFiles.flag);
   event.target.classList.toggle('cell_flaged');
   if (event.target.classList.contains('cell_flaged')) {
     event.target.removeEventListener('click', openCell);
@@ -297,6 +313,15 @@ function setFlag(event) {
   mineCounter.innerHTML = `${numberOfMines - [...document.querySelectorAll('.cell')].filter(((cell) => cell.classList.contains('cell_flaged'))).length}`.padStart(2, '0');
 }
 
+function playAudio(path) {
+  const audio = new Audio();
+  audio.src = path;
+  audio.play();
+}
+function toggleSound() {
+  enableAudio = !enableAudio;
+}
+soundBtn.addEventListener('click', toggleSound);
 function addListneners() {
   document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('click', setMines));
   document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('click', countMoves));
