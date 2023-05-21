@@ -100,3 +100,37 @@
   background: yellow;
   margin: 5px;
  }
+
+ .modal__wrapper {
+  display: none;
+  position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: auto;
+	width: auto;
+	height: auto;
+	background: rgba(41, 41, 41, 0.6);
+ }
+
+ .modal__wrapper_opened {
+  display: block;
+ }
+
+ .modal {
+  border: solid 1px blue;
+  width: 300px;
+  height:  300px;
+  position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+  margin: auto;
+ }
+
+ .modal__title {
+  color: red;
+  font-size: 32px;
+ }

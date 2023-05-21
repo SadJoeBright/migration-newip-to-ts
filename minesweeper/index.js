@@ -103,6 +103,29 @@ mineRange.setAttribute('max', '99');
 mineSetter.append(document.createElement('span'), mineRange);
 mineSetter.querySelector('span').innerHTML = `Mines: ${mineRange.value}`;
 
+const modalWrapper = document.createElement('div');
+modalWrapper.classList.add('modal__wrapper');
+
+const modal = document.createElement('div');
+modal.classList.add('modal');
+
+const modalTitle = document.createElement('h2');
+modalTitle.classList.add('modal__title');
+modalTitle.innerHTML = 'Score Table';
+modal.append(modalTitle);
+const modalList = document.createElement('div');
+modalList.classList.add('modal__list');
+const modalItem = document.createElement('div');
+modalItem.classList.add('modal__item');
+modalItem.innerHTML = 'No records';
+modalList.append(modalItem);
+
+const modalBtn = document.createElement('div');
+modalBtn.classList.add('modal__btn');
+modalBtn.innerHTML = 'OK';
+modal.append(modalList, modalBtn);
+modalWrapper.append(modal);
+
 function setFieldSize() {
   let size;
   if (sizeRange.value === '0') size = 10;
@@ -129,7 +152,13 @@ themedBtn.classList.add('footer-btn');
 
 footer.append(sizeSetter, mineSetter, scoreBtn, soundBtn, themedBtn);
 wrpapper.append(header, mineField, footer);
-document.body.prepend(wrpapper);
+document.body.prepend(wrpapper, modalWrapper);
+
+function showScore() {
+  modalWrapper.classList.toggle('modal__wrapper_opened');
+}
+scoreBtn.addEventListener('click', showScore);
+modalBtn.addEventListener('click', showScore);
 
 function drawMineField(rows, columns) {
   for (let i = 0; i < columns; i += 1) {
@@ -246,6 +275,10 @@ function openCell(event) {
       cell.removeEventListener('contextmenu', setFlag);
     });
     if (timerId) clearInterval(timerId);
+    const record = document.createElement('div');
+    if (modalList.children.length === 10 || modalList.children[0].innerHTML === 'No records') modalList.children[0].remove();
+    record.innerHTML = `Size: ${numberOfColumns}x${numberOfRows} | Mines: ${numberOfMines} | Time: ${time}s | Moves: ${moves}`;
+    modalList.append(record);
     setTimeout(() => {
       alert('You win!');
     }, 500);
