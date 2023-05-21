@@ -9,7 +9,8 @@
   flex-direction: column;
   align-items: center;
   max-width: 600px;
-  background: gray;
+  background: rgb(135, 228, 228);
+  /* background: black; */
   margin: auto;
   user-select: none;
 }
@@ -47,11 +48,17 @@
   text-align: center;
   line-height: 25px;
   font-weight: 800;
-  background: rgb(39, 163, 27);
-  border-top: solid 3px rgb(149, 231, 141);
-  border-left: solid 3px rgb(149, 231, 141);
-  border-bottom: solid 3px rgb(17, 108, 9);
-  border-right: solid 3px rgb(17, 108, 9);
+  background: rgb(222, 89, 1);
+  border-top: solid 3px rgb(235, 122, 46);
+  border-left: solid 3px rgb(235, 122, 46);
+  border-bottom: solid 3px  rgb(158, 63, 0);
+  border-right: solid 3px rgb(158, 63, 0);
+  background: rgb(5, 113, 125);
+  border-top: solid 3px rgb(43, 186, 202);
+  border-left: solid 3px rgb(43, 186, 202);
+  border-bottom: solid 3px  rgb(1, 64, 71);
+  border-right: solid 3px rgb(1, 64, 71);
+  transition: all ease-in-out .2s; 
   transition: all ease-in-out .2s; 
   width: 25px;
   height: 25px;
@@ -61,8 +68,10 @@
 }
 
 .cell_opened {
-  background: rgb(21, 94, 14);
-  border: solid 1px rgb(10, 75, 4);
+  background: rgb(162, 65, 1);
+  border: solid 1px  rgb(120, 49, 2);
+  background: rgb(0, 54, 60);
+  border: solid 1px rgb(2, 45, 50);
   color: black;
 }
 
@@ -79,7 +88,7 @@
 
 .cell_flaged {
   border: none;
-  background-image: url(flag.svg);
+  background-image: url(assets/images/flag.svg);
   background-size: cover;
 }
  .exploded{
@@ -119,8 +128,11 @@
  }
 
  .modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border: solid 1px blue;
-  width: 300px;
+  width: 350px;
   height:  300px;
   position: fixed;
 	top: 0;

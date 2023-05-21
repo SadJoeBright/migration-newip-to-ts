@@ -3,10 +3,12 @@ let numberOfRows = 10;
 let numberOfColumns = 10;
 let numberOfMines = 10;
 let minesGrid = [];
+let openedCells = 0;
 let time = 0;
 let timerId;
 let moves = 0;
 let enableAudio = true;
+
 const colors = {
   1: 'rgb(34, 173, 34)',
   2: 'blue',
@@ -25,43 +27,6 @@ const audioFiles = {
   loose: 'assets/sounds/loose.mp3',
   flag: 'assets/sounds/flag.mp3',
 };
-
-function createMatrix(rows, columns, mines, x, y) {
-  const matrix = [];
-  for (let i = 0; i < rows; i += 1) {
-    matrix[i] = [];
-    for (let j = 0; j < columns; j += 1) {
-      matrix[i][j] = '';
-    }
-  }
-  let minesCount = 0;
-  while (minesCount < mines) {
-    const randomRow = Math.floor(Math.random() * rows);
-    const randomCol = Math.floor(Math.random() * columns);
-    if (matrix[randomRow][randomCol] !== '💣' && (randomRow !== x || randomCol !== y)) {
-      matrix[randomRow][randomCol] = '💣';
-      minesCount += 1;
-    }
-  }
-  const res = matrix.map((item) => item.map(() => '💣'));
-  for (let i = 0; i < matrix.length; i += 1) {
-    for (let j = 0; j < matrix[i].length; j += 1) {
-      if (matrix[i][j] !== '💣') {
-        let count = '';
-        if (matrix[i - 1] && matrix[i - 1][j - 1]) count = +count + 1;
-        if (matrix[i - 1] && matrix[i - 1][j]) count = +count + 1;
-        if (matrix[i - 1] && matrix[i - 1][j + 1]) count = +count + 1;
-        if (matrix[i] && matrix[i][j - 1]) count = +count + 1;
-        if (matrix[i] && matrix[i][j + 1]) count = +count + 1;
-        if (matrix[i + 1] && matrix[i + 1][j - 1]) count = +count + 1;
-        if (matrix[i + 1] && matrix[i + 1][j]) count = +count + 1;
-        if (matrix[i + 1] && matrix[i + 1][j + 1]) count = +count + 1;
-        res[i][j] = count;
-      }
-    }
-  }
-  return res;
-}
 
 const wrpapper = document.createElement('div');
 wrpapper.classList.add('wrapper');
@@ -110,14 +75,12 @@ mineRange.setAttribute('step', '1');
 mineRange.setAttribute('min', '10');
 mineRange.setAttribute('max', '99');
 mineSetter.append(document.createElement('span'), mineRange);
-mineSetter.querySelector('span').innerHTML = `Mines: ${mineRange.value}`;
+mineSetter.querySelector('span').innerHTML = `💣 ${mineRange.value}`;
 
 const modalWrapper = document.createElement('div');
 modalWrapper.classList.add('modal__wrapper');
-
 const modal = document.createElement('div');
 modal.classList.add('modal');
-
 const modalTitle = document.createElement('h2');
 modalTitle.classList.add('modal__title');
 modalTitle.innerHTML = 'Score Table';
@@ -128,29 +91,11 @@ const modalItem = document.createElement('div');
 modalItem.classList.add('modal__item');
 modalItem.innerHTML = 'No records';
 modalList.append(modalItem);
-
 const modalBtn = document.createElement('div');
 modalBtn.classList.add('modal__btn');
 modalBtn.innerHTML = 'OK';
 modal.append(modalList, modalBtn);
 modalWrapper.append(modal);
-
-function setFieldSize() {
-  let size;
-  if (sizeRange.value === '0') size = 10;
-  if (sizeRange.value === '1') size = 15;
-  if (sizeRange.value === '2') size = 25;
-  sizeSetter.querySelector('span').innerHTML = `Size: ${size}x${size}`;
-  numberOfColumns = size;
-  numberOfRows = size;
-}
-sizeRange.addEventListener('input', setFieldSize);
-
-function setNumberOfMines() {
-  mineSetter.querySelector('span').innerHTML = `Mines: ${mineRange.value}`;
-  numberOfMines = mineRange.value;
-}
-mineRange.addEventListener('input', setNumberOfMines);
 
 const scoreBtn = document.createElement('div');
 scoreBtn.classList.add('footer-btn');
@@ -162,6 +107,58 @@ themedBtn.classList.add('footer-btn');
 footer.append(sizeSetter, mineSetter, scoreBtn, soundBtn, themedBtn);
 wrpapper.append(header, mineField, footer);
 document.body.prepend(wrpapper, modalWrapper);
+
+function setFieldSize() {
+  let size;
+  if (sizeRange.value === '0') size = 10;
+  if (sizeRange.value === '1') size = 15;
+  if (sizeRange.value === '2') size = 25;
+  sizeSetter.querySelector('span').innerHTML = `Size: ${size}x${size}`;
+  numberOfColumns = size;
+  numberOfRows = size;
+}
+
+function setNumberOfMines() {
+  mineSetter.querySelector('span').innerHTML = `💣 ${mineRange.value}`;
+  numberOfMines = mineRange.value;
+}
+
+function createMatrix(rows, columns, mines, x, y) {
+  const matrix = [];
+  for (let i = 0; i < rows; i += 1) {
+    matrix[i] = [];
+    for (let j = 0; j < columns; j += 1) {
+      matrix[i][j] = '';
+    }
+  }
+  let minesCount = 0;
+  while (minesCount < mines) {
+    const randomRow = Math.floor(Math.random() * rows);
+    const randomCol = Math.floor(Math.random() * columns);
+    if (matrix[randomRow][randomCol] !== '💣' && (randomRow !== x || randomCol !== y)) {
+      matrix[randomRow][randomCol] = '💣';
+      minesCount += 1;
+    }
+  }
+  const res = matrix.map((item) => item.map(() => '💣'));
+  for (let i = 0; i < matrix.length; i += 1) {
+    for (let j = 0; j < matrix[i].length; j += 1) {
+      if (matrix[i][j] !== '💣') {
+        let count = '';
+        if (matrix[i - 1] && matrix[i - 1][j - 1]) count = +count + 1;
+        if (matrix[i - 1] && matrix[i - 1][j]) count = +count + 1;
+        if (matrix[i - 1] && matrix[i - 1][j + 1]) count = +count + 1;
+        if (matrix[i] && matrix[i][j - 1]) count = +count + 1;
+        if (matrix[i] && matrix[i][j + 1]) count = +count + 1;
+        if (matrix[i + 1] && matrix[i + 1][j - 1]) count = +count + 1;
+        if (matrix[i + 1] && matrix[i + 1][j]) count = +count + 1;
+        if (matrix[i + 1] && matrix[i + 1][j + 1]) count = +count + 1;
+        res[i][j] = count;
+      }
+    }
+  }
+  return res;
+}
 
 function showScore() {
   modalWrapper.classList.toggle('modal__wrapper_opened');
@@ -190,22 +187,6 @@ function showTime() {
   }, 1000);
 }
 
-function newGame() {
-  mineField.innerHTML = '';
-  time = 0;
-  moves = 0;
-  timer.innerHTML = `${time}`.padStart(3, '0');
-  if (timerId) clearInterval(timerId);
-  moveCounter.innerHTML = `${moves}`.padStart(3, '0');
-  flagCounter.innerHTML = '00';
-  mineCounter.innerHTML = `${numberOfMines - [...document.querySelectorAll('.cell')].filter(((cell) => cell.classList.contains('cell_flaged'))).length}`.padStart(2, '0');
-  drawMineField(numberOfColumns, numberOfRows);
-  document.querySelectorAll('.cell').forEach((cell) => cell.removeEventListener('click', showTime));
-  addListneners();
-}
-
-newGameBtn.addEventListener('click', newGame);
-
 function countMoves(event) {
   if (!event.target.classList.contains('cell_opened') && !event.target.classList.contains('cell_flaged')) {
     moves += 1;
@@ -226,8 +207,8 @@ function setMines(event) {
   document.querySelectorAll('.cell').forEach((cell) => cell.removeEventListener('click', setMines));
 }
 
-let openedCells = 0;
 function openCell(event) {
+  if (enableAudio) playAudio(audioFiles.click);
   const rowIndex = [...document.querySelectorAll('.row')].indexOf(event.target.parentNode);
   const columnIndex = [...event.target.parentNode.querySelectorAll('.cell')].indexOf(event.target);
   if (event.target.innerHTML === '💣') {
@@ -240,6 +221,7 @@ function openCell(event) {
     document.querySelectorAll('.cell').forEach((cell) => {
       cell.removeEventListener('click', openCell);
       cell.removeEventListener('contextmenu', setFlag);
+      cell.removeEventListener('click', countMoves);
       if (cell.innerHTML === '💣' && !cell.classList.contains('cell_flaged')) cell.classList.add('cell_opened');
     });
   }
@@ -277,7 +259,6 @@ function openCell(event) {
     }
   }
   openEmptyCells(rowIndex, columnIndex);
-  if (enableAudio) playAudio(audioFiles.click);
 
   event.target.classList.add('cell_opened');
   event.target.removeEventListener('click', openCell);
@@ -290,7 +271,8 @@ function openCell(event) {
     });
     if (timerId) clearInterval(timerId);
     const record = document.createElement('div');
-    if (modalList.children.length === 10 || modalList.children[0].innerHTML === 'No records') modalList.children[0].remove();
+    record.classList.add('modal__item');
+    // if (modalList.children.length === 10) modalList.children[0].remove();
     record.innerHTML = `Size: ${numberOfColumns}x${numberOfRows} | Mines: ${numberOfMines} | Time: ${time}s | Moves: ${moves}`;
     modalList.append(record);
     if (enableAudio) playAudio(audioFiles.win);
@@ -313,6 +295,22 @@ function setFlag(event) {
   mineCounter.innerHTML = `${numberOfMines - [...document.querySelectorAll('.cell')].filter(((cell) => cell.classList.contains('cell_flaged'))).length}`.padStart(2, '0');
 }
 
+function newGame() {
+  setFieldSize();
+  setNumberOfMines();
+  mineField.innerHTML = '';
+  time = 0;
+  moves = 0;
+  timer.innerHTML = `${time}`.padStart(3, '0');
+  if (timerId) clearInterval(timerId);
+  moveCounter.innerHTML = `${moves}`.padStart(3, '0');
+  flagCounter.innerHTML = '00';
+  mineCounter.innerHTML = `${numberOfMines - [...document.querySelectorAll('.cell')].filter(((cell) => cell.classList.contains('cell_flaged'))).length}`.padStart(2, '0');
+  drawMineField(numberOfColumns, numberOfRows);
+  document.querySelectorAll('.cell').forEach((cell) => cell.removeEventListener('click', showTime));
+  addListneners();
+}
+
 function playAudio(path) {
   const audio = new Audio();
   audio.src = path;
@@ -322,6 +320,10 @@ function toggleSound() {
   enableAudio = !enableAudio;
 }
 soundBtn.addEventListener('click', toggleSound);
+sizeRange.addEventListener('input', setFieldSize);
+newGameBtn.addEventListener('click', newGame);
+mineRange.addEventListener('input', setNumberOfMines);
+
 function addListneners() {
   document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('click', setMines));
   document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('click', countMoves));
@@ -331,3 +333,57 @@ function addListneners() {
   document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('contextmenu', (event) => event.preventDefault()));
 }
 addListneners();
+function saveGameState() {
+  const fieldState = mineField.innerHTML;
+  const scoreState = modalList.innerHTML;
+  const flagCounterState = flagCounter.innerHTML;
+  const mineCounterState = mineCounter.innerHTML;
+  const sizeRangeState = sizeRange.value;
+  const mineRangeState = mineRange.value;
+  const gameState = {
+    numberOfRows,
+    numberOfColumns,
+    numberOfMines,
+    minesGrid,
+    time,
+    moves,
+    enableAudio,
+    fieldState,
+    scoreState,
+    flagCounterState,
+    mineCounterState,
+    sizeRangeState,
+    mineRangeState,
+  };
+  localStorage.setItem('minesweeperGameState', JSON.stringify(gameState));
+}
+
+function loadGameState() {
+  const savedGameState = localStorage.getItem('minesweeperGameState');
+  if (savedGameState) {
+    const gameState = JSON.parse(savedGameState);
+    numberOfRows = gameState.numberOfRows;
+    numberOfColumns = gameState.numberOfColumns;
+    numberOfMines = gameState.numberOfMines;
+    minesGrid = gameState.minesGrid;
+    time = gameState.time;
+    moves = gameState.moves;
+    enableAudio = gameState.enableAudio;
+    flagCounter.innerHTML = gameState.flagCounterState;
+    mineCounter.innerHTML = gameState.mineCounterState;
+    modalList.innerHTML = gameState.scoreState;
+    timer.innerHTML = `${time}`.padStart(3, '0');
+    moveCounter.innerHTML = `${moves}`.padStart(3, '0');
+    mineField.innerHTML = gameState.fieldState;
+    sizeRange.value = gameState.sizeRangeState;
+    mineRange.value = gameState.mineRangeState;
+    setFieldSize();
+    setNumberOfMines();
+    addListneners();
+    document.querySelectorAll('.cell').forEach((cell) => cell.removeEventListener('click', setMines));
+  }
+}
+
+window.addEventListener('DOMContentLoaded', loadGameState);
+
+window.addEventListener('beforeunload', saveGameState);
