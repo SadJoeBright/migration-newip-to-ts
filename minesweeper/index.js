@@ -38,9 +38,9 @@ timer.innerHTML = `${time}`.padStart(3, '0');
 const moveCounter = document.createElement('div');
 moveCounter.classList.add('move-counter');
 moveCounter.innerHTML = `${moves}`.padStart(3, '0');
-const newGameBtn = document.createElement('div');
+const newGameBtn = document.createElement('button');
 newGameBtn.classList.add('new-game-btn');
-newGameBtn.innerHTML = 'New game';
+newGameBtn.innerHTML = 'New<br>Game';
 const mineCounter = document.createElement('div');
 mineCounter.classList.add('mine-counter');
 mineCounter.innerHTML = `${numberOfMines}`.padStart(2, '0');
@@ -63,7 +63,7 @@ sizeRange.setAttribute('step', '1');
 sizeRange.setAttribute('min', '0');
 sizeRange.setAttribute('max', '2');
 sizeSetter.append(document.createElement('span'), sizeRange);
-sizeSetter.querySelector('span').innerHTML = 'Size: 10x10';
+sizeSetter.querySelector('span').innerHTML = '◼️ 10x10';
 
 const mineSetter = document.createElement('div');
 mineSetter.classList.add('settings-btn');
@@ -98,13 +98,22 @@ modal.append(modalList, modalBtn);
 modalWrapper.append(modal);
 
 const scoreBtn = document.createElement('div');
+const scoreIcon = document.createElement('div');
+scoreIcon.classList.add('score-icon');
+scoreBtn.append(scoreIcon);
 scoreBtn.classList.add('footer-btn');
 const soundBtn = document.createElement('div');
+const soundIcon = document.createElement('div');
+soundIcon.classList.add('sound-icon');
+soundBtn.append(soundIcon);
 soundBtn.classList.add('footer-btn');
-const themedBtn = document.createElement('div');
-themedBtn.classList.add('footer-btn');
+const themeBtn = document.createElement('div');
+themeBtn.classList.add('footer-btn');
+const themeIcon = document.createElement('div');
+themeIcon.classList.add('theme-icon');
+themeBtn.append(themeIcon);
 
-footer.append(sizeSetter, mineSetter, scoreBtn, soundBtn, themedBtn);
+footer.append(sizeSetter, mineSetter, scoreBtn, soundBtn, themeBtn);
 wrpapper.append(header, mineField, footer);
 document.body.prepend(wrpapper, modalWrapper);
 
@@ -113,7 +122,7 @@ function setFieldSize() {
   if (sizeRange.value === '0') size = 10;
   if (sizeRange.value === '1') size = 15;
   if (sizeRange.value === '2') size = 25;
-  sizeSetter.querySelector('span').innerHTML = `Size: ${size}x${size}`;
+  sizeSetter.querySelector('span').innerHTML = `◼️ ${size}x${size}`;
   numberOfColumns = size;
   numberOfRows = size;
 }
@@ -166,6 +175,8 @@ function showScore() {
 scoreBtn.addEventListener('click', showScore);
 modalBtn.addEventListener('click', showScore);
 
+let theme = 'light';
+
 function drawMineField(rows, columns) {
   for (let i = 0; i < columns; i += 1) {
     const row = document.createElement('div');
@@ -173,6 +184,7 @@ function drawMineField(rows, columns) {
     for (let j = 0; j < rows; j += 1) {
       const cell = document.createElement('div');
       cell.classList.add('cell');
+      if (theme === 'dark') cell.classList.add('cell_night');
       row.append(cell);
     }
     mineField.append(row);
@@ -222,7 +234,10 @@ function openCell(event) {
       cell.removeEventListener('click', openCell);
       cell.removeEventListener('contextmenu', setFlag);
       cell.removeEventListener('click', countMoves);
-      if (cell.innerHTML === '💣' && !cell.classList.contains('cell_flaged')) cell.classList.add('cell_opened');
+      if (cell.innerHTML === '💣' && !cell.classList.contains('cell_flaged')) {
+        if (theme === 'dark') cell.classList.add('cell_opened_night');
+        cell.classList.add('cell_opened');
+      }
     });
   }
 
@@ -236,6 +251,7 @@ function openCell(event) {
       const cell = cells[col];
       if (!cell.classList.contains('cell_opened')) {
         cell.classList.add('cell_opened');
+        if (theme === 'dark') cell.classList.add('cell_opened_night');
         cell.style.color = colors[`${cell.innerHTML}`];
         if (cell.classList.contains('cell_flaged')) cell.classList.remove('cell_flaged');
         cell.removeEventListener('click', openCell);
@@ -319,15 +335,18 @@ function playAudio(path) {
 }
 function toggleSound() {
   enableAudio = !enableAudio;
+  soundIcon.classList.toggle('sound-icon_muted');
 }
 
 function toggleTheme() {
   wrpapper.classList.toggle('wrapper_night');
   document.querySelectorAll('.cell').forEach((cell) => cell.classList.toggle('cell_night'));
+  theme = theme === 'light' ? 'dark' : 'light';
   document.querySelectorAll('.cell_opened').forEach((cell) => cell.classList.toggle('cell_opened_night'));
+  themeIcon.classList.toggle('theme-icon_dark');
 }
 
-themedBtn.addEventListener('click', toggleTheme);
+themeBtn.addEventListener('click', toggleTheme);
 soundBtn.addEventListener('click', toggleSound);
 sizeRange.addEventListener('input', setFieldSize);
 newGameBtn.addEventListener('click', newGame);
@@ -350,7 +369,9 @@ function saveGameState() {
   const mineCounterState = mineCounter.innerHTML;
   const sizeRangeState = sizeRange.value;
   const mineRangeState = mineRange.value;
+  const footerState = footer.innerHTML;
   const gameState = {
+    theme,
     numberOfRows,
     numberOfColumns,
     numberOfMines,
@@ -364,6 +385,7 @@ function saveGameState() {
     mineCounterState,
     sizeRangeState,
     mineRangeState,
+    footerState,
   };
   localStorage.setItem('minesweeperGameState', JSON.stringify(gameState));
 }
@@ -372,6 +394,7 @@ function loadGameState() {
   const savedGameState = localStorage.getItem('minesweeperGameState');
   if (savedGameState) {
     const gameState = JSON.parse(savedGameState);
+    theme = gameState.theme;
     numberOfRows = gameState.numberOfRows;
     numberOfColumns = gameState.numberOfColumns;
     numberOfMines = gameState.numberOfMines;
@@ -387,6 +410,7 @@ function loadGameState() {
     mineField.innerHTML = gameState.fieldState;
     sizeRange.value = gameState.sizeRangeState;
     mineRange.value = gameState.mineRangeState;
+    // footer.innerHTML = gameState.footerState;
     setFieldSize();
     setNumberOfMines();
     addListneners();
