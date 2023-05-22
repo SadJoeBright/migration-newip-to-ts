@@ -5,10 +5,11 @@
 
 .wrapper {
   display: flex;
-  padding: 50px;
+  border-radius: 10px;
+  padding: 15px 10px;
   flex-direction: column;
   align-items: center;
-  max-width: 600px;
+  max-width: 700px;
   background: rgb(135, 228, 228);
   margin: auto;
   user-select: none;
@@ -19,31 +20,51 @@
 }
 
 .header {
+  width: 100%;
   padding: 15px;
+  color: rgba(255, 255, 255, 0.845);
   display: flex;
   justify-content: space-between;
+  align-items: center;
   /* width: 500px; */
-  font-size: 30px;
-  border: solid 1px red;
+  font-size: 32px;
+  flex-grow: 1;
 }
 
 .header > *{
   margin: 10px;
 }
 
-.new-game-btn {
-  font-size: 16;
-
-  height: 30px;
-  /* width: 80px; */
+.header > div {
   padding: 5px;
-  background: yellow;
+  width: 60px;
+  border-radius: 5px;
+  background: rgb(65, 158, 158);
+  text-align: center;
+}
+
+.new-game-btn {
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.845);
+  /* height: 30px; */
+  border-radius: 5px;
+  border: none;
+  /* width: 80px; */
+  padding: 10px;
+  line-height: 24px;
+  text-align: center;
+  background: rgb(14, 168, 14);
   cursor: pointer;
   transition: all ease-in-out .2s;
+  /* box-shadow: inset 2px 0px 2px rgb(180, 224, 180); */
 }
 
 .new-game-btn:hover {
-  background: rgb(255, 213, 0);
+  background: rgb(6, 135, 6);
+}
+
+.new-game-btn:active {
+  transform: scale(95%);
 }
 
 .cell {
@@ -59,9 +80,16 @@
   transition: all ease-in-out .2s; 
   width: 25px;
   height: 25px;
-  /* width: 4vw; */
-  /* height: 4vw; */
+  /* width: 2vw; */
+  /* height: 2vw; */
   cursor: pointer;
+}
+
+@media (max-width: 650px) {
+  .cell {
+    width: 3.5vw;
+    height: 3.5vw;
+  }
 }
 
 .cell_night {
@@ -99,26 +127,112 @@
   background-image: url(assets/images/flag.svg);
   background-size: cover;
 }
- .exploded{
-  background: red;
- }
 
- .footer {
+.exploded{
+  background: red;
+}
+
+.footer {
   width: 100%;
+  color: rgba(255, 255, 255, 0.845);      
   display: flex;
   padding: 15px;
   justify-content: space-between;
- }
+  /* gap: 10px; */
+}
 
- .footer-btn {
-  height: 35px;
-  width: 35px;
-  border-radius: 5px;
-  background: yellow;
+.footer > * {
   margin: 5px;
- }
+}
 
- .modal__wrapper {
+.settings-btn {
+  max-width: 300px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  border-radius: 5px;
+  background: rgb(65, 158, 158);
+}
+
+input {
+  width: 60%;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.845);
+  -webkit-appearance: none;
+  border: solid 1px transparent;
+  border-radius: 5px;
+  height: 8px;
+}
+
+input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  background: rgb(14, 168, 14);
+}
+
+
+
+.footer-btn {
+  height: 50px;
+  min-width: 50px;
+  border-radius: 5px;
+  background: rgb(14, 168, 14);
+  /* margin: 5px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all ease-in-out .2s;
+}
+
+.footer-btn:hover {
+  cursor: pointer;
+  background: rgb(6, 135, 6);
+}
+
+.footer-btn:active {
+  transform: scale(95%);
+}
+.sound-icon {
+  background-image: url(../minesweeper/assets/images/volume.png);
+  background-size: cover;
+  height: 25px;
+  width: 25px;
+  margin: auto;
+  /* filter: invert(80%); */
+}
+
+.sound-icon_muted {
+  background-image: url(../minesweeper/assets/images/mute.png);
+}
+
+.score-icon {
+  background-image: url(../minesweeper/assets/images/score.png);
+  background-size: cover;
+  height: 25px;
+  width: 25px;
+  margin: auto;
+  filter: invert(100%);
+}
+
+.theme-icon {
+  background-image: url(../minesweeper/assets/images/light.svg);
+  background-size: cover;
+  height: 25px;
+  width: 25px;
+  margin: auto;
+  filter: invert(100%);
+}
+
+.theme-icon_dark {
+  background-image: url(../minesweeper/assets/images/dark.svg);
+  filter: invert(20%);
+}
+
+
+.modal__wrapper {
   display: none;
   position: fixed;
 	top: 0;
@@ -129,13 +243,13 @@
 	width: auto;
 	height: auto;
 	background: rgba(41, 41, 41, 0.6);
- }
+}
 
- .modal__wrapper_opened {
+.modal__wrapper_opened {
   display: block;
- }
+}
 
- .modal {
+.modal {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -148,9 +262,9 @@
 	bottom: 0;
 	left: 0;
   margin: auto;
- }
+}
 
  .modal__title {
   color: red;
   font-size: 32px;
- }
+}
