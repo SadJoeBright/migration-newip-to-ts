@@ -10,9 +10,12 @@
   align-items: center;
   max-width: 600px;
   background: rgb(135, 228, 228);
-  /* background: black; */
   margin: auto;
   user-select: none;
+}
+
+.wrapper_night {
+  background: rgb(17, 5, 49);
 }
 
 .header {
@@ -53,12 +56,6 @@
   border-left: solid 3px rgb(235, 122, 46);
   border-bottom: solid 3px  rgb(158, 63, 0);
   border-right: solid 3px rgb(158, 63, 0);
-  background: rgb(5, 113, 125);
-  border-top: solid 3px rgb(43, 186, 202);
-  border-left: solid 3px rgb(43, 186, 202);
-  border-bottom: solid 3px  rgb(1, 64, 71);
-  border-right: solid 3px rgb(1, 64, 71);
-  transition: all ease-in-out .2s; 
   transition: all ease-in-out .2s; 
   width: 25px;
   height: 25px;
@@ -67,12 +64,23 @@
   cursor: pointer;
 }
 
+.cell_night {
+  background: rgb(5, 113, 125);
+  border-top: solid 3px rgb(43, 186, 202);
+  border-left: solid 3px rgb(43, 186, 202);
+  border-bottom: solid 3px  rgb(1, 64, 71);
+  border-right: solid 3px rgb(1, 64, 71);
+}
+
 .cell_opened {
   background: rgb(162, 65, 1);
-  border: solid 1px  rgb(120, 49, 2);
+  border: solid 1px  rgb(120, 49, 2);  
+  color: black;
+}
+
+.cell_opened_night {
   background: rgb(0, 54, 60);
   border: solid 1px rgb(2, 45, 50);
-  color: black;
 }
 
 .row {

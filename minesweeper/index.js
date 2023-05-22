@@ -268,6 +268,7 @@ function openCell(event) {
     document.querySelectorAll('.cell').forEach((cell) => {
       cell.removeEventListener('click', openCell);
       cell.removeEventListener('contextmenu', setFlag);
+      cell.removeEventListener('click', countMoves);
     });
     if (timerId) clearInterval(timerId);
     const record = document.createElement('div');
@@ -319,6 +320,14 @@ function playAudio(path) {
 function toggleSound() {
   enableAudio = !enableAudio;
 }
+
+function toggleTheme() {
+  wrpapper.classList.toggle('wrapper_night');
+  document.querySelectorAll('.cell').forEach((cell) => cell.classList.toggle('cell_night'));
+  document.querySelectorAll('.cell_opened').forEach((cell) => cell.classList.toggle('cell_opened_night'));
+}
+
+themedBtn.addEventListener('click', toggleTheme);
 soundBtn.addEventListener('click', toggleSound);
 sizeRange.addEventListener('input', setFieldSize);
 newGameBtn.addEventListener('click', newGame);
@@ -333,6 +342,7 @@ function addListneners() {
   document.querySelectorAll('.cell').forEach((cell) => cell.addEventListener('contextmenu', (event) => event.preventDefault()));
 }
 addListneners();
+
 function saveGameState() {
   const fieldState = mineField.innerHTML;
   const scoreState = modalList.innerHTML;
@@ -380,10 +390,9 @@ function loadGameState() {
     setFieldSize();
     setNumberOfMines();
     addListneners();
-    document.querySelectorAll('.cell').forEach((cell) => cell.removeEventListener('click', setMines));
+    if (moves) document.querySelectorAll('.cell').forEach((cell) => cell.removeEventListener('click', setMines));
   }
 }
 
 window.addEventListener('DOMContentLoaded', loadGameState);
-
 window.addEventListener('beforeunload', saveGameState);
