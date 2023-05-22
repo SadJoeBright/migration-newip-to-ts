@@ -1,0 +1,156 @@
+
+* {
+  box-sizing: border-box;
+}
+
+.wrapper {
+  display: flex;
+  padding: 50px;
+  flex-direction: column;
+  align-items: center;
+  max-width: 600px;
+  background: rgb(135, 228, 228);
+  margin: auto;
+  user-select: none;
+}
+
+.wrapper_night {
+  background: rgb(17, 5, 49);
+}
+
+.header {
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  /* width: 500px; */
+  font-size: 30px;
+  border: solid 1px red;
+}
+
+.header > *{
+  margin: 10px;
+}
+
+.new-game-btn {
+  font-size: 16;
+
+  height: 30px;
+  /* width: 80px; */
+  padding: 5px;
+  background: yellow;
+  cursor: pointer;
+  transition: all ease-in-out .2s;
+}
+
+.new-game-btn:hover {
+  background: rgb(255, 213, 0);
+}
+
+.cell {
+  color: transparent;
+  text-align: center;
+  line-height: 25px;
+  font-weight: 800;
+  background: rgb(222, 89, 1);
+  border-top: solid 3px rgb(235, 122, 46);
+  border-left: solid 3px rgb(235, 122, 46);
+  border-bottom: solid 3px  rgb(158, 63, 0);
+  border-right: solid 3px rgb(158, 63, 0);
+  transition: all ease-in-out .2s; 
+  width: 25px;
+  height: 25px;
+  /* width: 4vw; */
+  /* height: 4vw; */
+  cursor: pointer;
+}
+
+.cell_night {
+  background: rgb(5, 113, 125);
+  border-top: solid 3px rgb(43, 186, 202);
+  border-left: solid 3px rgb(43, 186, 202);
+  border-bottom: solid 3px  rgb(1, 64, 71);
+  border-right: solid 3px rgb(1, 64, 71);
+}
+
+.cell_opened {
+  background: rgb(162, 65, 1);
+  border: solid 1px  rgb(120, 49, 2);  
+  color: black;
+}
+
+.cell_opened_night {
+  background: rgb(0, 54, 60);
+  border: solid 1px rgb(2, 45, 50);
+}
+
+.row {
+  display: flex;
+  margin: auto;
+}
+
+/* .mine-field {
+  border-top: solid 3px rgb(78, 78, 78);
+  border-left: solid 3px rgb(78, 78, 78);
+  margin: auto;
+} */
+
+.cell_flaged {
+  border: none;
+  background-image: url(assets/images/flag.svg);
+  background-size: cover;
+}
+ .exploded{
+  background: red;
+ }
+
+ .footer {
+  width: 100%;
+  display: flex;
+  padding: 15px;
+  justify-content: space-between;
+ }
+
+ .footer-btn {
+  height: 35px;
+  width: 35px;
+  border-radius: 5px;
+  background: yellow;
+  margin: 5px;
+ }
+
+ .modal__wrapper {
+  display: none;
+  position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: auto;
+	width: auto;
+	height: auto;
+	background: rgba(41, 41, 41, 0.6);
+ }
+
+ .modal__wrapper_opened {
+  display: block;
+ }
+
+ .modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: solid 1px blue;
+  width: 350px;
+  height:  300px;
+  position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+  margin: auto;
+ }
+
+ .modal__title {
+  color: red;
+  font-size: 32px;
+ }
