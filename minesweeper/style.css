@@ -80,8 +80,6 @@
   transition: all ease-in-out .2s; 
   width: 25px;
   height: 25px;
-  /* width: 2vw; */
-  /* height: 2vw; */
   cursor: pointer;
 }
 
@@ -253,9 +251,14 @@ input::-webkit-slider-thumb {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: solid 1px blue;
+  justify-content: space-between;
+  border: none;
+  border-radius: 10px;
   width: 350px;
   height:  300px;
+  padding: 10px;
+  background: rgb(65, 158, 158);
+  color: rgba(255, 255, 255, 0.845);
   position: fixed;
 	top: 0;
 	right: 0;
@@ -265,6 +268,24 @@ input::-webkit-slider-thumb {
 }
 
  .modal__title {
-  color: red;
   font-size: 32px;
+  margin: 0;
 }
+
+.modal__btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  line-height: 30px;
+  text-align: center;
+  background: rgb(14, 168, 14);
+  transition: all ease-in-out .2s;  
+}
+
+.modal__btn:hover {
+  cursor: pointer;
+  background: rgb(6, 135, 6);
+}
+ .modal__btn:active {
+  transform: scale(95%);
+ }

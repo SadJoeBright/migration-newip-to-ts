@@ -171,6 +171,7 @@ function createMatrix(rows, columns, mines, x, y) {
 
 function showScore() {
   modalWrapper.classList.toggle('modal__wrapper_opened');
+  // console.log(modalList.firstChild.innerHTML == false);
 }
 scoreBtn.addEventListener('click', showScore);
 modalBtn.addEventListener('click', showScore);
@@ -289,9 +290,11 @@ function openCell(event) {
     if (timerId) clearInterval(timerId);
     const record = document.createElement('div');
     record.classList.add('modal__item');
-    // if (modalList.children.length === 10) modalList.children[0].remove();
     record.innerHTML = `Size: ${numberOfColumns}x${numberOfRows} | Mines: ${numberOfMines} | Time: ${time}s | Moves: ${moves}`;
     modalList.append(record);
+    if (modalList.children.length >= 10 || modalList.firstChild.innerHTML === undefined || modalList.firstChild.innerHTML === 'No records') {
+      modalList.firstChild.remove();
+    }
     if (enableAudio) playAudio(audioFiles.win);
     setTimeout(() => {
       alert('You win!');
@@ -404,13 +407,17 @@ function loadGameState() {
     enableAudio = gameState.enableAudio;
     flagCounter.innerHTML = gameState.flagCounterState;
     mineCounter.innerHTML = gameState.mineCounterState;
-    modalList.innerHTML = gameState.scoreState;
+    if (modalList.innerHTML) modalList.innerHTML = gameState.scoreState;
     timer.innerHTML = `${time}`.padStart(3, '0');
     moveCounter.innerHTML = `${moves}`.padStart(3, '0');
     mineField.innerHTML = gameState.fieldState;
     sizeRange.value = gameState.sizeRangeState;
     mineRange.value = gameState.mineRangeState;
-    // footer.innerHTML = gameState.footerState;
+    if (!enableAudio) soundIcon.classList.add('sound-icon_muted');
+    if (theme === 'dark') {
+      themeIcon.classList.add('theme-icon_dark');
+      wrpapper.classList.add('wrapper_night');
+    }
     setFieldSize();
     setNumberOfMines();
     addListneners();
