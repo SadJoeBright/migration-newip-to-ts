@@ -126,6 +126,8 @@
   background-size: cover;
 }
 
+
+
 .exploded{
   background: red;
 }
@@ -288,4 +290,9 @@ input::-webkit-slider-thumb {
 }
  .modal__btn:active {
   transform: scale(95%);
+ }
+
+ .win-text {
+  font-size: 24px;
+  text-align: center;
  }

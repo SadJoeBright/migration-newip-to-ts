@@ -113,9 +113,21 @@ const themeIcon = document.createElement('div');
 themeIcon.classList.add('theme-icon');
 themeBtn.append(themeIcon);
 
+const winWrapper = document.createElement('div');
+winWrapper.classList.add('modal__wrapper');
+const winMassage = document.createElement('div');
+winMassage.classList.add('modal');
+const winText = document.createElement('p');
+winText.classList.add('win-text');
+const winBtn = document.createElement('div');
+winBtn.classList.add('modal__btn');
+winBtn.innerHTML = 'OK';
+winMassage.append(winText, winBtn);
+winWrapper.append(winMassage);
+
 footer.append(sizeSetter, mineSetter, scoreBtn, soundBtn, themeBtn);
 wrpapper.append(header, mineField, footer);
-document.body.prepend(wrpapper, modalWrapper);
+document.body.prepend(wrpapper, modalWrapper, winWrapper);
 
 function setFieldSize() {
   let size;
@@ -221,6 +233,18 @@ function setMines(event) {
 }
 
 function openCell(event) {
+  let massage;
+  function showWinMassage() {
+    winText.innerHTML = massage;
+    winWrapper.classList.toggle('modal__wrapper_opened');
+    winBtn.removeEventListener('click', showWinMassage);
+  }
+  function closeWinMassage() {
+    winWrapper.classList.remove('modal__wrapper_opened');
+  }
+  winBtn.addEventListener('click', showWinMassage);
+  winBtn.addEventListener('click', closeWinMassage);
+
   if (enableAudio) playAudio(audioFiles.click);
   const rowIndex = [...document.querySelectorAll('.row')].indexOf(event.target.parentNode);
   const columnIndex = [...event.target.parentNode.querySelectorAll('.cell')].indexOf(event.target);
@@ -240,6 +264,8 @@ function openCell(event) {
         cell.classList.add('cell_opened');
       }
     });
+    massage = 'Game over. Try again';
+    showWinMassage();
   }
 
   function openEmptyCells(row, col) {
@@ -296,9 +322,8 @@ function openCell(event) {
       modalList.firstChild.remove();
     }
     if (enableAudio) playAudio(audioFiles.win);
-    setTimeout(() => {
-      alert('You win!');
-    }, 500);
+    massage = `Hooray! You found all mines in ${time} seconds and ${moves} moves!`;
+    showWinMassage();
   }
   document.querySelectorAll('.cell').forEach((cell) => cell.removeEventListener('click', showTime));
 }
