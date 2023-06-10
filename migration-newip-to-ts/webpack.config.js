@@ -11,8 +11,12 @@ const baseConfig = {
         rules: [
             {
                 test: /\.css$/i,
-                use: ['style-loader', 'css-loader', 'ts-loader'],
+                use: ['style-loader', 'css-loader'],
             },
+            {
+                test: /\.ts$/i,
+                use: 'ts-loader'
+            }
         ],
     },
     resolve: {
@@ -20,7 +24,7 @@ const baseConfig = {
     },
     output: {
         filename: 'index.js',
-        path: path.resolve(__dirname, '../dist'),
+        path: path.resolve(__dirname, './dist'),
     },
     plugins: [
         new HtmlWebpackPlugin({
