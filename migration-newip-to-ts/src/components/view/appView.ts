@@ -10,13 +10,13 @@ export class AppView {
         this.sources = new Sources();
     }
 
-    public drawNews(data: ApiEverything): void {
-        const values: Article[] = data?.articles ? data?.articles : [];
+    public drawNews(data: ApiEverything | Response): void {
+        const values: Article[] = (data as ApiEverything).articles ? (data as ApiEverything).articles : [];
         this.news.draw(values);
     }
 
-    public drawSources(data: ApiRequest): void {
-        const values: ApiSource[] = data?.sources ? data?.sources : [];
+    public drawSources(data: ApiRequest | Response): void {
+        const values: ApiSource[] = (data as ApiRequest).sources ? (data as ApiRequest).sources : [];
         this.sources.draw(values);
     }
 }
