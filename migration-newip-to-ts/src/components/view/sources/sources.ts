@@ -1,13 +1,12 @@
 import './sources.css';
 import { ApiSource } from '../../../types';
 
-class Sources<T extends ApiSource> {
-    draw(data: T[]): void {
+class Sources {
+    public draw(data: ApiSource[]): void {
         const fragment: DocumentFragment = document.createDocumentFragment();
         const sourceItemTemp: HTMLTemplateElement | null = document.querySelector('#sourceItemTemp');
-
         if (sourceItemTemp) {
-            data.forEach((item: T) => {
+            data.forEach((item: ApiSource): void => {
                 const sourceClone = sourceItemTemp.content.cloneNode(true) as DocumentFragment | null;
 
                 if (sourceClone) {
