@@ -2,7 +2,7 @@ type RequestOptions = {
     [key: string]: string;
 };
 
-type Callback = (data: Response) => void;
+export type Callback = (data: Response) => void;
 
 class Loader {
     baseLink: string;
@@ -13,7 +13,7 @@ class Loader {
         this.options = options;
     }
 
-    private getResp(
+    public getResp(
         { endpoint, options = {} }: { endpoint: string; options?: RequestOptions },
         callback: Callback = () => {
             console.error('No callback for GET response');
