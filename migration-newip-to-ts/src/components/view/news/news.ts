@@ -19,7 +19,7 @@ class News {
                     newsClone,
                     '.news__meta-photo',
                     'backgroundImage',
-                    `url(${item.urlToImage || 'img/news_placeholder.jpg'})`
+                    `url(${item.urlToImage || 'https://fakeimg.pl/600x400?text=No+photo'})`
                 );
                 this.setTextContent(newsClone, '.news__meta-author', item.author || item.source.name);
                 this.setTextContent(

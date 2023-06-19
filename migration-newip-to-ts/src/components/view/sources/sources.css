@@ -1,16 +1,41 @@
 .sources {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
+    overflow: hidden;
     width: 100%;
-    height: 120px;
+    height: 200px;
     overflow: auto;
     align-items: center;
     font: 300 1em 'Fira Sans', sans-serif;
+    justify-content: center;
+    transition: all ease-in-out 0.5s;    
 }
+
+ .sources::-webkit-scrollbar-thumb {
+    background: #30c5ff;
+    border-radius: 5px;
+  }
+
+  
+
+.sources::-webkit-scrollbar {
+    width: 10px;
+    background-color: rgba(48, 197, 255, 0.2);
+    border: solid 1px #30c5ff;
+    border-radius: 5px;
+  }
+
+  
+
+/* .sources:hover {
+    height: auto;
+    transition: all;
+} */
 
 .source__item {
     background: none;
     border: 2px solid #30c5ff;
+    border-radius: 5px;
     font: inherit;
     line-height: 1;
     margin: 0.5em;
@@ -27,6 +52,8 @@
     box-shadow: 0 0.5em 0.5em -0.4em #3fcc59;
     transform: translateY(-0.25em);
 }
+
+
 
 .source__item-name {
     font-weight: 400;

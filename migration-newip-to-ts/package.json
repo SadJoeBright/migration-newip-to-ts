@@ -28,6 +28,7 @@
         "eslint-plugin-import": "^2.23.3",
         "eslint-plugin-prettier": "^3.4.0",
         "eslint-webpack-plugin": "^4.0.1",
+        "favicons-webpack-plugin": "^6.0.0",
         "gh-pages": "^5.0.0",
         "html-webpack-plugin": "^5.2.0",
         "mini-css-extract-plugin": "^2.7.6",
