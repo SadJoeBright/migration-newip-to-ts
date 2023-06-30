@@ -1,0 +1,9 @@
+.header{
+  color: red;
+  background: blueviolet;
+  width: 800px;
+  height: 200px;
+  text-align: center;
+  margin: 0 auto;
+  font-size: 12px;
+}
