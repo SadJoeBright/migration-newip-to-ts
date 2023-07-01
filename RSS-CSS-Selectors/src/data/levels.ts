@@ -1,4 +1,4 @@
-export default [
+const levels = [
   {
     doThis: 'Select the plates',
     selector: 'plate',
@@ -408,3 +408,5 @@ export default [
       + '    ',
   },
 ];
+
+export default levels;

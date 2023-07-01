@@ -1,6 +1,10 @@
 import './global.css';
+import createElement from './components/create-element';
 
-const header = document.createElement('header');
-header.textContent = 'Header';
-header.classList.add('header');
-document.body.append(header);
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const header = createElement({
+  tagName: 'header',
+  classNames: ['header'],
+  textContent: 'Hello',
+  parentNode: document.body,
+});
