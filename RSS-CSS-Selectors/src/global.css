@@ -7,3 +7,10 @@
   margin: 0 auto;
   font-size: 12px;
 }
+
+.some-class {
+  width: 400px;
+  height: 500px;
+  background: yellow;
+  color: red;
+}
