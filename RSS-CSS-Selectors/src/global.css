@@ -1,16 +1,15 @@
-.header{
-  color: red;
-  background: blueviolet;
-  width: 800px;
-  height: 200px;
-  text-align: center;
-  margin: 0 auto;
-  font-size: 12px;
+body {
+  background: rgb(42, 34, 28);
+  font-family: Arial, Helvetica, sans-serif;
+  color: #a2a2a2;
 }
 
-.some-class {
-  width: 400px;
-  height: 500px;
-  background: yellow;
-  color: red;
-}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 85%;
+  min-height: 100%;
+} 

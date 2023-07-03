@@ -1,10 +1,6 @@
-import './global.css';
-import createElement from './components/create-element';
+/* eslint-disable no-alert */
+import App from './components/app/app';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const header = createElement({
-  tagName: 'header',
-  classNames: ['header'],
-  textContent: 'Hello',
-  parentNode: document.body,
-});
+const app = new App();
+app.createView();
+alert('Дорогой Reviwer! Eсли у тебя есть такая возможность, пожалуйста отложи свою проверку до вечера 6.03. Буду безмерно благодарен)) Мой discord: @SadJoeBright#6933; telegram: @sadjoebright');

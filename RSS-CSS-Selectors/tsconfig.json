@@ -6,7 +6,7 @@
     "forceConsistentCasingInFileNames": true,           
     "strict": true,                                     
     "noImplicitAny": true,                            
-    // "strictNullChecks": false,                      
+    "strictNullChecks": false,                      
     "skipLibCheck": true                                 
   }
 }
