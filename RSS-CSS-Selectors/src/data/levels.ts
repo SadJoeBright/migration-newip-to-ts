@@ -12,7 +12,7 @@ const levels = [
   {
     doThis: 'Select the fancy plate',
     selector: '#fancy',
-    boardMarkup: '<bento class="some-class"></bento>\n<plate>\n  <apple class="casual"></apple>\n</plate>\n<apple></apple>',
+    boardMarkup: '<bento></bento>\n<plate>\n  <apple></apple>\n</plate>\n<apple></apple>',
   },
   {
     doThis: 'Select the apple on the plate',

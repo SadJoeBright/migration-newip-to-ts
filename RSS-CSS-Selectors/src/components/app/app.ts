@@ -3,11 +3,15 @@ import '../../global.css';
 import createElement from '../utils/create-element';
 import table from '../table/table';
 import levelSideBar from '../levelViewer/level-viewer';
-import editor from '../editor/editor';
+import { editor } from '../editor/editor';
+import Controller from '../controller/controller';
 
 class App {
+  controller: Controller;
+
   constructor() {
     this.createView();
+    this.controller = new Controller();
   }
 
   public createView(): void {

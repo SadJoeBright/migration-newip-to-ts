@@ -1,5 +1,6 @@
 import './editor.css';
 import createElement from '../utils/create-element';
+// import table from '../table/table';
 
 const editor = createElement({
   tagName: 'div',
@@ -50,11 +51,10 @@ for (let i = 1; i <= linesAmount; i += 1) {
   lineNumber.append(line);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const markupSection = createElement({
   tagName: 'div',
   classNames: ['markup'],
   parentNode: htmlViewer,
 });
 
-export default editor;
+export { editor, markupSection };
