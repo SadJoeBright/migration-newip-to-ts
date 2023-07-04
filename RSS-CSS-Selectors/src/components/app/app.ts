@@ -1,8 +1,9 @@
 /* eslint-disable class-methods-use-this */
 import '../../global.css';
+import createElement from '../utils/create-element';
 import table from '../table/table';
 import levelSideBar from '../levelViewer/level-viewer';
-import createElement from '../utils/create-element';
+import editor from '../editor/editor';
 
 class App {
   constructor() {
@@ -17,7 +18,8 @@ class App {
     });
     const tableView = table;
     const levelView = levelSideBar;
-    mainContainer.append(tableView);
+    const editorView = editor;
+    mainContainer.append(tableView, editorView);
     document.body.append(levelView);
   }
 }
