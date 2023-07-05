@@ -14,12 +14,12 @@ const levels: Level[] = [
   {
     doThis: 'Select the fancy plate',
     selector: 'plate apple',
-    boardMarkup: '<bento class="some-class"></bento>\n<plate>\n<apple class="casual"></apple>\n</plate>\n<apple></apple>',
+    boardMarkup: '<bento class="some-class"></bento>\n<plate id="fancy">\n<apple class="casual"></apple>\n</plate>\n<apple></apple>',
   },
   {
     doThis: 'Select the apple on the plate',
     selector: 'plate apple',
-    boardMarkup: '<bento class="some-class"><orange></orange></bento>\n<plate>\n<apple class="casual"></apple>\n</plate>\n<apple></apple> ',
+    boardMarkup: '<bento class="some-class"><orange></orange></bento>\n<plate>\n<apple></apple>\n</plate>\n<apple></apple> ',
   },
   {
     doThis: 'Select the pickle on the fancy plate',

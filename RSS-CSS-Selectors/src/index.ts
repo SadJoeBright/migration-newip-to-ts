@@ -18,16 +18,11 @@ let currentLevel = parseInt(localStorage.getItem('currentLevel'), 10) || 1;
 
 function fillTable(levelNumber: number) {
   TABLE.innerHTML = levels[levelNumber - 1].boardMarkup;
-  const targets = TABLE.querySelectorAll(levels[levelNumber - 1].selector);
 
   if (levelList.querySelector('.level-item_selected')) {
     levelList.querySelector('.level-item_selected').classList.remove('level-item_selected');
   }
   levelList.children[levelNumber - 1].classList.add('level-item_selected');
-
-  targets.forEach((target) => {
-    target.classList.add('puls');
-  });
 }
 
 function setID(element: HTMLElement, startIndex = 0) {
@@ -49,6 +44,22 @@ function setID(element: HTMLElement, startIndex = 0) {
   return currentIndex;
 }
 
+function markTargets(level: number) {
+  const targets = TABLE.querySelectorAll(levels[level - 1].selector);
+  targets.forEach((target) => {
+    target.classList.add('puls');
+  });
+}
+
+function createOpenTag(element: HTMLElement) {
+  let openTag = `<${element.tagName.toLowerCase()}`;
+  if (element.className && element.className !== 'puls') {
+    openTag += ` class=''${element.className.replace('puls', '')}''`;
+  }
+  openTag += '>';
+  return openTag;
+}
+
 function insertMarkUp(element: HTMLElement, intent = '', parent = markUpContainer) {
   [...element.children].forEach((child) => {
     const line = document.createElement('div');
@@ -56,7 +67,7 @@ function insertMarkUp(element: HTMLElement, intent = '', parent = markUpContaine
     const elementId = child.getAttribute('elementId');
     line.setAttribute('elementId', elementId);
     line.setAttribute('tagtId', elementId);
-    const openTag = `${intent}<${child.tagName.toLowerCase()}>`;
+    const openTag = `${intent}${createOpenTag(child as HTMLElement)}`;
     const closeTag = `</${child.tagName.toLowerCase()}>`;
     const before = document.createElement('style');
     before.innerHTML = `[tagtId="${elementId}"]::before{content:"${openTag}"}`;
@@ -73,6 +84,7 @@ function insertMarkUp(element: HTMLElement, intent = '', parent = markUpContaine
 fillTable(currentLevel);
 setID(TABLE);
 insertMarkUp(TABLE);
+markTargets(currentLevel);
 
 function changeLevel(level: number) {
   wasHelpUsed = false;
@@ -81,6 +93,7 @@ function changeLevel(level: number) {
   fillTable(level);
   setID(TABLE);
   insertMarkUp(TABLE);
+  markTargets(level);
 }
 
 function chooseLevel(event: Event) {
@@ -143,7 +156,7 @@ function showNotice(event: Event) {
     const tableElement = TABLE.querySelector(`[elementId="${targetId}"]`);
     const markUpElement = markUpContainer.querySelector(`[elementId="${targetId}"]`);
     const notice = document.createElement('div');
-    notice.textContent = `<${tableElement.tagName.toLowerCase()}></${tableElement.tagName.toLowerCase()}>`;
+    notice.textContent = `${createOpenTag(tableElement as HTMLElement)}</${tableElement.tagName.toLowerCase()}>`;
     notice.classList.add('notification');
     tableElement.classList.add('hovered');
     tableElement.append(notice);
@@ -172,3 +185,6 @@ input.addEventListener('keydown', (event) => {
 });
 
 window.addEventListener('beforeunload', saveGameState);
+
+// eslint-disable-next-line no-console
+// console.log(document.querySelector('#fancy').attributes.);
