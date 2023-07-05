@@ -2,6 +2,8 @@
 
 import './global.css';
 import levels from './data/levels';
+import createOpenTag from './components/utils/create-open-tag';
+import insertMarkUp from './components/utils/insert-markup';
 
 alert('Дорогой Reviwer! Eсли у тебя есть такая возможность, пожалуйста отложи свою проверку до вечера 6.03. Буду безмерно благодарен)) Мой discord: @SadJoeBright#6933; telegram: @sadjoebright');
 const TABLE: HTMLElement = document.querySelector('.table');
@@ -51,36 +53,6 @@ function markTargets(level: number) {
   });
 }
 
-function createOpenTag(element: HTMLElement) {
-  let openTag = `<${element.tagName.toLowerCase()}`;
-  if (element.className && element.className !== 'puls') {
-    openTag += ` class=''${element.className.replace('puls', '')}''`;
-  }
-  openTag += '>';
-  return openTag;
-}
-
-function insertMarkUp(element: HTMLElement, intent = '', parent = markUpContainer) {
-  [...element.children].forEach((child) => {
-    const line = document.createElement('div');
-    line.classList.add('line');
-    const elementId = child.getAttribute('elementId');
-    line.setAttribute('elementId', elementId);
-    line.setAttribute('tagtId', elementId);
-    const openTag = `${intent}${createOpenTag(child as HTMLElement)}`;
-    const closeTag = `</${child.tagName.toLowerCase()}>`;
-    const before = document.createElement('style');
-    before.innerHTML = `[tagtId="${elementId}"]::before{content:"${openTag}"}`;
-    const after = document.createElement('style');
-    after.innerHTML = `[tagtId="${elementId}"]::after{content:"${closeTag}"}`;
-    document.head.append(before, after);
-    parent.append(line);
-    if (child.hasChildNodes()) {
-      insertMarkUp(child as HTMLElement, '   ', line);
-    }
-  });
-}
-
 fillTable(currentLevel);
 setID(TABLE);
 insertMarkUp(TABLE);
@@ -123,7 +95,7 @@ function checkAnswer() {
     setTimeout(() => {
       currentLevel += 1;
       changeLevel(currentLevel);
-    });
+    }, 500);
   } else {
     TABLE.classList.add('shake');
     setTimeout(() => {
@@ -132,20 +104,16 @@ function checkAnswer() {
   }
 }
 
-function typeIn(text: string) {
+function getHelp() {
+  const helpText = levels[currentLevel - 1].selector;
   let i = 0;
   const intervalId = setInterval(() => {
-    input.value += text[i];
+    input.value += helpText[i];
     i += 1;
-    if (i === text.length) {
+    if (i === helpText.length) {
       clearInterval(intervalId);
     }
   }, 100);
-}
-
-function getHelp() {
-  const helpText = levels[currentLevel - 1].selector;
-  typeIn(helpText);
   wasHelpUsed = true;
 }
 
@@ -185,6 +153,3 @@ input.addEventListener('keydown', (event) => {
 });
 
 window.addEventListener('beforeunload', saveGameState);
-
-// eslint-disable-next-line no-console
-// console.log(document.querySelector('#fancy').attributes.);

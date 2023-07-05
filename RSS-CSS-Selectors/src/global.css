@@ -40,7 +40,7 @@ h2 {
   width: min-content;
   position: relative;
   padding: 1vw 2vw;
-  margin: 2vw 0 5vw 0;
+  margin: 2vw 0 3vw 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -73,7 +73,21 @@ h2 {
   filter: brightness(150%);
 }
 
+.small {
+  width: 2vw;
+  height: 2vw;
+}
 
+#fancy:after {
+  content: "";
+  display: block;
+  position: absolute;
+  height: 75%;
+  width: 75%;
+  border-radius: 60px;
+  border: solid 10px #009ff2;
+  opacity: .4;
+}
 
 bento {
   display: flex;
