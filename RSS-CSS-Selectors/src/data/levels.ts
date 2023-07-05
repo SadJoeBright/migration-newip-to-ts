@@ -38,6 +38,11 @@ const levels: Level[] = [
     boardMarkup: '<bento><orange></orange></bento><orange class="small"></orange><bento><orange class="small"></orange></bento><bento><apple class="small"></apple></bento><bento><orange class="small"></orenge></bento>',
   },
   {
+    doThis: 'Select the 3rd plate',
+    selector: ':nth-child(3)',
+    boardMarkup: '<plate></plate><plate></plate><plate id="fancy"></plate>',
+  },
+  {
     doThis: 'Select all the things!',
     selector: '*',
     boardMarkup: '<apple></apple><plate><orange class="small"></orange></plate><bento></bento><bento><orange></orange></bento><plate id="fancy"></plate>',
@@ -46,11 +51,6 @@ const levels: Level[] = [
     doThis: 'Select everything on a plate',
     selector: 'plate *',
     boardMarkup: '<plate id="fancy"><orange class="small"></orange></plate><plate><pickle></pickle></plate><apple class="small"></apple><plate><apple></apple></plate>',
-  },
-  {
-    doThis: 'Select the 3rd plate',
-    selector: ':nth-child(3)',
-    boardMarkup: '<plate/><plate/><plate/><plate id="fancy"/>',
   },
 ];
 export default levels;

@@ -21,14 +21,14 @@ h1 {
 
 h2 {
   font-size: calc(1.5vw + 50%);
+  margin: 0;
 }
 
 .aside {
-  padding: 10px 15px;
+  padding: 10px 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: start;
+  align-items: center;
   width: 15%;
   height: 100%;
   position: fixed;
@@ -257,11 +257,48 @@ plate {
   background: rgb(21, 21, 21);
 }
 
+.css-editor {
+  width: 100%;
+  padding-bottom: 2%;
+  display: flex;
+  gap: 10px;
+}
+
+.css-editor__input {
+  width: 80%;
+  margin: 0;
+  border-radius: 5px;
+  padding: 1%;
+  background-color: rgb(248, 238, 220);
+  font-size: (1.2vw + 10%);
+}
+
+.editor-btn {
+  color: #a2a2a2;
+  border: solid 2px #a2a2a2;
+  border-radius: 5px;
+  font-size: calc(1vw + 20%);
+  padding: 1% 2%;
+  cursor: pointer;
+  transition: all ease-in-out .2s;
+}
+
+.editor-btn:hover {
+  filter: brightness(150%);
+}
+
+.editor-btn:active  {
+  transform: scale(95%);
+}
+
+
 
 .html-viewer {
   background: #2a2a2a;
   width: 100%;
   display: flex;
+  font-size: (1.2vw + 10%);
+  border-radius: 5px;
 }
 
 .line-numbers {
@@ -272,7 +309,7 @@ plate {
   padding: 5px 10px 5px 0;
   text-align: right;
   border-right: solid 2px black;
-  font-size: 16px;
+  /* font-size: 16px; */
 }
 
 .markup {
@@ -310,13 +347,16 @@ plate {
 
 .level-list {
   width: 100%;
+
+  padding: 10% 0;
 }
 
 .level-item {
   text-align: center;
   width: 100%;
   margin: 5px;
-  font-size: 20px;
+  font-size: calc(1vw + 30%);
+  cursor: pointer;
 }
 
 .level-item_selected{
@@ -334,6 +374,26 @@ plate {
 .completed-with-help {
   color: yellow;
 }
+
+.restart-btn {
+  /* background: none; */
+  color: #a2a2a2;
+  border: solid 2px #a2a2a2;
+  border-radius: 5px;
+  font-size: calc(1vw + 50%);
+  padding: 2% 10%;
+  cursor: pointer;
+  transition: all ease-in-out .2s;
+}
+
+.restart-btn:hover {
+  filter: brightness(150%);
+}
+
+.restart-btn:active  {
+  transform: scale(95%);
+}
+
 
 .footer {
   display: flex;

@@ -5,15 +5,17 @@ import levels from './data/levels';
 import createOpenTag from './components/utils/create-open-tag';
 import insertMarkUp from './components/utils/insert-markup';
 
-alert('Дорогой Reviwer! Eсли у тебя есть такая возможность, пожалуйста отложи свою проверку до вечера 6.03. Буду безмерно благодарен)) Мой discord: @SadJoeBright#6933; telegram: @sadjoebright');
+// eslint-disable-next-line max-len
+// alert('Дорогой Reviwer! Eсли у тебя есть такая возможность, пожалуйста отложи свою проверку до вечера 6.03. Буду безмерно благодарен)) Мой discord: @SadJoeBright#6933; telegram: @sadjoebright');
 const TABLE: HTMLElement = document.querySelector('.table');
 const markUpContainer: HTMLElement = document.querySelector('.markup');
 const levelList: HTMLElement = document.querySelector('.level-list');
 const input: HTMLInputElement = document.querySelector('.css-editor__input');
-const chekingButton: HTMLElement = document.querySelector('.css-editor__btn');
-const helpButton: HTMLElement = document.createElement('button');
-helpButton.textContent = 'help';
-document.body.append(helpButton);
+const enterButton: HTMLElement = document.querySelector('.enter-btn');
+const helpButton: HTMLElement = document.querySelector('.help-btn');
+const restartButton: HTMLElement = document.querySelector('.restart-btn');
+// helpButton.textContent = 'help';
+// document.body.append(helpButton);
 
 let wasHelpUsed = false;
 let currentLevel = parseInt(localStorage.getItem('currentLevel'), 10) || 1;
@@ -82,7 +84,8 @@ function chooseLevel(event: Event) {
 
 function checkAnswer() {
   const targets = TABLE.querySelectorAll(levels[currentLevel - 1].selector);
-  if (JSON.stringify(TABLE.querySelectorAll(input.value.trim())) === JSON.stringify(targets)) {
+  if (input.value
+     && JSON.stringify(TABLE.querySelectorAll(input.value.trim())) === JSON.stringify(targets)) {
     targets.forEach((target) => {
       target.classList.add('out');
       target.classList.remove('puls');
@@ -137,6 +140,11 @@ function showNotice(event: Event) {
   }
 }
 
+function restartGame() {
+  currentLevel = 1;
+  changeLevel(currentLevel);
+}
+
 function saveGameState() {
   localStorage.setItem('currentLevel', currentLevel as unknown as string);
 }
@@ -144,8 +152,9 @@ function saveGameState() {
 TABLE.addEventListener('mouseover', showNotice);
 markUpContainer.addEventListener('mouseover', showNotice);
 levelList.addEventListener('click', chooseLevel);
-chekingButton.addEventListener('click', checkAnswer);
+enterButton.addEventListener('click', checkAnswer);
 helpButton.addEventListener('click', getHelp);
+restartButton.addEventListener('click', restartGame);
 input.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') {
     checkAnswer();
