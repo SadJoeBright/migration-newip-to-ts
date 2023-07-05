@@ -1,6 +1,8 @@
+/* eslint-disable no-console */
 import './editor.css';
 import createElement from '../utils/create-element';
 // import table from '../table/table';
+// import levels from '../../data/levels';
 
 const editor = createElement({
   tagName: 'div',
@@ -17,7 +19,7 @@ const textArea = createElement({
   tagName: 'input',
   classNames: ['css-editor__input'],
   parentNode: cssEditor,
-});
+}) as HTMLInputElement;
 textArea.setAttribute('type', 'text');
 textArea.setAttribute('placeholder', 'Type in a CSS selector');
 
@@ -57,4 +59,24 @@ const markupSection = createElement({
   parentNode: htmlViewer,
 });
 
-export { editor, markupSection };
+// console.log(table);
+// const target = table.querySelector(levels[2].selector);
+// target.classList.add('puls');
+
+// function checkAnswer() {
+//   if (table.querySelector(textArea.value.trim()) === target) {
+//     target.classList.add('out');
+//     target.classList.remove('puls');
+//   } else {
+//     table.classList.add('shake');
+//     setTimeout(() => {
+//       table.classList.remove('shake');
+//     }, 200);
+//   }
+// }
+
+// editorBtn.addEventListener('click', checkAnswer);
+
+export {
+  editor, markupSection, textArea, editorBtn,
+};

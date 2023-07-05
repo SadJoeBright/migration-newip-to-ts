@@ -6,3 +6,9 @@ export interface ElementOptions {
   eventHandler?: () => void;
   eventType?: string;
 }
+
+export interface Level {
+  doThis: string;
+  selector: string;
+  boardMarkup: string;
+}

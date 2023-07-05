@@ -1,13 +1,15 @@
 /* eslint-disable class-methods-use-this */
 import '../../global.css';
 import createElement from '../utils/create-element';
-import table from '../table/table';
 import levelSideBar from '../levelViewer/level-viewer';
 import { editor } from '../editor/editor';
 import Controller from '../controller/controller';
+import Table from '../table/table';
 
 class App {
   controller: Controller;
+
+  table: Table;
 
   constructor() {
     this.createView();
@@ -20,10 +22,11 @@ class App {
       classNames: ['main-container'],
       parentNode: document.body,
     });
-    const tableView = table;
+
+    this.table = new Table();
     const levelView = levelSideBar;
     const editorView = editor;
-    mainContainer.append(tableView, editorView);
+    mainContainer.append(this.table.table, editorView);
     document.body.append(levelView);
   }
 }

@@ -24,6 +24,79 @@
   left: 0;
 }
 
+@keyframes appearence {
+  from{
+    transform: scale(0);
+  }
+  to {
+    transform: scale(100%);
+  }
+}
+
+@keyframes puls {
+  0% {
+    transform: scale(100%);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(110%);
+    filter: brightness(1.1);
+  }
+  100% {
+    transform: scale(100%);
+    filter: brightness(1);
+  }
+}
+
+@keyframes shake {
+  0% {
+    left: 2px;
+
+  }
+  20% {
+    left: 0;
+  }
+  40% {
+    left: -2px;
+  }
+  60% {
+    left: 0;
+  }
+  80% {
+    left: 2px;
+  }
+  100% {
+    left: 0;
+  }
+
+}
+
+
+@keyframes slideOut {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100vh);
+  }
+}
+
+.out { 
+  animation: slideOut .5s ease-in-out forwards;
+}
+
+.shake{
+  animation: shake .2s 3 ease-in-out;
+}
+
+.puls {
+  animation: puls 1s ease-in-out infinite;
+}
+
+.table > * {
+  animation: appearence .3s ease-in-out;
+}
+
 bento {
   display: flex;
   position: relative;
