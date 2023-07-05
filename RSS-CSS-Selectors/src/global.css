@@ -296,7 +296,7 @@ plate {
   background: #2a2a2a;
   width: 100%;
   display: flex;
-  font-size: (1.2vw + 10%);
+  font-size: calc(1.2vw + 10%);
   border-radius: 5px;
 }
 
@@ -305,45 +305,41 @@ plate {
   flex-direction: column;
   align-items: flex-end;
   width: 5%;
-  padding: 5px 10px 5px 0;
+  padding: 1% 10px 2% 0;
   text-align: right;
   border-right: solid 2px black;
+  padding: 5px 10px 5px 0;
 }
+
 
 .markup {
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding-left: 15px;
+  padding: 5px 15px;
 }
 
 .markup::before{
   content: '<table>';
   margin-left: -10px;
-  padding-top: 10px;
 }
 
 .markup::after{
   content: '</table>';
   margin-left: -10px;
-  padding-top: 5px;
 }
 
 .line:hover {
   filter: brightness(150%);
-  cursor: default;
 }
 
 .line {
   white-space: pre-wrap;
-  padding-top: 5px;
-  padding-left: -40px;
 }
 
 .level-list {
   width: 100%;
-
   padding: 10% 0;
 }
 
