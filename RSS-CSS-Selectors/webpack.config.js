@@ -7,7 +7,8 @@ module.exports = {
   entry: path.resolve(__dirname, 'src/index'),
   output : {
     filename: 'index.js',
-    path: path.resolve(__dirname, './dist')
+    path: path.resolve(__dirname, './dist'),
+    assetModuleFilename: path.join('assets/icons', '[name].[contenthash][ext]'),
 
   },
 
@@ -20,7 +21,14 @@ module.exports = {
       {
         test: /\.ts$/i,
         use: 'ts-loader',
-      }
+      },
+      {
+        test: /\.(png|svg|)$/i,
+        type: 'asset/resource',
+        generator: {
+            filename: 'assets/icons/[name][ext]',
+        },
+    }
     ],
   },
 

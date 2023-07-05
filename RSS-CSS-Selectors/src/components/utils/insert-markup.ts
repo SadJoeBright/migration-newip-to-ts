@@ -11,9 +11,9 @@ export default function insertMarkUp(element: HTMLElement, intent = '', parent =
     const openTag = `${intent}${createOpenTag(child as HTMLElement)}`;
     const closeTag = `</${child.tagName.toLowerCase()}>`;
     const before = document.createElement('style');
-    before.innerHTML = `[tagtId="${elementId}"]::before{content:"${openTag}"}`;
+    before.innerHTML = `[tagtId="${elementId}"]::before{content:"${openTag}"; line_hieght: 150%;`;
     const after = document.createElement('style');
-    after.innerHTML = `[tagtId="${elementId}"]::after{content:"${closeTag}"}`;
+    after.innerHTML = `[tagtId="${elementId}"]::after{content:"${closeTag}" line_hieght: 150%;}`;
     document.head.append(before, after);
     parent.append(line);
     if (child.hasChildNodes()) {
