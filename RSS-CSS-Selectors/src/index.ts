@@ -1,24 +1,21 @@
-/* eslint-disable no-alert */
-
 import './global.css';
 import levels from './data/levels';
 import createOpenTag from './components/utils/create-open-tag';
 import insertMarkUp from './components/utils/insert-markup';
+import showWinMassage from './components/utils/show-win-massage';
 
-// eslint-disable-next-line max-len
-// alert('Дорогой Reviwer! Eсли у тебя есть такая возможность, пожалуйста отложи свою проверку до вечера 6.03. Буду безмерно благодарен)) Мой discord: @SadJoeBright#6933; telegram: @sadjoebright');
 const TABLE: HTMLElement = document.querySelector('.table');
 const markUpContainer: HTMLElement = document.querySelector('.markup');
 const levelList: HTMLElement = document.querySelector('.level-list');
 const input: HTMLInputElement = document.querySelector('.css-editor__input');
+input.focus();
 const enterButton: HTMLElement = document.querySelector('.enter-btn');
 const helpButton: HTMLElement = document.querySelector('.help-btn');
 const restartButton: HTMLElement = document.querySelector('.restart-btn');
-// helpButton.textContent = 'help';
-// document.body.append(helpButton);
 
 let wasHelpUsed = false;
 let currentLevel = parseInt(localStorage.getItem('currentLevel'), 10) || 1;
+const levelsAmount = levels.length;
 
 function fillTable(levelNumber: number) {
   TABLE.innerHTML = levels[levelNumber - 1].boardMarkup;
@@ -48,6 +45,10 @@ function setID(element: HTMLElement, startIndex = 0) {
   return currentIndex;
 }
 
+function showInstruction(level: number) {
+  input.setAttribute('placeholder', levels[level - 1].doThis);
+}
+
 function markTargets(level: number) {
   const targets = TABLE.querySelectorAll(levels[level - 1].selector);
   targets.forEach((target) => {
@@ -59,6 +60,7 @@ fillTable(currentLevel);
 setID(TABLE);
 insertMarkUp(TABLE);
 markTargets(currentLevel);
+showInstruction(currentLevel);
 
 function changeLevel(level: number) {
   wasHelpUsed = false;
@@ -68,6 +70,7 @@ function changeLevel(level: number) {
   setID(TABLE);
   insertMarkUp(TABLE);
   markTargets(level);
+  showInstruction(level);
 }
 
 function chooseLevel(event: Event) {
@@ -95,10 +98,16 @@ function checkAnswer() {
       levelList.children[currentLevel - 1].classList.add('completed-with-help');
     }
 
-    setTimeout(() => {
-      currentLevel += 1;
-      changeLevel(currentLevel);
-    }, 500);
+    if (levelList.querySelectorAll('.completed').length !== levelsAmount && currentLevel !== levelsAmount) {
+      setTimeout(() => {
+        currentLevel += 1;
+        changeLevel(currentLevel);
+      }, 500);
+    } else if (levelList.querySelectorAll('.completed').length === levelsAmount) {
+      setTimeout(() => {
+        showWinMassage();
+      }, 500);
+    }
   } else {
     TABLE.classList.add('shake');
     setTimeout(() => {
@@ -143,12 +152,17 @@ function showNotice(event: Event) {
 function restartGame() {
   currentLevel = 1;
   changeLevel(currentLevel);
+  [...levelList.children].forEach((child) => {
+    const element = child as Element;
+    element.classList.remove('completed', 'completed-with-help');
+  });
 }
 
 function saveGameState() {
   localStorage.setItem('currentLevel', currentLevel as unknown as string);
 }
 
+document.addEventListener('click', () => input.focus());
 TABLE.addEventListener('mouseover', showNotice);
 markUpContainer.addEventListener('mouseover', showNotice);
 levelList.addEventListener('click', chooseLevel);

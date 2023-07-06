@@ -2,16 +2,16 @@ body {
   background: rgb(42, 34, 28);
   font-family: Arial, Helvetica, sans-serif;
   color: #a2a2a2;
+  max-height: max-content;
 }
 
-
 .main-container {
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   width: 85%;
-  min-height: 100%;
 } 
 
 h1 {
@@ -30,12 +30,13 @@ h2 {
   flex-direction: column;
   align-items: center;
   width: 15%;
-  min-height: 100vh;
+  height: 100%;
   position: fixed;
   top: 0;
   left: 85%;
   background: rgb(26, 25, 25);
 }
+
 .table {  
   width: min-content;
   position: relative;
@@ -269,7 +270,7 @@ plate {
   border-radius: 5px;
   padding: 1%;
   background-color: rgb(248, 238, 220);
-  font-size: (1.2vw + 10%);
+  font-size: calc(1.2vw + 10%);
 }
 
 .editor-btn {
@@ -390,11 +391,12 @@ plate {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 85%;  
+  width: 85%;
+  padding-top: 25px;
 }
 
 footer .copyright {
-  font-size: 14px;
+  font-size: calc(1vw + 20%);
   color: #5b5b5b;
   text-align: center;
 }
@@ -406,8 +408,8 @@ footer .copyright:before {
 
 
 .rss-link {
-  width: 5.2vw;
-  height: 2vw;
+  width: 5vw;
+  height: 1.5vw;
   background-image: url('./assets/icons/rss-logo.svg');
   background-size: contain;
   background-repeat: no-repeat;
@@ -417,8 +419,8 @@ footer .copyright:before {
 
 .github-link {
   display: inline-block;
-  width: 2.5vw;
-  height: 2.5vw;
+  width: 2vw;
+  height: 2vw;
   background-image: url('./assets/icons/github-logo.svg');
   background-size: cover;
   background-repeat: no-repeat;
