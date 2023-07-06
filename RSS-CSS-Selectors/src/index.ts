@@ -14,7 +14,7 @@ const helpButton: HTMLElement = document.querySelector('.help-btn');
 const restartButton: HTMLElement = document.querySelector('.restart-btn');
 
 let wasHelpUsed = false;
-let currentLevel = parseInt(localStorage.getItem('currentLevel'), 10) || 1;
+let currentLevel = 1;
 const levelsAmount = levels.length;
 
 function fillTable(levelNumber: number) {
@@ -159,7 +159,22 @@ function restartGame() {
 }
 
 function saveGameState() {
-  localStorage.setItem('currentLevel', currentLevel as unknown as string);
+  const levelsState = levelList.innerHTML;
+  const gameState = {
+    currentLevel,
+    levelsState,
+  };
+  localStorage.setItem('gameState', JSON.stringify(gameState));
+}
+
+function loadGameState() {
+  const savedGameState = localStorage.getItem('gameState');
+  if (savedGameState) {
+    const gameState = JSON.parse(savedGameState);
+    currentLevel = gameState.currentLevel;
+    levelList.innerHTML = gameState.levelsState;
+    changeLevel(currentLevel);
+  }
 }
 
 document.addEventListener('click', () => input.focus());
@@ -175,4 +190,5 @@ input.addEventListener('keydown', (event) => {
   }
 });
 
+window.addEventListener('DOMContentLoaded', loadGameState);
 window.addEventListener('beforeunload', saveGameState);
