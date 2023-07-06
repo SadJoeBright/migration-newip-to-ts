@@ -119,6 +119,7 @@ function checkAnswer() {
 function getHelp() {
   const helpText = levels[currentLevel - 1].selector;
   let i = 0;
+  input.value = '';
   const intervalId = setInterval(() => {
     input.value += helpText[i];
     i += 1;
