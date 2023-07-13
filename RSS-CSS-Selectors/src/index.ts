@@ -2,7 +2,7 @@ import './global.css';
 import levels from './data/levels';
 import createOpenTag from './components/utils/create-open-tag';
 import insertMarkUp from './components/utils/insert-markup';
-import showWinMassage from './components/utils/show-win-massage';
+import ModalWindow from './components/modal-window/modal-window';
 
 const TABLE: HTMLElement = document.querySelector('.table');
 const markUpContainer: HTMLElement = document.querySelector('.markup');
@@ -105,7 +105,7 @@ function checkAnswer() {
       }, 500);
     } else if (levelList.querySelectorAll('.completed').length === levelsAmount) {
       setTimeout(() => {
-        showWinMassage();
+        ModalWindow.show();
       }, 500);
     }
   } else {

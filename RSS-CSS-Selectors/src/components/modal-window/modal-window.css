@@ -1,5 +1,3 @@
-
-
 .modal__wrapper {
   display: block;
   position: fixed;
@@ -52,7 +50,7 @@
   transform: scale(95%);
  }
 
- .modal-text {
+ .modal__text {
   font-size: 24px;
   text-align: center;
  }
