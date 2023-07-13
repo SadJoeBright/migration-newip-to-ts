@@ -1,31 +1,40 @@
-/* eslint-disable no-console */
 import './table.css';
 import createElement from '../utils/create-element';
-import levels from '../../data/levels';
+import { Level } from '../types/types';
 
-const currentLevel = 3;
 export default class Table {
-  table: HTMLElement;
+  public table: HTMLElement;
 
-  constructor() {
+  private levels: Level[];
+
+  private levelNumber: number;
+
+  constructor(levels: Level[], levelNumber: number) {
     this.table = createElement({
       tagName: 'div',
       classNames: ['table'],
     });
-    this.fillTable();
+    this.levels = levels;
+    this.levelNumber = levelNumber;
+    this.fillTable(this.levelNumber);
+    this.markTargets(this.levelNumber);
     this.setID(this.table);
-    this.getElement();
   }
 
-  private fillTable(): void {
-    const markUp = levels[currentLevel - 1].boardMarkup;
-    this.table.insertAdjacentHTML('afterbegin', markUp);
+  public fillTable(levelNumber: number) {
+    this.table.innerHTML = this.levels[levelNumber - 1].boardMarkup;
   }
 
-  private setID(element: HTMLElement, startIndex = 0): number {
+  public markTargets(levelNumber: number) {
+    const targets = this.table.querySelectorAll(this.levels[levelNumber - 1].selector);
+    targets.forEach((target) => {
+      target.classList.add('puls');
+    });
+  }
+
+  public setID(element: HTMLElement, startIndex = 0) {
     const children = [...element.childNodes];
     let currentIndex = startIndex;
-
     for (let i = 0; i < children.length; i += 1) {
       const child = children[i] as HTMLElement;
       if (child.nodeType === Node.ELEMENT_NODE) {
@@ -37,11 +46,6 @@ export default class Table {
         }
       }
     }
-
     return currentIndex;
-  }
-
-  public getElement() {
-    return this;
   }
 }

@@ -2,22 +2,9 @@ import './global.css';
 import levels from './data/levels';
 import createElement from './components/utils/create-element';
 import createOpenTag from './components/utils/create-open-tag';
+import Table from './components/table/table';
 import Markup from './components/markup/markup';
 import ModalWindow from './components/modal-window/modal-window';
-
-const MAIN_CONTAINER = createElement({
-  tagName: 'div',
-  classNames: ['main-container'],
-  parentNode: document.body,
-});
-
-const MARKUP = new Markup();
-
-const TABLE = createElement({
-  tagName: 'div',
-  classNames: ['table'],
-  parentNode: MAIN_CONTAINER,
-});
 
 const levelList: HTMLElement = document.querySelector('.level-list');
 const input: HTMLInputElement = document.querySelector('.css-editor__input');
@@ -30,59 +17,38 @@ let wasHelpUsed = false;
 let currentLevel = 1;
 const levelsAmount = levels.length;
 
-function fillTable(levelNumber: number) {
-  TABLE.innerHTML = levels[levelNumber - 1].boardMarkup;
+const MAIN_CONTAINER = createElement({
+  tagName: 'div',
+  classNames: ['main-container'],
+  parentNode: document.body,
+});
 
-  if (levelList.querySelector('.level-item_selected')) {
-    levelList.querySelector('.level-item_selected').classList.remove('level-item_selected');
-  }
-  levelList.children[levelNumber - 1].classList.add('level-item_selected');
-}
+const TABLE = new Table(levels, currentLevel);
 
-function setID(element: HTMLElement, startIndex = 0) {
-  const children = [...element.childNodes];
-  let currentIndex = startIndex;
+MAIN_CONTAINER.append(TABLE.table);
 
-  for (let i = 0; i < children.length; i += 1) {
-    const child = children[i] as HTMLElement;
-    if (child.nodeType === Node.ELEMENT_NODE) {
-      child.setAttribute('elementId', currentIndex as unknown as string);
-      currentIndex += 1;
-
-      if (child.hasChildNodes()) {
-        currentIndex = setID(child, currentIndex);
-      }
-    }
-  }
-
-  return currentIndex;
-}
+const MARKUP = new Markup(TABLE.table);
 
 function showInstruction(level: number) {
   input.setAttribute('placeholder', levels[level - 1].doThis);
 }
 
-function markTargets(level: number) {
-  const targets = TABLE.querySelectorAll(levels[level - 1].selector);
-  targets.forEach((target) => {
-    target.classList.add('puls');
-  });
-}
-
-fillTable(currentLevel);
-setID(TABLE);
-MARKUP.insertMarkUp(TABLE);
-markTargets(currentLevel);
+// MARKUP.insertMarkUp(TABLE.table);
 showInstruction(currentLevel);
 
 function changeLevel(level: number) {
+  if (levelList.querySelector('.level-item_selected')) {
+    levelList.querySelector('.level-item_selected').classList.remove('level-item_selected');
+  }
+  levelList.children[level - 1].classList.add('level-item_selected');
+
   wasHelpUsed = false;
   MARKUP.container.innerHTML = '';
   input.value = '';
-  fillTable(level);
-  setID(TABLE);
-  MARKUP.insertMarkUp(TABLE);
-  markTargets(level);
+  TABLE.fillTable(level);
+  TABLE.setID(TABLE.table);
+  TABLE.markTargets(level);
+  MARKUP.insertMarkUp(TABLE.table);
   showInstruction(level);
 }
 
@@ -99,9 +65,9 @@ function chooseLevel(event: Event) {
 }
 
 function checkAnswer() {
-  const targets = TABLE.querySelectorAll(levels[currentLevel - 1].selector);
-  if (input.value
-     && JSON.stringify(TABLE.querySelectorAll(input.value.trim())) === JSON.stringify(targets)) {
+  const targets = TABLE.table.querySelectorAll(levels[currentLevel - 1].selector);
+  if (input.value && JSON.stringify(TABLE.table.querySelectorAll(input.value.trim()))
+  === JSON.stringify(targets)) {
     targets.forEach((target) => {
       target.classList.add('out');
       target.classList.remove('puls');
@@ -122,9 +88,9 @@ function checkAnswer() {
       }, 500);
     }
   } else {
-    TABLE.classList.add('shake');
+    TABLE.table.classList.add('shake');
     setTimeout(() => {
-      TABLE.classList.remove('shake');
+      TABLE.table.classList.remove('shake');
     }, 200);
   }
 }
@@ -145,17 +111,19 @@ function getHelp() {
 
 function showNotice(event: Event) {
   const target = event.target as HTMLElement;
-  if (target !== TABLE && event.target !== MARKUP.container) {
+  if (target !== TABLE.table && event.target !== MARKUP.container) {
     const targetId = target.getAttribute('elementId');
-    const tableElement = TABLE.querySelector(`[elementId="${targetId}"]`);
-    const markUpElement = MARKUP.container.querySelector(`[elementId="${targetId}"]`);
-    const notice = document.createElement('div');
-    notice.textContent = `${createOpenTag(tableElement as HTMLElement)}</${tableElement.tagName.toLowerCase()}>`;
-    notice.classList.add('notification');
+    const tableElement: HTMLElement = TABLE.table.querySelector(`[elementId="${targetId}"]`);
+    const markUpElement: HTMLElement = MARKUP.container.querySelector(`[elementId="${targetId}"]`);
+    const notice = createElement({
+      tagName: 'div',
+      classNames: ['notice'],
+      textContent: `${createOpenTag(tableElement as HTMLElement)}</${tableElement.tagName.toLowerCase()}>`,
+      parentNode: tableElement,
+    });
     tableElement.classList.add('hovered');
-    tableElement.append(notice);
     markUpElement.classList.add('markup-hovered');
-    event.target.addEventListener('mouseout', () => {
+    target.addEventListener('mouseout', () => {
       tableElement.classList.remove('hovered');
       markUpElement.classList.remove('markup-hovered');
       notice.remove();
@@ -192,7 +160,7 @@ function loadGameState() {
 }
 
 document.addEventListener('click', () => input.focus());
-TABLE.addEventListener('mouseover', showNotice);
+TABLE.table.addEventListener('mouseover', showNotice);
 MARKUP.container.addEventListener('mouseover', showNotice);
 levelList.addEventListener('click', chooseLevel);
 enterButton.addEventListener('click', checkAnswer);

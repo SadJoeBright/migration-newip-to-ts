@@ -5,12 +5,16 @@ import createElement from '../utils/create-element';
 export default class Markup {
   public container: HTMLElement;
 
-  constructor() {
+  private table: HTMLElement;
+
+  constructor(table: HTMLElement) {
     this.container = createElement({
       tagName: 'div',
       classNames: ['markup-container'],
       parentNode: document.querySelector('.html-viewer'),
     });
+    this.table = table;
+    this.insertMarkUp(this.table);
   }
 
   public insertMarkUp(element: HTMLElement, indent = '', parent = this.container): void {

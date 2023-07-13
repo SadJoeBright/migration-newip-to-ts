@@ -2,7 +2,7 @@
   width: min-content;
   position: relative;
   padding: 1vw 2vw;
-  margin: 4vw 0 5vw 0;
+  margin: 2vw 0 3vw 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -24,13 +24,99 @@
   left: 0;
 }
 
-@keyframes appearence {
-  from{
-    transform: scale(0);
-  }
-  to {
-    transform: scale(100%);
-  }
+ .hovered {
+  box-shadow: 0 0 10px 10px rgba(255, 205, 42, 0.645);
+}
+
+.small {
+  width: 2vw;
+  height: 2vw;
+}
+
+#fancy:after {
+  content: "";
+  display: block;
+  position: absolute;
+  height: 75%;
+  width: 75%;
+  border-radius: 60px;
+  border: solid 10px #009ff2;
+  opacity: .4;
+}
+
+bento {
+  display: flex;
+  position: relative;
+  z-index: -1;
+  justify-content: center;
+  align-items: center;
+  width: 9vw;
+  height: 5vw;
+  background-color: rgb(123, 12, 12);
+  border-top: double 2vw rgb(65, 9, 9);
+  border-bottom: double 2vw rgb(65, 9, 9);
+  transition: all ease-in-out .5s;
+}
+
+pickle {
+  display: block;
+  position: relative;
+  width: 15%;
+  height: 30%;
+  border-radius: 40px;
+  background: green;
+  border: solid 2px rgb(4, 95, 4);
+  border-bottom: solid 8px rgb(4, 95, 4);
+}
+
+apple, orange {
+  display: block;
+  position: relative;
+  width: 3vw;
+  height: 3vw;
+  border-radius: 40px;
+  background: red;
+  border: solid 2px rgb(165, 4, 4);
+  border-width: 1px 3px 6px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: 0px calc(2px + 0.2vw) 5px rgba(0,0,0,.5);
+  transition: all .5s ease-out; 
+}
+
+orange {  
+  background: orange;
+  border: solid 2px rgb(154, 100, 0);  
+}
+
+apple::after,
+pickle::after,
+orange::after {
+ content: "";
+ width: 25%;
+ height: 25%;
+ border-radius: 50%;
+ position: absolute;
+ top: 10%;
+ left: 50%;
+ background: rgba(255, 255, 255, 0.496);
+ transition: all .5s ease-out; 
+}
+
+plate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: -10;
+  width: 7vw;
+  height: 7vw;
+  border-radius: 50%;
+  background: white;
+  border: solid calc(1px + 0.1vw) rgb(209, 209, 209);
+  border-bottom: solid calc(4px + 0.1vw) rgb(209, 209, 209);
+  box-shadow: 0px calc(5px + 0.2vw) 5px rgba(0,0,0,.2);
+  transition: all .2s ease-out; 
 }
 
 @keyframes puls {
@@ -68,9 +154,36 @@
   100% {
     left: 0;
   }
-
 }
 
+@keyframes appearence {
+  from{
+    transform: scale(0);
+  }
+  to {
+    transform: scale(100%);
+  }
+}
+
+.appearence {
+  animation: appearence .3s ease-in-out;
+}
+
+.table *{
+  animation: appearence .3s ease-in-out;
+}
+
+.table > .puls {
+  animation: puls 1s ease-in-out infinite, appearence .3s ease-in-out;
+}
+
+.shake{
+  animation: shake .2s 3 ease-in-out;
+}
+
+.puls {
+  animation: puls 1s ease-in-out infinite;
+}
 
 @keyframes slideOut {
   from {
@@ -83,86 +196,4 @@
 
 .out { 
   animation: slideOut .5s ease-in-out forwards;
-}
-
-.shake{
-  animation: shake .2s 3 ease-in-out;
-}
-
-.puls {
-  animation: puls 1s ease-in-out infinite;
-}
-
-.table > * {
-  animation: appearence .3s ease-in-out;
-}
-
-bento {
-  display: flex;
-  position: relative;
-  z-index: -1;
-  justify-content: center;
-  align-items: center;
-  width: 9vw;
-  height: 5vw;
-  background-color: rgb(123, 12, 12);
-  border-top: double 2vw rgb(65, 9, 9);
-  border-bottom: double 2vw rgb(65, 9, 9);
-  transition: all ease-in-out .5s;
-}
-
-pickle {
-  display: block;
-  position: relative;
-  width: 15%;
-  height: 30%;
-  border-radius: 40px;
-  background: green;
-  border: solid 2px rgb(4, 95, 4);
-  border-bottom: solid 8px rgb(4, 95, 4);
-}
-
-apple {
-  display: block;
-  position: relative;
-  width: 2vw;
-  height: 2vw;
-  border-radius: 40px;
-  background: red;
-  border: solid 2px rgb(165, 4, 4);
-  border-width: 1px 3px 6px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  box-shadow: 0px calc(2px + 0.2vw) 5px rgba(0,0,0,.5);
-  transition: all .5s ease-out; 
-}
-
-apple::after,
-pickle::after {
- content: "";
- width: 25%;
- height: 25%;
- border-radius: 50%;
- position: absolute;
- top: 10%;
- left: 50%;
- background: rgba(255, 255, 255, 0.496);
- transition: all .5s ease-out; 
-}
-
-
-plate {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  z-index: -10;
-  width: 7vw;
-  height: 7vw;
-  border-radius: 50%;
-  background: white;
-  border: solid calc(1px + 0.1vw) rgb(209, 209, 209);
-  border-bottom: solid calc(4px + 0.1vw) rgb(209, 209, 209);
-  box-shadow: 0px calc(5px + 0.2vw) 5px rgba(0,0,0,.2);
-  transition: all .2s ease-out; 
 }
