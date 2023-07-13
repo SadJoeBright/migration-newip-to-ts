@@ -1,11 +1,24 @@
 import './global.css';
 import levels from './data/levels';
+import createElement from './components/utils/create-element';
 import createOpenTag from './components/utils/create-open-tag';
-import insertMarkUp from './components/utils/insert-markup';
+import Markup from './components/markup/markup';
 import ModalWindow from './components/modal-window/modal-window';
 
-const TABLE: HTMLElement = document.querySelector('.table');
-const markUpContainer: HTMLElement = document.querySelector('.markup');
+const MAIN_CONTAINER = createElement({
+  tagName: 'div',
+  classNames: ['main-container'],
+  parentNode: document.body,
+});
+
+const MARKUP = new Markup();
+
+const TABLE = createElement({
+  tagName: 'div',
+  classNames: ['table'],
+  parentNode: MAIN_CONTAINER,
+});
+
 const levelList: HTMLElement = document.querySelector('.level-list');
 const input: HTMLInputElement = document.querySelector('.css-editor__input');
 input.focus();
@@ -58,17 +71,17 @@ function markTargets(level: number) {
 
 fillTable(currentLevel);
 setID(TABLE);
-insertMarkUp(TABLE);
+MARKUP.insertMarkUp(TABLE);
 markTargets(currentLevel);
 showInstruction(currentLevel);
 
 function changeLevel(level: number) {
   wasHelpUsed = false;
-  markUpContainer.innerHTML = '';
+  MARKUP.container.innerHTML = '';
   input.value = '';
   fillTable(level);
   setID(TABLE);
-  insertMarkUp(TABLE);
+  MARKUP.insertMarkUp(TABLE);
   markTargets(level);
   showInstruction(level);
 }
@@ -80,7 +93,7 @@ function chooseLevel(event: Event) {
       levelList.querySelector('.level-item_selected').classList.remove('level-item_selected');
     }
     target.classList.add('level-item_selected');
-    currentLevel = +target.textContent;
+    currentLevel = Number(target.textContent);
     changeLevel(currentLevel);
   }
 }
@@ -132,19 +145,19 @@ function getHelp() {
 
 function showNotice(event: Event) {
   const target = event.target as HTMLElement;
-  if (target !== TABLE && event.target !== markUpContainer) {
+  if (target !== TABLE && event.target !== MARKUP.container) {
     const targetId = target.getAttribute('elementId');
     const tableElement = TABLE.querySelector(`[elementId="${targetId}"]`);
-    const markUpElement = markUpContainer.querySelector(`[elementId="${targetId}"]`);
+    const markUpElement = MARKUP.container.querySelector(`[elementId="${targetId}"]`);
     const notice = document.createElement('div');
     notice.textContent = `${createOpenTag(tableElement as HTMLElement)}</${tableElement.tagName.toLowerCase()}>`;
     notice.classList.add('notification');
     tableElement.classList.add('hovered');
     tableElement.append(notice);
-    markUpElement.classList.add('markUp-hovered');
+    markUpElement.classList.add('markup-hovered');
     event.target.addEventListener('mouseout', () => {
       tableElement.classList.remove('hovered');
-      markUpElement.classList.remove('markUp-hovered');
+      markUpElement.classList.remove('markup-hovered');
       notice.remove();
     });
   }
@@ -180,7 +193,7 @@ function loadGameState() {
 
 document.addEventListener('click', () => input.focus());
 TABLE.addEventListener('mouseover', showNotice);
-markUpContainer.addEventListener('mouseover', showNotice);
+MARKUP.container.addEventListener('mouseover', showNotice);
 levelList.addEventListener('click', chooseLevel);
 enterButton.addEventListener('click', checkAnswer);
 helpButton.addEventListener('click', getHelp);

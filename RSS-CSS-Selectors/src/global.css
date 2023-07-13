@@ -63,14 +63,8 @@ h2 {
   left: 0;
 }
 
-
-
  .hovered {
   box-shadow: 0 0 10px 10px rgba(255, 205, 42, 0.645);
-}
-
-.markUp-hovered {
-  filter: brightness(150%);
 }
 
 .small {
@@ -315,23 +309,7 @@ plate {
 }
 
 
-.markup {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 5px 15px;
-}
 
-.markup::before{
-  content: '<table>';
-  margin-left: -10px;
-}
-
-.markup::after{
-  content: '</table>';
-  margin-left: -10px;
-}
 
 .line:hover {
   filter: brightness(150%);

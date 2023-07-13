@@ -1,0 +1,21 @@
+.markup-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 5px 15px;
+}
+
+.markup-container::before{
+  content: '<table>';
+  margin-left: -10px;
+}
+
+.markup-container::after{
+  content: '</table>';
+  margin-left: -10px;
+}
+
+.markup-hovered {
+  filter: brightness(150%);
+}
