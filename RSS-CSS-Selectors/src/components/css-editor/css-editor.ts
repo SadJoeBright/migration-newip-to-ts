@@ -16,10 +16,18 @@ export default class CssEditor {
 
   levelNumber: number;
 
-  constructor(levels: Level[], levelNumber: number) {
+  enterButtonHandler: () => void;
+
+  constructor(
+    levels: Level[],
+    levelNumber: number,
+    enterButtonHandler: () => void,
+  ) {
     this.wasHelpUsed = false;
     this.levels = levels;
     this.levelNumber = levelNumber;
+    this.enterButtonHandler = enterButtonHandler;
+
     this.editor = createElement({
       tagName: 'div',
       classNames: ['css-editor'],
@@ -38,7 +46,8 @@ export default class CssEditor {
       classNames: ['editor-btn', 'enter-btn'],
       textContent: 'Enter',
       parentNode: this.editor,
-      // eventHandler: () => this.checkAnswer(),
+      eventHandler: () => this.enterButtonHandler(),
+      eventType: 'click',
     });
 
     this.helpButton = createElement({
@@ -46,7 +55,7 @@ export default class CssEditor {
       classNames: ['editor-btn', 'help-btn'],
       textContent: 'Help',
       parentNode: this.editor,
-      eventHandler: () => this.getHelp(),
+      eventHandler: this.getHelp.bind(this),
       eventType: 'click',
     });
 
@@ -71,37 +80,4 @@ export default class CssEditor {
     }, 100);
     this.wasHelpUsed = true;
   }
-
-  // public checkAnswer() {
-  //   const targets = TABLE.table.querySelectorAll(this.levels[this.levelNumber - 1].selector);
-  //   if ((this.input as HTMLInputElement).value
-  // eslint-disable-next-line max-len
-  //   && JSON.stringify(TABLE.table.querySelectorAll((this.input as HTMLInputElement).value.trim()))
-  //   === JSON.stringify(targets)) {
-  //     targets.forEach((target) => {
-  //       target.classList.add('out');
-  //       target.classList.remove('puls');
-  //     });
-  //     levelList.children[this.levelNumber - 1].classList.add('completed');
-  //     if (this.wasHelpUsed) {
-  //       levelList.children[this.levelNumber - 1].classList.add('completed-with-help');
-  //     }
-  // eslint-disable-next-line max-len
-  //     if (levelList.querySelectorAll('.completed').length !== levelsAmount && this.levelNumber !== levelsAmount) {
-  //       setTimeout(() => {
-  //         this.levelNumber += 1;
-  //         changeLevel(this.levelNumber);
-  //       }, 500);
-  //     } else if (levelList.querySelectorAll('.completed').length === levelsAmount) {
-  //       setTimeout(() => {
-  //         ModalWindow.show();
-  //       }, 500);
-  //     }
-  //   } else {
-  //     TABLE.table.classList.add('shake');
-  //     setTimeout(() => {
-  //       TABLE.table.classList.remove('shake');
-  //     }, 200);
-  //   }
-  // }
 }

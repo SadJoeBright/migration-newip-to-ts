@@ -6,11 +6,9 @@ import Table from './components/table/table';
 import Markup from './components/markup/markup';
 import ModalWindow from './components/modal-window/modal-window';
 import CssEditor from './components/css-editor/css-editor';
+import SideBar from './components/sidebar/sidebar';
 
-const levelList: HTMLElement = document.querySelector('.level-list');
-const restartButton: HTMLElement = document.querySelector('.restart-btn');
-
-let currentLevel = 1;
+let levelNumber = 1;
 const levelsAmount = levels.length;
 
 const MAIN_CONTAINER = createElement({
@@ -19,21 +17,28 @@ const MAIN_CONTAINER = createElement({
   parentNode: document.body,
 });
 
-const TABLE = new Table(levels, currentLevel);
+const TABLE = new Table(levels, levelNumber);
 
 MAIN_CONTAINER.append(TABLE.table);
 
-const CSS_EDITOR = new CssEditor(levels, currentLevel);
+// eslint-disable-next-line @typescript-eslint/no-use-before-define
+const CSS_EDITOR = new CssEditor(levels, levelNumber, checkAnswer);
 const { input } = CSS_EDITOR;
 
 const MARKUP = new Markup(TABLE.table);
 
-function changeLevel(level: number): void {
-  if (levelList.querySelector('.level-item_selected')) {
-    levelList.querySelector('.level-item_selected').classList.remove('level-item_selected');
-  }
-  levelList.children[level - 1].classList.add('level-item_selected');
+// eslint-disable-next-line @typescript-eslint/no-use-before-define
+const SIDEBAR = new SideBar(levels, levelNumber, changeLevel);
+document.body.append(SIDEBAR.sidebar);
 
+function changeLevel(level: number): void {
+  levelNumber = level;
+  if (SIDEBAR.levelList.querySelector('.level-item_selected')) {
+    SIDEBAR.levelList.querySelector('.level-item_selected').classList.remove('level-item_selected');
+  }
+  SIDEBAR.levelList.children[level - 1].classList.add('level-item_selected');
+
+  (input as HTMLInputElement).value = '';
   CSS_EDITOR.wasHelpUsed = false;
   MARKUP.container.innerHTML = '';
   TABLE.fillTable(level);
@@ -44,20 +49,8 @@ function changeLevel(level: number): void {
   CSS_EDITOR.levelNumber = level;
 }
 
-function chooseLevel(event: MouseEvent): void {
-  const target = event.target as HTMLElement;
-  if (target.parentNode === levelList) {
-    if (levelList.querySelector('.level-item_selected')) {
-      levelList.querySelector('.level-item_selected').classList.remove('level-item_selected');
-    }
-    target.classList.add('level-item_selected');
-    currentLevel = Number(target.textContent);
-    changeLevel(currentLevel);
-  }
-}
-
 function checkAnswer(): void {
-  const targets = TABLE.table.querySelectorAll(levels[currentLevel - 1].selector);
+  const targets = TABLE.table.querySelectorAll(levels[levelNumber - 1].selector);
   if ((input as HTMLInputElement).value
   && JSON.stringify(TABLE.table.querySelectorAll((input as HTMLInputElement).value.trim()))
   === JSON.stringify(targets)) {
@@ -65,17 +58,17 @@ function checkAnswer(): void {
       target.classList.add('out');
       target.classList.remove('puls');
     });
-    levelList.children[currentLevel - 1].classList.add('completed');
+    SIDEBAR.levelList.children[levelNumber - 1].classList.add('completed');
     if (CSS_EDITOR.wasHelpUsed) {
-      levelList.children[currentLevel - 1].classList.add('completed-with-help');
+      SIDEBAR.levelList.children[levelNumber - 1].classList.add('completed-with-help');
     }
 
-    if (levelList.querySelectorAll('.completed').length !== levelsAmount && currentLevel !== levelsAmount) {
+    if (SIDEBAR.levelList.querySelectorAll('.completed').length !== levelsAmount && levelNumber !== levelsAmount) {
       setTimeout(() => {
-        currentLevel += 1;
-        changeLevel(currentLevel);
+        levelNumber += 1;
+        changeLevel(levelNumber);
       }, 500);
-    } else if (levelList.querySelectorAll('.completed').length === levelsAmount) {
+    } else if (SIDEBAR.levelList.querySelectorAll('.completed').length === levelsAmount) {
       setTimeout(() => {
         ModalWindow.show();
       }, 500);
@@ -109,18 +102,10 @@ function showNotice(event: MouseEvent): void {
   }
 }
 
-function restartGame(): void {
-  currentLevel = 1;
-  changeLevel(currentLevel);
-  [...levelList.children].forEach((child: Element) => {
-    child.classList.remove('completed', 'completed-with-help');
-  });
-}
-
 function saveGameState(): void {
-  const levelsState = levelList.innerHTML;
+  const levelsState = SIDEBAR.levelList.innerHTML;
   const gameState = {
-    currentLevel,
+    levelNumber,
     levelsState,
   };
   localStorage.setItem('gameState', JSON.stringify(gameState));
@@ -128,24 +113,22 @@ function saveGameState(): void {
 
 function loadGameState(): void {
   type GameState = {
-    currentLevel: number;
+    levelNumber: number;
     levelsState: string;
   };
 
   const savedGameState = localStorage.getItem('gameState');
   if (savedGameState) {
     const gameState: GameState = JSON.parse(savedGameState);
-    currentLevel = gameState.currentLevel;
-    levelList.innerHTML = gameState.levelsState;
-    changeLevel(currentLevel);
+    levelNumber = gameState.levelNumber;
+    SIDEBAR.levelList.innerHTML = gameState.levelsState;
+    changeLevel(levelNumber);
   }
 }
 
 document.addEventListener('click', () => input.focus());
 TABLE.table.addEventListener('mouseover', showNotice);
 MARKUP.container.addEventListener('mouseover', showNotice);
-levelList.addEventListener('click', chooseLevel);
-restartButton.addEventListener('click', restartGame);
 input.addEventListener('keydown', (event: Event) => {
   const keyboardEvent = event as KeyboardEvent;
   if (keyboardEvent.key === 'Enter') {
