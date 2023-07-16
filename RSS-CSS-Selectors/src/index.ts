@@ -17,7 +17,8 @@ const MAIN_CONTAINER = createElement({
   parentNode: document.body,
 });
 
-const TABLE = new Table(levels, levelNumber);
+// eslint-disable-next-line @typescript-eslint/no-use-before-define
+const TABLE = new Table(levels, levelNumber, showNotice);
 
 MAIN_CONTAINER.append(TABLE.table);
 
@@ -25,14 +26,14 @@ MAIN_CONTAINER.append(TABLE.table);
 const CSS_EDITOR = new CssEditor(levels, levelNumber, checkAnswer);
 const { input } = CSS_EDITOR;
 
-const MARKUP = new Markup(TABLE.table);
+// eslint-disable-next-line @typescript-eslint/no-use-before-define
+const MARKUP = new Markup(TABLE.table, showNotice);
 
 // eslint-disable-next-line @typescript-eslint/no-use-before-define
 const SIDEBAR = new SideBar(levels, levelNumber, changeLevel);
 document.body.append(SIDEBAR.sidebar);
 
 function changeLevel(level: number): void {
-  levelNumber = level;
   if (SIDEBAR.levelList.querySelector('.level-item_selected')) {
     SIDEBAR.levelList.querySelector('.level-item_selected').classList.remove('level-item_selected');
   }
@@ -40,13 +41,15 @@ function changeLevel(level: number): void {
 
   (input as HTMLInputElement).value = '';
   CSS_EDITOR.wasHelpUsed = false;
-  MARKUP.container.innerHTML = '';
+  MARKUP.markupContainer.innerHTML = '';
   TABLE.fillTable(level);
   TABLE.setID(TABLE.table);
   TABLE.markTargets(level);
-  MARKUP.insertMarkUp(TABLE.table);
+  MARKUP.insertMarkup(TABLE.table);
   CSS_EDITOR.showInstructions(level);
   CSS_EDITOR.levelNumber = level;
+
+  levelNumber = level;
 }
 
 function checkAnswer(): void {
@@ -82,10 +85,10 @@ function checkAnswer(): void {
 }
 
 function showNotice(event: MouseEvent): void {
-  if (event.target !== TABLE.table && event.target !== MARKUP.container) {
+  if (event.target !== TABLE.table && event.target !== MARKUP.markupContainer) {
     const targetId: string = (event.target as HTMLHtmlElement).getAttribute('elementId');
     const tableElement: HTMLElement = TABLE.table.querySelector(`[elementId="${targetId}"]`);
-    const markUpElement: HTMLElement = MARKUP.container.querySelector(`[elementId="${targetId}"]`);
+    const markUpElement: HTMLElement = MARKUP.markupContainer.querySelector(`[elementId="${targetId}"]`);
     const notice = createElement({
       tagName: 'div',
       classNames: ['notice'],
@@ -127,14 +130,12 @@ function loadGameState(): void {
 }
 
 document.addEventListener('click', () => input.focus());
-TABLE.table.addEventListener('mouseover', showNotice);
-MARKUP.container.addEventListener('mouseover', showNotice);
-input.addEventListener('keydown', (event: Event) => {
-  const keyboardEvent = event as KeyboardEvent;
-  if (keyboardEvent.key === 'Enter') {
-    checkAnswer();
-  }
-});
+// input.addEventListener('keydown', (event: Event) => {
+//   const keyboardEvent = event as KeyboardEvent;
+//   if (keyboardEvent.key === 'Enter') {
+//     checkAnswer();
+//   }
+// });
 
 window.addEventListener('DOMContentLoaded', loadGameState);
 window.addEventListener('beforeunload', saveGameState);

@@ -1,5 +1,5 @@
 import createElement from '../utils/create-element';
-import { Level } from '../types/types';
+import { Level } from '../../types/types';
 
 export default class SideBar {
   levelNumber: number;

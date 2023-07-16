@@ -1,6 +1,6 @@
 import './table.css';
 import createElement from '../utils/create-element';
-import { Level } from '../types/types';
+import { Level } from '../../types/types';
 
 export default class Table {
   public table: HTMLElement;
@@ -9,11 +9,21 @@ export default class Table {
 
   private levelNumber: number;
 
-  constructor(levels: Level[], levelNumber: number) {
+  tableEventHandler: (event: MouseEvent) => void;
+
+  constructor(
+    levels: Level[],
+    levelNumber: number,
+    tableEventHandler: (event: MouseEvent) => void,
+  ) {
     this.table = createElement({
       tagName: 'div',
       classNames: ['table'],
+      eventHandler: (event: Event) => this.tableEventHandler(event as MouseEvent),
+      eventType: 'mouseover',
     });
+
+    this.tableEventHandler = tableEventHandler;
     this.levels = levels;
     this.levelNumber = levelNumber;
     this.fillTable(this.levelNumber);
@@ -21,18 +31,18 @@ export default class Table {
     this.setID(this.table);
   }
 
-  public fillTable(levelNumber: number) {
+  public fillTable(levelNumber: number): void {
     this.table.innerHTML = this.levels[levelNumber - 1].boardMarkup;
   }
 
-  public markTargets(levelNumber: number) {
+  public markTargets(levelNumber: number): void {
     const targets = this.table.querySelectorAll(this.levels[levelNumber - 1].selector);
     targets.forEach((target) => {
       target.classList.add('puls');
     });
   }
 
-  public setID(element: HTMLElement, startIndex = 0) {
+  public setID(element: HTMLElement, startIndex = 0): number {
     const children = [...element.childNodes];
     let currentIndex = startIndex;
     for (let i = 0; i < children.length; i += 1) {

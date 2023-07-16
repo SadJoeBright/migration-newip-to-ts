@@ -3,21 +3,27 @@ import createOpenTag from '../utils/create-open-tag';
 import createElement from '../utils/create-element';
 
 export default class Markup {
-  public container: HTMLElement;
+  public markupContainer: HTMLElement;
 
   private table: HTMLElement;
 
-  constructor(table: HTMLElement) {
-    this.container = createElement({
+  markupEventHandler: (event: MouseEvent) => void;
+
+  constructor(table: HTMLElement, markupEventHandler: (event: MouseEvent) => void) {
+    this.markupEventHandler = markupEventHandler;
+    this.markupContainer = createElement({
       tagName: 'div',
       classNames: ['markup-container'],
       parentNode: document.querySelector('.html-viewer'),
+      eventHandler: (event: Event) => this.markupEventHandler(event as MouseEvent),
+      eventType: 'mouseover',
     });
+
     this.table = table;
-    this.insertMarkUp(this.table);
+    this.insertMarkup(this.table);
   }
 
-  public insertMarkUp(element: HTMLElement, indent = '', parent = this.container): void {
+  public insertMarkup(element: HTMLElement, indent = '', parent = this.markupContainer): void {
     [...element.children].forEach((child) => {
       const line = createElement({
         tagName: 'div',
@@ -35,7 +41,7 @@ export default class Markup {
       after.textContent = `[tagtId="${elementId}"]::after{content:"${closeTag}";}`;
       document.head.append(before, after);
       if (child.hasChildNodes()) {
-        this.insertMarkUp(child as HTMLElement, '    ', line);
+        this.insertMarkup(child as HTMLElement, '    ', line);
       }
     });
   }

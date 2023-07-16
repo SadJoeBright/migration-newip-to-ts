@@ -1,4 +1,4 @@
-import { ElementOptions } from '../types/types';
+import { ElementOptions } from '../../types/types';
 
 function createElement(options: ElementOptions): HTMLElement {
   const element: HTMLElement = document.createElement(options.tagName);

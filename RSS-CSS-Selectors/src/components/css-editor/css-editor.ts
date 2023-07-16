@@ -1,5 +1,5 @@
 import createElement from '../utils/create-element';
-import { Level } from '../types/types';
+import { Level } from '../../types/types';
 
 export default class CssEditor {
   editor: HTMLElement;
@@ -16,17 +16,17 @@ export default class CssEditor {
 
   levelNumber: number;
 
-  enterButtonHandler: () => void;
+  enterButtonEventHandler: () => void;
 
   constructor(
     levels: Level[],
     levelNumber: number,
-    enterButtonHandler: () => void,
+    enterButtonEventHandler: () => void,
   ) {
     this.wasHelpUsed = false;
     this.levels = levels;
     this.levelNumber = levelNumber;
-    this.enterButtonHandler = enterButtonHandler;
+    this.enterButtonEventHandler = enterButtonEventHandler;
 
     this.editor = createElement({
       tagName: 'div',
@@ -38,7 +38,15 @@ export default class CssEditor {
       tagName: 'input',
       classNames: ['css-editor__input'],
       parentNode: this.editor,
+      eventHandler: (event: Event) => {
+        const keyboardEvent = event as KeyboardEvent;
+        if (keyboardEvent.key === 'Enter') {
+          this.enterButtonEventHandler();
+        }
+      },
+      eventType: 'keydown',
     });
+
     this.input.setAttribute('type', 'text');
 
     this.enterButton = createElement({
@@ -46,7 +54,7 @@ export default class CssEditor {
       classNames: ['editor-btn', 'enter-btn'],
       textContent: 'Enter',
       parentNode: this.editor,
-      eventHandler: () => this.enterButtonHandler(),
+      eventHandler: () => this.enterButtonEventHandler(),
       eventType: 'click',
     });
 
