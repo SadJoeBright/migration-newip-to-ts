@@ -4,7 +4,7 @@ import { Level } from '../../types/types';
 export default class SideBar {
   levelNumber: number;
 
-  levels: Level[];
+  levelsData: Level[];
 
   sidebar: HTMLElement;
 
@@ -17,11 +17,11 @@ export default class SideBar {
   changeLevelFunction: (levelNumber: number) => void;
 
   constructor(
-    levels: Level[],
+    levelsData: Level[],
     levelNumber: number,
     changeLevelFunction: (levelNumber: number) => void,
   ) {
-    this.levels = levels;
+    this.levelsData = levelsData;
     this.levelNumber = levelNumber;
     this.changeLevelFunction = changeLevelFunction;
 
@@ -58,7 +58,7 @@ export default class SideBar {
   }
 
   private fillLevelList(): void {
-    for (let i = 0; i < this.levels.length; i += 1) {
+    for (let i = 0; i < this.levelsData.length; i += 1) {
       const levelItem = createElement({
         tagName: 'div',
         classNames: ['level-item'],

@@ -12,26 +12,26 @@ export default class CssEditor {
 
   wasHelpUsed: boolean;
 
-  levels: Level[];
+  levelsData: Level[];
 
   levelNumber: number;
 
   enterButtonEventHandler: () => void;
 
   constructor(
-    levels: Level[],
+    levelsData: Level[],
     levelNumber: number,
     enterButtonEventHandler: () => void,
   ) {
     this.wasHelpUsed = false;
-    this.levels = levels;
+    this.levelsData = levelsData;
     this.levelNumber = levelNumber;
     this.enterButtonEventHandler = enterButtonEventHandler;
 
     this.editor = createElement({
       tagName: 'div',
       classNames: ['css-editor'],
-      parentNode: document.querySelector('.editor'),
+      // parentNode: document.querySelector('.editor-wrapper'),
     });
 
     this.input = createElement({
@@ -72,11 +72,11 @@ export default class CssEditor {
   }
 
   public showInstructions(levelNumber: number): void {
-    this.input.setAttribute('placeholder', this.levels[levelNumber - 1].doThis);
+    this.input.setAttribute('placeholder', this.levelsData[levelNumber - 1].doThis);
   }
 
   public getHelp(): void {
-    const helpText = this.levels[this.levelNumber - 1].selector;
+    const helpText = this.levelsData[this.levelNumber - 1].selector;
     let i = 0;
     (this.input as HTMLInputElement).value = '';
     const intervalId = setInterval(() => {

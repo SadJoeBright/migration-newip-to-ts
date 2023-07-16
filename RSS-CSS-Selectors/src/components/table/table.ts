@@ -5,14 +5,14 @@ import { Level } from '../../types/types';
 export default class Table {
   public table: HTMLElement;
 
-  private levels: Level[];
+  private levelsData: Level[];
 
   private levelNumber: number;
 
   tableEventHandler: (event: MouseEvent) => void;
 
   constructor(
-    levels: Level[],
+    levelsData: Level[],
     levelNumber: number,
     tableEventHandler: (event: MouseEvent) => void,
   ) {
@@ -24,7 +24,7 @@ export default class Table {
     });
 
     this.tableEventHandler = tableEventHandler;
-    this.levels = levels;
+    this.levelsData = levelsData;
     this.levelNumber = levelNumber;
     this.fillTable(this.levelNumber);
     this.markTargets(this.levelNumber);
@@ -32,11 +32,11 @@ export default class Table {
   }
 
   public fillTable(levelNumber: number): void {
-    this.table.innerHTML = this.levels[levelNumber - 1].boardMarkup;
+    this.table.innerHTML = this.levelsData[levelNumber - 1].boardMarkup;
   }
 
   public markTargets(levelNumber: number): void {
-    const targets = this.table.querySelectorAll(this.levels[levelNumber - 1].selector);
+    const targets = this.table.querySelectorAll(this.levelsData[levelNumber - 1].selector);
     targets.forEach((target) => {
       target.classList.add('puls');
     });

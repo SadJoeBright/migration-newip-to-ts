@@ -1,6 +1,6 @@
 import { Level } from '../types/types';
 
-const levels: Level[] = [
+const levelsData: Level[] = [
   {
     doThis: 'Select the plates',
     selector: 'plate',
@@ -53,4 +53,4 @@ const levels: Level[] = [
     boardMarkup: '<plate id="fancy"><orange class="small"></orange></plate><plate><pickle></pickle></plate><apple class="small"></apple><plate><apple></apple></plate>',
   },
 ];
-export default levels;
+export default levelsData;

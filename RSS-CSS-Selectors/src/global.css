@@ -37,7 +37,7 @@ h1 {
   background: rgb(26, 25, 25);
 }
  
-.editor {
+.editor-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -125,7 +125,7 @@ h1 {
 .level-item {
   text-align: center;
   width: 100%;
-  margin: 5px 0;
+  padding: 3px 0;
   font-size: calc(1vw + 30%);
   cursor: pointer;
   transition: all ease-in-out .2s;

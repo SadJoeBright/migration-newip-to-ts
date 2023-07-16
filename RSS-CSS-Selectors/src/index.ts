@@ -1,5 +1,5 @@
 import './global.css';
-import levels from './data/levels';
+import levelsData from './data/levelsData';
 import createElement from './components/utils/create-element';
 import createOpenTag from './components/utils/create-open-tag';
 import Table from './components/table/table';
@@ -7,31 +7,36 @@ import Markup from './components/markup/markup';
 import ModalWindow from './components/modal-window/modal-window';
 import CssEditor from './components/css-editor/css-editor';
 import SideBar from './components/sidebar/sidebar';
+import AppView from './components/appView/appView';
 
 let levelNumber = 1;
-const levelsAmount = levels.length;
+const levelsAmount = levelsData.length;
 
-const MAIN_CONTAINER = createElement({
-  tagName: 'div',
-  classNames: ['main-container'],
-  parentNode: document.body,
-});
-
-// eslint-disable-next-line @typescript-eslint/no-use-before-define
-const TABLE = new Table(levels, levelNumber, showNotice);
-
-MAIN_CONTAINER.append(TABLE.table);
+// const MAIN_CONTAINER = createElement({
+//   tagName: 'div',
+//   classNames: ['main-container'],
+//   parentNode: document.body,
+// });
 
 // eslint-disable-next-line @typescript-eslint/no-use-before-define
-const CSS_EDITOR = new CssEditor(levels, levelNumber, checkAnswer);
+const TABLE = new Table(levelsData, levelNumber, showNotice);
+
+// MAIN_CONTAINER.append(TABLE.table);
+
+// eslint-disable-next-line @typescript-eslint/no-use-before-define
+const CSS_EDITOR = new CssEditor(levelsData, levelNumber, checkAnswer);
 const { input } = CSS_EDITOR;
 
 // eslint-disable-next-line @typescript-eslint/no-use-before-define
 const MARKUP = new Markup(TABLE.table, showNotice);
 
 // eslint-disable-next-line @typescript-eslint/no-use-before-define
-const SIDEBAR = new SideBar(levels, levelNumber, changeLevel);
-document.body.append(SIDEBAR.sidebar);
+const SIDEBAR = new SideBar(levelsData, levelNumber, changeLevel);
+// document.body.append(SIDEBAR.sidebar);
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const view = new AppView(TABLE.table, CSS_EDITOR.editor, MARKUP.markupContainer, SIDEBAR.sidebar);
+view.create();
 
 function changeLevel(level: number): void {
   if (SIDEBAR.levelList.querySelector('.level-item_selected')) {
@@ -53,7 +58,7 @@ function changeLevel(level: number): void {
 }
 
 function checkAnswer(): void {
-  const targets = TABLE.table.querySelectorAll(levels[levelNumber - 1].selector);
+  const targets = TABLE.table.querySelectorAll(levelsData[levelNumber - 1].selector);
   if ((input as HTMLInputElement).value
   && JSON.stringify(TABLE.table.querySelectorAll((input as HTMLInputElement).value.trim()))
   === JSON.stringify(targets)) {
@@ -130,12 +135,5 @@ function loadGameState(): void {
 }
 
 document.addEventListener('click', () => input.focus());
-// input.addEventListener('keydown', (event: Event) => {
-//   const keyboardEvent = event as KeyboardEvent;
-//   if (keyboardEvent.key === 'Enter') {
-//     checkAnswer();
-//   }
-// });
-
 window.addEventListener('DOMContentLoaded', loadGameState);
 window.addEventListener('beforeunload', saveGameState);
