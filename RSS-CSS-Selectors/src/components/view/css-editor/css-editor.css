@@ -1,0 +1,47 @@
+.editor-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: calc(30vw + 20%);
+  padding: 10px;
+  border-radius: 5px;
+  background: rgb(21, 21, 21);
+}
+
+.css-editor {
+  width: 100%;
+  padding-bottom: 2%;
+  display: flex;
+  gap: 10px;
+}
+
+.css-editor__input {
+  width: 80%;
+  margin: 0;
+  border-radius: 5px;
+  padding: 1%;
+  background-color: rgb(248, 238, 220);
+  font-size: calc(1.2vw + 10%);
+  outline: none;
+  border: none;
+}
+
+.editor-btn {
+  color: #a2a2a2;
+  border: solid 2px #a2a2a2;
+  border-radius: 5px;
+  font-size: calc(1vw + 20%);
+  padding: 1% 2%;
+  cursor: pointer;
+  transition: all ease-in-out .2s;
+}
+
+.editor-btn:hover {
+  filter: brightness(150%);
+}
+
+.editor-btn:active  {
+  transform: scale(95%);
+}
+

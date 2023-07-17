@@ -1,3 +1,4 @@
+import './css-editor.css';
 import createElement from '../../utils/create-element';
 import { Level } from '../../../types/types';
 
@@ -31,7 +32,6 @@ export default class CssEditor {
     this.editor = createElement({
       tagName: 'div',
       classNames: ['css-editor'],
-      // parentNode: document.querySelector('.editor-wrapper'),
     });
 
     this.input = createElement({

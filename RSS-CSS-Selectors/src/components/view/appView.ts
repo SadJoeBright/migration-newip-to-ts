@@ -1,4 +1,4 @@
-import '../../global.css';
+import '../../main.css';
 import createElement from '../utils/create-element';
 
 export default class AppView {

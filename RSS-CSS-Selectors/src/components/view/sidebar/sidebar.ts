@@ -1,3 +1,4 @@
+import './sidebar.css';
 import createElement from '../../utils/create-element';
 import { Level } from '../../../types/types';
 
