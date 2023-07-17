@@ -1,6 +1,6 @@
 import './table.css';
-import createElement from '../utils/create-element';
-import { Level } from '../../types/types';
+import createElement from '../../utils/create-element';
+import { Level } from '../../../types/types';
 
 export default class Table {
   public table: HTMLElement;

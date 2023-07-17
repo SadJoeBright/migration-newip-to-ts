@@ -1,5 +1,5 @@
 import './modal-window.css';
-import createElement from '../utils/create-element';
+import createElement from '../../utils/create-element';
 
 export default class ModalWindow {
   private modalWrapper: HTMLElement;

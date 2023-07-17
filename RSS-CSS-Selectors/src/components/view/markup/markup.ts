@@ -1,6 +1,6 @@
 import './markup.css';
-import createOpenTag from '../utils/create-open-tag';
-import createElement from '../utils/create-element';
+import createOpenTag from '../../utils/create-open-tag';
+import createElement from '../../utils/create-element';
 
 export default class Markup {
   public markupContainer: HTMLElement;
@@ -14,7 +14,6 @@ export default class Markup {
     this.markupContainer = createElement({
       tagName: 'div',
       classNames: ['markup-container'],
-      parentNode: document.querySelector('.html-viewer'),
       eventHandler: (event: Event) => this.markupEventHandler(event as MouseEvent),
       eventType: 'mouseover',
     });

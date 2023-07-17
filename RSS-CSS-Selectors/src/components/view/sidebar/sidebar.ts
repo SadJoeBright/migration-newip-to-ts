@@ -1,5 +1,5 @@
-import createElement from '../utils/create-element';
-import { Level } from '../../types/types';
+import createElement from '../../utils/create-element';
+import { Level } from '../../../types/types';
 
 export default class SideBar {
   levelNumber: number;
@@ -28,7 +28,6 @@ export default class SideBar {
     this.sidebar = createElement({
       tagName: 'aside',
       classNames: ['aside'],
-      // parentNode: document.body,
     });
 
     this.asideTitle = createElement({
@@ -68,7 +67,7 @@ export default class SideBar {
     }
   }
 
-  private chooseLevel = (event: MouseEvent): void => {
+  private chooseLevel(event: MouseEvent): void {
     const target = event.target as HTMLElement;
     if (target.parentNode === this.levelList) {
       if (this.levelList.querySelector('.level-item_selected')) {
@@ -78,7 +77,7 @@ export default class SideBar {
       this.levelNumber = Number(target.textContent);
       this.changeLevelFunction(this.levelNumber);
     }
-  };
+  }
 
   private restartGame = (): void => {
     this.levelNumber = 1;
