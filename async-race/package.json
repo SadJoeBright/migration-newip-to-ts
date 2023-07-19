@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack --mode development",
     "start": "webpack serve --open --mode development",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "deploy": "npm run build && npx gh-pages -d dist -e async-race"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-webpack-plugin": "^4.0.1",
+    "gh-pages": "^5.0.0",
     "html-webpack-plugin": "^5.5.3",
     "style-loader": "^3.3.3",
     "ts-loader": "^9.4.4",
