@@ -1,0 +1,92 @@
+.garage-item {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  padding: 0 15px;
+}
+
+.car-control {
+  display: flex;
+  align-items: center;
+  height: 35px;
+  width: 10%;
+  gap: 5%;
+  /* border-bottom: solid 1px blueviolet; */
+  margin: 0;
+}
+
+.track {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 35px; 
+  border-bottom: solid 2px gray;
+  margin-top: -30px;
+}
+
+.engine-control {
+  display: flex;
+  gap: 5px;
+}
+
+.button_start,
+.button_stop {
+  background-color: green;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  font-size: 8px;
+  text-align: center;
+  line-height: 350%;
+  position: relative;
+  z-index: 10;
+  user-select: none;
+}
+
+.button_start:hover,
+.button_stop:hover {
+  filter: brightness(120%);
+  cursor: pointer;
+}
+
+.button_start:active,
+.button_stop:active {
+  transform: scale(0.95);
+}
+
+.button_stop {
+  background-color: red;
+}
+
+
+
+.car {
+  position: relative;
+  left: 90px;
+  /* left: calc(100% - 100px); */
+}
+
+@keyframes moove {
+  from {
+    left: 90px;
+  }
+  to {
+  left: calc(100% - 100px);
+  }
+}
+
+.moove{
+  animation-name: moove;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in;
+}
+
+.flag {
+  background-image: url("../../assets/images/flag.png");
+  width: 35px;
+  height: 35px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: invert(100%);
+  padding-right: calc(2% + 100px);
+}

@@ -4,7 +4,7 @@ const EslintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
   entry: path.resolve(__dirname, 'src/index'),
-  output : {
+  output: {
     filename: 'index.js',
     path: path.resolve(__dirname, './dist'),
     assetModuleFilename: path.join('assets/icons', '[name].[contenthash][ext]'),
