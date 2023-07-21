@@ -6,3 +6,8 @@ export interface ElementOptions {
   eventHandler?: (event?: Event | MouseEvent | KeyboardEvent) => void;
   eventType?: string;
 }
+
+export interface CarNames {
+  brand: string[],
+  model: string[],
+}

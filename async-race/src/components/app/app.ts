@@ -1,13 +1,16 @@
 import AppView from '../view/appView';
+import Controller from '../controller/controller';
 
 export default class App {
   appView: AppView;
 
+  controller: Controller;
+
   constructor() {
-    this.appView = new AppView();
+    this.controller = new Controller();
   }
 
   public start(): void {
-    this.appView.create();
+    this.controller.appView.create();
   }
 }

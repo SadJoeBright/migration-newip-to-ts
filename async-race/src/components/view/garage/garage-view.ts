@@ -12,24 +12,6 @@ export default class Garage {
       tagName: 'div',
       classNames: ['garage'],
     });
-    this.addCar();
-  }
-
-  public addCar() {
-    this.car = new Car('Mersedes', 'S500', 'red');
-    this.garage.append(this.car.getCar());
-    this.car = new Car('Mersedes', 'S500', 'red');
-    this.garage.append(this.car.getCar());
-    this.car = new Car('Mersedes', 'S500', 'red');
-    this.garage.append(this.car.getCar());
-    this.car = new Car('Mersedes', 'S500', 'red');
-    this.garage.append(this.car.getCar());
-    this.car = new Car('Mersedes', 'S500', 'red');
-    this.garage.append(this.car.getCar());
-    this.car = new Car('Mersedes', 'S500', 'red');
-    this.garage.append(this.car.getCar());
-    this.car = new Car('Mersedes', 'S500', 'red');
-    this.garage.append(this.car.getCar());
   }
 
   public getElement() {

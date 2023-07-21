@@ -1,6 +1,6 @@
 import './car.css';
 import createElement from '../utils/create-element';
-import svgCode from '../../data/svg-code';
+import svgCode from '../../data/svgCode';
 
 export default class Car {
   brand: string;
@@ -31,10 +31,13 @@ export default class Car {
 
   flag: HTMLElement;
 
-  constructor(brand: string, model: string, color: string) {
+  isSelected: boolean;
+
+  constructor(color: string, brand: string, model?: string) {
     this.brand = brand;
     this.model = model;
     this.color = color;
+    this.isSelected = false;
 
     this.garageItem = createElement({
       tagName: 'div',
@@ -52,6 +55,8 @@ export default class Car {
       classNames: ['button'],
       textContent: 'SELECT',
       parentNode: this.carControl,
+      eventHandler: () => this.select(),
+      eventType: 'click',
     });
 
     this.removeButton = createElement({
@@ -59,6 +64,8 @@ export default class Car {
       classNames: ['button'],
       textContent: 'REMOVE',
       parentNode: this.carControl,
+      eventHandler: () => this.remove(),
+      eventType: 'click',
     });
 
     this.carTitle = createElement({
@@ -114,17 +121,32 @@ export default class Car {
     });
   }
 
-  public getCar() {
+  public getCar(): HTMLElement {
     return this.garageItem;
   }
 
-  start() {
-    const time = Math.random() * 3;
-    this.car.classList.add('moove');
-    this.car.style.animationDuration = `${time}s`;
+  public select(): void {
+    this.isSelected = !this.isSelected;
+    this.carTitle.classList.toggle('selected');
   }
 
-  stop() {
+  public remove(): void {
+    this.garageItem.remove();
+  }
+
+  public start(): void {
+    // const time = Math.random() * 3;
+    this.car.style.animationDuration = `${5}s`;
+    this.car.classList.add('moove');
+    // this.car.classList.add('finish');
+    // setTimeout(() => {
+    // this.car.classList.remove('moove');
+    // }, time * 1000);
+  }
+
+  public stop(): void {
+    const position = window.getComputedStyle(this.car).getPropertyValue('left');
+    this.car.style.left = position;
     this.car.classList.remove('moove');
   }
 }
