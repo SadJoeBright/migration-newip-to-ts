@@ -6,6 +6,12 @@
   /* border: solid 1px red; */
 }
 
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .control-panel {
   width: 30%;
   display: flex;

@@ -11,3 +11,9 @@ export interface CarNames {
   brand: string[],
   model: string[],
 }
+
+export interface CarData {
+  name: string,
+  color: string,
+  id: number,
+}

@@ -3,7 +3,7 @@ import createElement from '../utils/create-element';
 import svgCode from '../../data/svgCode';
 
 export default class Car {
-  brand: string;
+  name: string;
 
   model: string;
 
@@ -33,9 +33,8 @@ export default class Car {
 
   isSelected: boolean;
 
-  constructor(color: string, brand: string, model?: string) {
-    this.brand = brand;
-    this.model = model;
+  constructor(name: string, color: string) {
+    this.name = name;
     this.color = color;
     this.isSelected = false;
 
@@ -71,7 +70,7 @@ export default class Car {
     this.carTitle = createElement({
       tagName: 'p',
       classNames: ['car-title'],
-      textContent: `${this.brand} ${this.model}`,
+      textContent: `${this.name}`,
       parentNode: this.carControl,
     });
 
