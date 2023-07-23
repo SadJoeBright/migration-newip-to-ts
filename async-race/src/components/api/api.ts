@@ -2,22 +2,16 @@
 import { CarData, EngineResponce } from '../../types/types';
 
 export default class Api {
-  pageNumber: number;
+  private baseURL: string;
 
-  baseURL: string;
-
-  carsPerPageLimit: number;
+  private carsPerPageLimit: number;
 
   constructor() {
-    // this.pageNumber = pageNumber;
-    this.carsPerPageLimit = 7;
     this.baseURL = 'http://127.0.0.1:3000';
-    // this.getCars(this.pageNumber);
-    // this.startEngine();
-    // this.drive();
+    this.carsPerPageLimit = 7;
   }
 
-  async createCar(carData: CarData) {
+  async createCar(carData: CarData): Promise<CarData> {
     const response = await fetch(`${this.baseURL}/garage`, {
       method: 'POST',
       headers: {
@@ -25,43 +19,47 @@ export default class Api {
       },
       body: JSON.stringify(carData),
     });
-    const data = await response.json();
+    const data: CarData = await response.json();
+
     return data;
   }
 
-  async getCars(page: number): Promise<CarData[]> {
+  public async getCars(page: number): Promise<CarData[]> {
     const response = await fetch(`${this.baseURL}/garage?_page=${page}&_limit=${this.carsPerPageLimit}`);
     const data: CarData[] = await response.json();
+
     return data;
   }
 
-  async getCarsAmount() {
+  public async getCarsAmount(): Promise<number> {
     const response = await fetch(`${this.baseURL}/garage?_limit=${this.carsPerPageLimit}`);
     const carsAmount = Number(response.headers.get('X-Total-Count'));
+
     return carsAmount;
   }
 
-  async getPagesAmount() {
+  public async getPagesAmount() {
     return Math.ceil(await this.getCarsAmount() / this.carsPerPageLimit);
   }
 
-  async deleteCar(id: number) {
+  public async deleteCar(id: number): Promise<Response> {
     const response = await fetch(`${this.baseURL}/garage/${id}`, {
       method: 'DELETE',
     });
+
     return response;
   }
 
-  async start(id: number): Promise<EngineResponce> {
+  public async start(id: number): Promise<EngineResponce> {
     const response = await fetch(`${this.baseURL}/engine?id=${id}&status=started`, {
       method: 'PATCH',
     });
-    const data = await response.json();
-    // console.log(data);
+    const data: EngineResponce = await response.json();
+
     return data;
   }
 
-  async drive(id: number) {
+  public async drive(id: number): Promise<Response> {
     const response = await fetch(`${this.baseURL}/engine?id=${id}&status=drive`, {
       method: 'PATCH',
     });
@@ -69,61 +67,11 @@ export default class Api {
     return response;
   }
 
-  // async createCar() {
-  //   let response;
-  //   try {
-  //     response = await fetch(this.baseURL, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(carData)
-  //     });
-  //     const data = await response.json();
-  //     return data;
-  //   }
-  // }
+  public async stop(id: number): Promise<Response> {
+    const response = await fetch(`${this.baseURL}/engine?id=${id}&status=stopped`, {
+      method: 'PATCH',
+    });
 
-  // async startEngine() {
-  //   const response = await fetch(`${this.baseURL}/engine?id=1&status=started`, {
-  //     method: 'PATCH',
-  //   });
-  //   const data = await response.json();
-  //   const { velocity } = data;
-  //   const { distance } = data;
-  //   const time = distance / velocity / 1000;
-  //   console.log(time);
-  // }
+    return response;
+  }
 }
-
-// async function addCar(carData: { name: string; brand: string; year: number; }) {
-//   try {
-//     const response = await fetch(URL, {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify(carData),
-//     });
-
-//     if (!response.ok) {
-//       throw new Error('Failed to add car to the server.');
-//     }
-
-//     const data = await response.json();
-//     console.log('New car added:', data);
-//   } catch (error) {
-//     console.error('Error while adding car:');
-//   }
-// }
-
-// // Пример данных для нового объекта
-// const newCarData = {
-//   name: 'New Car',
-//   brand: 'Some Brand',
-//   year: 2023,
-//   // Другие свойства объекта, если есть
-// };
-
-// // Вызываем функцию для добавления нового объекта
-// addCar(newCarData);

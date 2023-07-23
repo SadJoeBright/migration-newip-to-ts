@@ -27,12 +27,13 @@ export default class Controller {
     this.render(this.currentPage);
     this.appView = new AppView();
     this.garage = this.appView.garage;
+    this.appView.nextButton.addEventListener('click', this.newtPage.bind(this));
+    this.appView.prevButton.addEventListener('click', this.prevPage.bind(this));
     this.garage.createButton.addEventListener('click', this.addCar.bind(this));
     this.garage.updateButton.addEventListener('click', this.updateCar.bind(this));
     this.garage.raceButton.addEventListener('click', this.startRace.bind(this));
-    this.appView.nextButton.addEventListener('click', this.newtPage.bind(this));
-    this.appView.prevButton.addEventListener('click', this.prevPage.bind(this));
     this.garage.generateButton.addEventListener('click', this.generateCars.bind(this));
+    this.garage.resetButton.addEventListener('click', this.reset.bind(this));
   }
 
   newtPage() {
@@ -65,6 +66,7 @@ export default class Controller {
     const car = new Car(name, color, id);
     car.removeButton.addEventListener('click', this.removeCar.bind(this, car.id));
     car.startButton.addEventListener('click', this.start.bind(this, car.id));
+    car.stopButton.addEventListener('click', this.stop.bind(this, car.id));
     this.garage.getElement().append(car.getCar());
     this.cars.push(car);
   }
@@ -133,15 +135,26 @@ export default class Controller {
     const { velocity } = data;
     const { distance } = data;
     const time = distance / velocity / 1000;
-    targetCar.start(time);
+    targetCar.startAnimation(time);
     const engineState = await this.api.drive(id);
     if (engineState.status === 500) {
-      targetCar.stop();
+      targetCar.stopAnimation();
     }
+  }
+
+  async stop(id: number) {
+    const targetCar = this.cars.filter((car) => car.id === id)[0];
+    await this.api.stop(id);
+    targetCar.getCarBack();
   }
 
   async startRace() {
     const promises = this.cars.map((car) => this.start(car.id));
+    await Promise.all(promises);
+  }
+
+  async reset() {
+    const promises = this.cars.map((car) => this.stop(car.id));
     await Promise.all(promises);
   }
 }

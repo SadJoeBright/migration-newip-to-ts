@@ -97,7 +97,7 @@ export default class Car {
       classNames: ['button_stop'],
       textContent: 'STOP',
       parentNode: this.engineControl,
-      eventHandler: () => this.goBack(),
+      // eventHandler: () => this.goBack(),
       eventType: 'click',
     });
 
@@ -132,24 +132,18 @@ export default class Car {
     this.carTitle.classList.toggle('selected');
   }
 
-  public remove(): void {
-    this.garageItem.remove();
-    // eslint-disable-next-line no-console
-    console.log(this.id);
-  }
-
-  public start(time: number): void {
+  public startAnimation(time: number): void {
     this.car.style.animationDuration = `${time}s`;
     this.car.classList.add('moove');
   }
 
-  public stop(): void {
+  public stopAnimation(): void {
     const position = window.getComputedStyle(this.car).getPropertyValue('left');
     this.car.style.left = position;
     this.car.classList.remove('moove');
   }
 
-  public goBack(): void {
+  public getCarBack(): void {
     this.car.classList.remove('moove');
     this.car.style.left = '90px';
   }
