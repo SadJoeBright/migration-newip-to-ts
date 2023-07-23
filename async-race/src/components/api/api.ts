@@ -17,6 +17,18 @@ export default class Api {
     // this.drive();
   }
 
+  async createCar(carData: CarData) {
+    const response = await fetch(`${this.baseURL}/garage`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(carData),
+    });
+    const data = await response.json();
+    return data;
+  }
+
   async getCars(page: number): Promise<CarData[]> {
     const response = await fetch(`${this.baseURL}/garage?_page=${page}&_limit=${this.carsPerPageLimit}`);
     const data: CarData[] = await response.json();

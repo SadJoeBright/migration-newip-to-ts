@@ -4,6 +4,9 @@ import Car from '../car/car';
 import Api from '../api/api';
 import Garage from '../view/garage/garage-view';
 import { CarData } from '../../types/types';
+import getRandomName from '../utils/getRandomName';
+import getRandomColor from '../utils/getRandomColor';
+import carNames from '../../data/carNames';
 
 export default class Controller {
   currentPage: number;
@@ -29,6 +32,7 @@ export default class Controller {
     this.garage.raceButton.addEventListener('click', this.startRace.bind(this));
     this.appView.nextButton.addEventListener('click', this.newtPage.bind(this));
     this.appView.prevButton.addEventListener('click', this.prevPage.bind(this));
+    this.garage.generateButton.addEventListener('click', this.generateCars.bind(this));
   }
 
   newtPage() {
@@ -80,6 +84,24 @@ export default class Controller {
   removeCar(id: number) {
     this.api.deleteCar(id);
     this.render(this.currentPage);
+  }
+
+  async generateCars() {
+    let carsAmount = await this.api.getCarsAmount();
+    const createCarPromises = [];
+
+    for (let id = carsAmount + 1; id <= carsAmount + 100; id += 1) {
+      const name = getRandomName(carNames);
+      const color = getRandomColor();
+      const promise = this.api.createCar({ name, color, id });
+      createCarPromises.push(promise);
+    }
+
+    await Promise.all(createCarPromises);
+
+    carsAmount = await this.api.getCarsAmount();
+
+    this.garage.title.textContent = `Garage(${carsAmount})`;
   }
 
   updateCar() {
