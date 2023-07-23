@@ -17,3 +17,8 @@ export interface CarData {
   color: string,
   id: number,
 }
+
+export interface EngineResponce {
+  velocity: number,
+  distance: number
+}

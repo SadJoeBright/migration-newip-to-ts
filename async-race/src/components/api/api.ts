@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { CarData } from '../../types/types';
+import { CarData, EngineResponce } from '../../types/types';
 
 export default class Api {
   pageNumber: number;
@@ -50,6 +50,15 @@ export default class Api {
       method: 'DELETE',
     });
     return response;
+  }
+
+  async start(id: number): Promise<EngineResponce> {
+    const response = await fetch(`${this.baseURL}/engine?id=${id}&status=started`, {
+      method: 'PATCH',
+    });
+    const data = await response.json();
+    // console.log(data);
+    return data;
   }
 
   // async createCar() {

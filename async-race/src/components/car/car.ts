@@ -42,7 +42,6 @@ export default class Car {
     this.color = color;
     this.id = id;
     this.isSelected = false;
-    this.time = 2;
 
     this.garageItem = createElement({
       tagName: 'div',
@@ -91,7 +90,7 @@ export default class Car {
       classNames: ['button_start'],
       textContent: 'START',
       parentNode: this.engineControl,
-      eventHandler: () => this.start(this.time),
+      // eventHandler: () => this.start(this.time),
       eventType: 'click',
     });
 
@@ -146,7 +145,7 @@ export default class Car {
     this.car.style.animationDuration = `${time}s`;
     this.car.classList.add('moove');
     // eslint-disable-next-line no-console
-    console.log(this.name);
+    console.log(time);
     // this.car.classList.add('finish');
     // setTimeout(() => {
     // this.car.classList.remove('moove');

@@ -54,15 +54,24 @@ export default class Controller {
     // if ((this.garage.textInput as HTMLInputElement).value) {
     const name = (this.garage.textInput as HTMLInputElement).value;
     const color = (this.garage.colorInput as HTMLInputElement).value;
-    this.api.createCar({ name, color, id });
+    await this.api.createCar({ name, color, id });
+    this.garage.title.textContent = `Garage(${carsAmount})`;
     if (this.currentPage === pagesAmount) {
-      this.render(this.currentPage);
+      // const car = new Car(name, color, id);
+      // car.removeButton.addEventListener('click', this.removeCar.bind(this, car.id));
+      // car.startButton.addEventListener('click', this.start.bind(this, car.id));
+      // this.garage.getElement().append(car.getCar());
+      // this.cars.push(car);
+      this.renderCar(name, color, id);
     }
-    // this.garage.textInput.setAttribute('placeholder', '');
-    // } else {
-    // this.garage.textInput.setAttribute('placeholder', 'type in car brand');
-    // this.garage.textInput.focus();
-    // }
+  }
+
+  renderCar(name: string, color: string, id: number): void {
+    const car = new Car(name, color, id);
+    car.removeButton.addEventListener('click', this.removeCar.bind(this, car.id));
+    car.startButton.addEventListener('click', this.start.bind(this, car.id));
+    this.garage.getElement().append(car.getCar());
+    this.cars.push(car);
   }
 
   async render(page: number) {
@@ -75,16 +84,20 @@ export default class Controller {
       const { name } = data;
       const { color } = data;
       const { id } = data;
-      const car = new Car(name, color, id);
-      car.removeButton.addEventListener('click', this.removeCar.bind(this, car.id));
-      this.garage.getElement().append(car.getCar());
-      this.cars.push(car);
+      // const car = new Car(name, color, id);
+      // car.removeButton.addEventListener('click', this.removeCar.bind(this, car.id));
+      // car.startButton.addEventListener('click', this.start.bind(this, car.id));
+      // this.garage.getElement().append(car.getCar());
+      // this.cars.push(car);
+      this.renderCar(name, color, id);
     });
   }
 
-  removeCar(id: number) {
-    this.api.deleteCar(id);
-    this.render(this.currentPage);
+  async removeCar(id: number) {
+    await this.api.deleteCar(id);
+    const targetCar = this.cars.filter((car) => car.id === id)[0];
+    targetCar.remove();
+    // this.render(this.currentPage);
   }
 
   async generateCars() {
@@ -106,7 +119,6 @@ export default class Controller {
   }
 
   updateCar() {
-    // if ((this.appView.createTextInput as HTMLInputElement).value) {
     this.cars.forEach((car) => {
       if (car.isSelected) {
         const updatedCar = { ...car };
@@ -121,10 +133,16 @@ export default class Controller {
       }
     });
     (this.garage.textInput as HTMLInputElement).value = '';
-  // } else {
-  // this.appView.createTextInput.setAttribute('placeholder', 'select the car');
-  // this.appView.createTextInput.focus();
-  // }
+  }
+
+  async start(id: number) {
+    const targetCar = this.cars.filter((car) => car.id === id)[0];
+    const data = await this.api.start(id);
+    const { velocity } = data;
+    const { distance } = data;
+    const time = distance / velocity / 1000;
+    targetCar.start(time);
+    console.log(targetCar);
   }
 
   startRace() {
