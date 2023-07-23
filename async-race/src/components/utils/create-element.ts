@@ -1,6 +1,6 @@
 import { ElementOptions } from '../../types/types';
 
-function createElement(options: ElementOptions): HTMLElement | HTMLButtonElement {
+function createElement(options: ElementOptions): HTMLElement {
   const element: HTMLElement = document.createElement(options.tagName);
   element.classList.add(...options.classNames);
   if (options.textContent) {

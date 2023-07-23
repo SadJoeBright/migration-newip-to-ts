@@ -32,14 +32,12 @@ export default class Controller {
   }
 
   newtPage() {
-    this.garage.getElement().innerHTML = '';
     this.currentPage += 1;
     this.render(this.currentPage);
   }
 
   prevPage() {
     if (this.currentPage > 1) {
-      this.garage.getElement().innerHTML = '';
       this.currentPage -= 1;
       this.render(this.currentPage);
     }
@@ -50,7 +48,7 @@ export default class Controller {
       const carTitle = (this.garage.textInput as HTMLInputElement).value;
       const carColor = (this.garage.colorInput as HTMLInputElement).value;
 
-      const car = new Car(carTitle, carColor);
+      const car = new Car(carTitle, carColor, 1);
       this.appView.garage.getElement().append(car.getCar());
 
       (this.garage.textInput as HTMLInputElement).value = '';
@@ -67,13 +65,21 @@ export default class Controller {
     this.garage.title.textContent = `Garage(${carsAmount})`;
     this.garage.pageNumber.textContent = `Page #${this.currentPage}`;
     const carsData = await this.api.getCars(page);
+    this.garage.getElement().innerHTML = '';
     carsData.forEach((data: CarData) => {
       const { name } = data;
       const { color } = data;
-      const car = new Car(name, color);
+      const { id } = data;
+      const car = new Car(name, color, id);
+      car.removeButton.addEventListener('click', this.removeCar.bind(this, car.id));
       this.garage.getElement().append(car.getCar());
+      this.cars.push(car);
     });
-    console.log(carsData);
+  }
+
+  removeCar(id: number) {
+    this.api.deleteCar(id);
+    this.render(this.currentPage);
   }
 
   updateCar() {
@@ -100,7 +106,10 @@ export default class Controller {
 
   startRace() {
     this.cars.forEach((car) => {
-      car.start();
+      const carCopy = Object.create(Object.getPrototypeOf(car)) as Car;
+      Object.assign(carCopy, car);
+      carCopy.time = 5;
+      carCopy.start(carCopy.time);
     });
   }
 }

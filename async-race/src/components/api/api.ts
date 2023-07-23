@@ -33,6 +33,13 @@ export default class Api {
     return Math.ceil(await this.getCarsAmount() / this.carsPerPageLimit);
   }
 
+  async deleteCar(id: number) {
+    const response = await fetch(`${this.baseURL}/garage/${id}`, {
+      method: 'DELETE',
+    });
+    return response;
+  }
+
   // async createCar() {
   //   let response;
   //   try {

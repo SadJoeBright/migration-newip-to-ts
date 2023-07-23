@@ -3,7 +3,7 @@ export interface ElementOptions {
   classNames: string[];
   textContent?: string;
   parentNode?: HTMLElement;
-  eventHandler?: (event?: Event | MouseEvent | KeyboardEvent) => void;
+  eventHandler?: (event: Event | MouseEvent | KeyboardEvent) => void;
   eventType?: string;
 }
 

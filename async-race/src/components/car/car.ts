@@ -33,10 +33,16 @@ export default class Car {
 
   isSelected: boolean;
 
-  constructor(name: string, color: string) {
+  time: number | null;
+
+  id: number;
+
+  constructor(name: string, color: string, id: number) {
     this.name = name;
     this.color = color;
+    this.id = id;
     this.isSelected = false;
+    this.time = 2;
 
     this.garageItem = createElement({
       tagName: 'div',
@@ -63,7 +69,7 @@ export default class Car {
       classNames: ['button'],
       textContent: 'REMOVE',
       parentNode: this.carControl,
-      eventHandler: () => this.remove(),
+      // eventHandler: () => this.remove(),
       eventType: 'click',
     });
 
@@ -85,7 +91,7 @@ export default class Car {
       classNames: ['button_start'],
       textContent: 'START',
       parentNode: this.engineControl,
-      eventHandler: () => this.start(),
+      eventHandler: () => this.start(this.time),
       eventType: 'click',
     });
 
@@ -131,12 +137,16 @@ export default class Car {
 
   public remove(): void {
     this.garageItem.remove();
+    // eslint-disable-next-line no-console
+    console.log(this.id);
   }
 
-  public start(): void {
+  public start(time: number): void {
     // const time = Math.random() * 3;
-    this.car.style.animationDuration = `${5}s`;
+    this.car.style.animationDuration = `${time}s`;
     this.car.classList.add('moove');
+    // eslint-disable-next-line no-console
+    console.log(this.name);
     // this.car.classList.add('finish');
     // setTimeout(() => {
     // this.car.classList.remove('moove');
