@@ -68,7 +68,6 @@ export default class Car {
       classNames: ['button'],
       textContent: 'REMOVE',
       parentNode: this.carControl,
-      // eventHandler: () => this.remove(),
       eventType: 'click',
     });
 
@@ -90,7 +89,6 @@ export default class Car {
       classNames: ['button_start'],
       textContent: 'START',
       parentNode: this.engineControl,
-      // eventHandler: () => this.start(this.time),
       eventType: 'click',
     });
 
@@ -141,11 +139,9 @@ export default class Car {
   }
 
   public start(time: number): void {
-    // const time = Math.random() * 3;
     this.car.style.animationDuration = `${time}s`;
     this.car.classList.add('moove');
     // eslint-disable-next-line no-console
-    console.log(time);
     // this.car.classList.add('finish');
     // setTimeout(() => {
     // this.car.classList.remove('moove');

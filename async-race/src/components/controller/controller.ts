@@ -57,12 +57,7 @@ export default class Controller {
     await this.api.createCar({ name, color, id });
     this.garage.title.textContent = `Garage(${carsAmount})`;
     if (this.currentPage === pagesAmount) {
-      // const car = new Car(name, color, id);
-      // car.removeButton.addEventListener('click', this.removeCar.bind(this, car.id));
-      // car.startButton.addEventListener('click', this.start.bind(this, car.id));
-      // this.garage.getElement().append(car.getCar());
-      // this.cars.push(car);
-      this.renderCar(name, color, id);
+      this.render(this.currentPage);
     }
   }
 
@@ -75,6 +70,7 @@ export default class Controller {
   }
 
   async render(page: number) {
+    this.cars = [];
     const carsAmount = await this.api.getCarsAmount();
     this.garage.title.textContent = `Garage(${carsAmount})`;
     this.garage.pageNumber.textContent = `Page #${this.currentPage}`;
@@ -84,27 +80,24 @@ export default class Controller {
       const { name } = data;
       const { color } = data;
       const { id } = data;
-      // const car = new Car(name, color, id);
-      // car.removeButton.addEventListener('click', this.removeCar.bind(this, car.id));
-      // car.startButton.addEventListener('click', this.start.bind(this, car.id));
-      // this.garage.getElement().append(car.getCar());
-      // this.cars.push(car);
       this.renderCar(name, color, id);
     });
   }
 
   async removeCar(id: number) {
     await this.api.deleteCar(id);
-    const targetCar = this.cars.filter((car) => car.id === id)[0];
-    targetCar.remove();
-    // this.render(this.currentPage);
+    this.render(this.currentPage);
   }
 
   async generateCars() {
-    let carsAmount = await this.api.getCarsAmount();
+    const pagesAmount = await this.api.getPagesAmount();
+    const carsData = await this.api.getCars(pagesAmount);
+    const lastCarId = carsData[carsData.length - 1].id;
+
+    // let carsAmount = await this.api.getCarsAmount();
     const createCarPromises = [];
 
-    for (let id = carsAmount + 1; id <= carsAmount + 100; id += 1) {
+    for (let id = lastCarId + 1; id <= lastCarId + 100; id += 1) {
       const name = getRandomName(carNames);
       const color = getRandomColor();
       const promise = this.api.createCar({ name, color, id });
@@ -113,7 +106,7 @@ export default class Controller {
 
     await Promise.all(createCarPromises);
 
-    carsAmount = await this.api.getCarsAmount();
+    const carsAmount = await this.api.getCarsAmount();
 
     this.garage.title.textContent = `Garage(${carsAmount})`;
   }
@@ -142,7 +135,6 @@ export default class Controller {
     const { distance } = data;
     const time = distance / velocity / 1000;
     targetCar.start(time);
-    console.log(targetCar);
   }
 
   startRace() {
