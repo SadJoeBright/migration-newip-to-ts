@@ -27,7 +27,7 @@ export default class Controller {
     this.render(this.currentPage);
     this.appView = new AppView();
     this.garage = this.appView.garage;
-    this.garage.createButton.addEventListener('click', this.createCar.bind(this));
+    this.garage.createButton.addEventListener('click', this.addCar.bind(this));
     this.garage.updateButton.addEventListener('click', this.updateCar.bind(this));
     this.garage.raceButton.addEventListener('click', this.startRace.bind(this));
     this.appView.nextButton.addEventListener('click', this.newtPage.bind(this));
@@ -47,21 +47,22 @@ export default class Controller {
     }
   }
 
-  createCar() {
-    if ((this.garage.textInput as HTMLInputElement).value) {
-      const carTitle = (this.garage.textInput as HTMLInputElement).value;
-      const carColor = (this.garage.colorInput as HTMLInputElement).value;
-
-      const car = new Car(carTitle, carColor, 1);
-      this.appView.garage.getElement().append(car.getCar());
-
-      (this.garage.textInput as HTMLInputElement).value = '';
-      this.cars.push(car);
-      this.garage.textInput.setAttribute('placeholder', '');
-    } else {
-      this.garage.textInput.setAttribute('placeholder', 'type in car brand');
-      this.garage.textInput.focus();
+  async addCar() {
+    const pagesAmount = await this.api.getPagesAmount();
+    const carsAmount = await this.api.getCarsAmount();
+    const id = carsAmount + 1;
+    // if ((this.garage.textInput as HTMLInputElement).value) {
+    const name = (this.garage.textInput as HTMLInputElement).value;
+    const color = (this.garage.colorInput as HTMLInputElement).value;
+    this.api.createCar({ name, color, id });
+    if (this.currentPage === pagesAmount) {
+      this.render(this.currentPage);
     }
+    // this.garage.textInput.setAttribute('placeholder', '');
+    // } else {
+    // this.garage.textInput.setAttribute('placeholder', 'type in car brand');
+    // this.garage.textInput.focus();
+    // }
   }
 
   async render(page: number) {
