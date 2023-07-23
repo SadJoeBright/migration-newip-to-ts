@@ -61,6 +61,14 @@ export default class Api {
     return data;
   }
 
+  async drive(id: number) {
+    const response = await fetch(`${this.baseURL}/engine?id=${id}&status=drive`, {
+      method: 'PATCH',
+    });
+
+    return response;
+  }
+
   // async createCar() {
   //   let response;
   //   try {
@@ -85,20 +93,6 @@ export default class Api {
   //   const { distance } = data;
   //   const time = distance / velocity / 1000;
   //   console.log(time);
-  // }
-
-  // async drive() {
-  //   await this.startEngine();
-
-  //   const response = await fetch(`${this.baseURL}/engine?id=1&status=drive`, {
-  //     method: 'PATCH',
-  //   });
-
-  //   if (response.status === 500) {
-  //     console.log('STOP');
-  //   } else {
-  //     console.log('GO');
-  //   }
   // }
 }
 

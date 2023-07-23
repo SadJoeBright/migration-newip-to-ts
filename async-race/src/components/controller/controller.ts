@@ -94,7 +94,6 @@ export default class Controller {
     const carsData = await this.api.getCars(pagesAmount);
     const lastCarId = carsData[carsData.length - 1].id;
 
-    // let carsAmount = await this.api.getCarsAmount();
     const createCarPromises = [];
 
     for (let id = lastCarId + 1; id <= lastCarId + 100; id += 1) {
@@ -135,14 +134,14 @@ export default class Controller {
     const { distance } = data;
     const time = distance / velocity / 1000;
     targetCar.start(time);
+    const engineState = await this.api.drive(id);
+    if (engineState.status === 500) {
+      targetCar.stop();
+    }
   }
 
-  startRace() {
-    this.cars.forEach((car) => {
-      const carCopy = Object.create(Object.getPrototypeOf(car)) as Car;
-      Object.assign(carCopy, car);
-      carCopy.time = 5;
-      carCopy.start(carCopy.time);
-    });
+  async startRace() {
+    const promises = this.cars.map((car) => this.start(car.id));
+    await Promise.all(promises);
   }
 }
