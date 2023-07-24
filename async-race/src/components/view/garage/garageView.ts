@@ -1,5 +1,4 @@
 import './garage.css';
-import Car from '../../car/car';
 import createElement from '../../utils/create-element';
 
 export default class GarageView {
@@ -29,9 +28,9 @@ export default class GarageView {
 
   title: HTMLElement;
 
-  car: Car;
-
   pageNumber: HTMLElement;
+
+  winnerMessage: HTMLElement;
 
   constructor() {
     this.header = createElement({
@@ -119,6 +118,12 @@ export default class GarageView {
       parentNode: this.header,
     });
 
+    this.winnerMessage = createElement({
+      tagName: 'p',
+      classNames: ['winner-massage', 'winner-massage_visible'],
+      parentNode: this.header,
+    });
+
     this.garage = createElement({
       tagName: 'div',
       classNames: ['garage'],
@@ -127,11 +132,11 @@ export default class GarageView {
     this.textInput.focus();
   }
 
-  // public render() {
-  //   car = new Car()
-  // }
+  public showWinner() {
+    this.winnerMessage.classList.add('winner-massage_visible');
+  }
 
-  public getElement() {
-    return this.garage;
+  public hideWinner() {
+    this.winnerMessage.classList.remove('winner-massage_visible');
   }
 }

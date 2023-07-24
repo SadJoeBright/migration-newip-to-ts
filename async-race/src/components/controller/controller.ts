@@ -7,7 +7,7 @@ import { CarData } from '../../types/types';
 import getRandomName from '../utils/getRandomName';
 import getRandomColor from '../utils/getRandomColor';
 import carNames from '../../data/carNames';
-import WinnerView from '../winnerView/winnerView';
+// import WinnerView from '../winnerView/winnerView';
 
 export default class Controller {
   currentPage: number;
@@ -20,7 +20,7 @@ export default class Controller {
 
   garageView: GarageView;
 
-  winnerView: WinnerView;
+  // winnerView: WinnerView;
 
   cars: Car[] = [];
 
@@ -43,13 +43,6 @@ export default class Controller {
     this.garageView.generateButton.addEventListener('click', this.generateCars.bind(this));
     this.garageView.resetButton.addEventListener('click', this.reset.bind(this));
     this.render(this.currentPage);
-  }
-
-  private defineWinner(event: AnimationEvent):void {
-    this.garageView.garage.removeEventListener('animationend', this.boundDefineWinner);
-    this.winner = this.cars.find((car) => event.target === car.car);
-    this.winnerView = new WinnerView(this.garageView.header);
-    this.winnerView.winnerMessage.textContent = `${this.winner.name} wins with time ${this.winner.time}s`;
   }
 
   private newtPage(): void {
@@ -95,9 +88,7 @@ export default class Controller {
     const carsData = await this.api.getCars(page);
     this.garageView.garage.innerHTML = '';
     carsData.forEach((data: CarData) => {
-      const { name } = data;
-      const { color } = data;
-      const { id } = data;
+      const { name, color, id } = data;
       this.renderCar(name, color, id);
     });
   }
@@ -105,6 +96,7 @@ export default class Controller {
   async removeCar(id: number) {
     await this.api.deleteCar(id);
     this.render(this.currentPage);
+    this.api.deleteWinner(id);
   }
 
   async generateCars() {
@@ -171,13 +163,28 @@ export default class Controller {
     await Promise.all(promises);
   }
 
-  async reset() {
-    this.winnerView.hide();
+  private async reset() {
+    this.garageView.hideWinner();
     const promises = this.cars.map((car) => this.stop(car.id));
     await Promise.all(promises);
   }
 
-  // private showWinner(id: number) {
+  private async defineWinner(event: AnimationEvent): Promise<void> {
+    this.garageView.garage.removeEventListener('animationend', this.boundDefineWinner);
+    this.winner = this.cars.find((car) => event.target === car.car);
+    this.winner.wins += 1;
+    this.garageView.winnerMessage.textContent = `${this.winner.name} wins with time ${this.winner.time}s`;
+    await this.addWinner();
+    this.garageView.showWinner();
+  }
 
-  // }
+  private async addWinner() {
+    const allWinners = await this.api.getWinners();
+    const { id, wins, time } = this.winner;
+    if (allWinners.some((winner) => winner.id === id)) {
+      await this.api.updateWinner({ id, wins, time });
+    } else {
+      await this.api.createWinner({ id, wins, time });
+    }
+  }
 }

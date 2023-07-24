@@ -37,12 +37,15 @@ export default class Car {
 
   id: number;
 
+  wins: number;
+
   constructor(name: string, color: string, id: number) {
     this.name = name;
     this.color = color;
     this.id = id;
     this.isSelected = false;
     this.time = null;
+    this.wins = 0;
 
     this.garageItem = createElement({
       tagName: 'div',

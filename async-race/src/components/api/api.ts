@@ -1,14 +1,17 @@
 /* eslint-disable no-console */
-import { CarData, EngineResponce } from '../../types/types';
+import { CarData, EngineResponce, WinnerData } from '../../types/types';
 
 export default class Api {
   private baseURL: string;
 
   private carsPerPageLimit: number;
 
+  winnersPerPageLimit: number;
+
   constructor() {
     this.baseURL = 'http://127.0.0.1:3000';
     this.carsPerPageLimit = 7;
+    this.winnersPerPageLimit = 10;
   }
 
   async createCar(carData: CarData): Promise<CarData> {
@@ -50,6 +53,14 @@ export default class Api {
     return response;
   }
 
+  public async deleteWinner(id: number): Promise<Response> {
+    const response = await fetch(`${this.baseURL}/winners/${id}`, {
+      method: 'DELETE',
+    });
+
+    return response;
+  }
+
   public async start(id: number): Promise<EngineResponce> {
     const response = await fetch(`${this.baseURL}/engine?id=${id}&status=started`, {
       method: 'PATCH',
@@ -70,6 +81,37 @@ export default class Api {
   public async stop(id: number): Promise<Response> {
     const response = await fetch(`${this.baseURL}/engine?id=${id}&status=stopped`, {
       method: 'PATCH',
+    });
+
+    return response;
+  }
+
+  public async getWinners(): Promise<WinnerData[]> {
+    const response = await fetch(`${this.baseURL}/winners`);
+    const data: WinnerData[] = await response.json();
+
+    return data;
+  }
+
+  public async createWinner(winner: WinnerData) {
+    const response = await fetch(`${this.baseURL}/winners`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(winner),
+    });
+
+    return response;
+  }
+
+  public async updateWinner(winner: WinnerData) {
+    const response = await fetch(`${this.baseURL}/winners/${winner.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(winner),
     });
 
     return response;

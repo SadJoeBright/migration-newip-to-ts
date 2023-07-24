@@ -44,3 +44,15 @@
   border: none;
   cursor: pointer;
 }
+
+.winner-massage {
+  margin: 0;
+  padding: 5px;
+  height: 16px;
+  font-size: 16px;
+  visibility: hidden;
+}
+
+.winner-massage_visible {
+  visibility: visible;
+}

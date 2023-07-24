@@ -22,3 +22,9 @@ export interface EngineResponce {
   velocity: number,
   distance: number
 }
+
+export interface WinnerData {
+  id: number,
+  wins: number,
+  time: number
+}
