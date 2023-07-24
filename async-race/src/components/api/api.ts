@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { CarData, EngineResponce, WinnerData } from '../../types/types';
 
 export default class Api {
@@ -6,7 +5,7 @@ export default class Api {
 
   private carsPerPageLimit: number;
 
-  winnersPerPageLimit: number;
+  private winnersPerPageLimit: number;
 
   constructor() {
     this.baseURL = 'http://127.0.0.1:3000';
@@ -14,7 +13,7 @@ export default class Api {
     this.winnersPerPageLimit = 10;
   }
 
-  async createCar(carData: CarData): Promise<CarData> {
+  public async createCar(carData: CarData): Promise<CarData> {
     const response = await fetch(`${this.baseURL}/garage`, {
       method: 'POST',
       headers: {
@@ -30,6 +29,13 @@ export default class Api {
   public async getCars(page: number): Promise<CarData[]> {
     const response = await fetch(`${this.baseURL}/garage?_page=${page}&_limit=${this.carsPerPageLimit}`);
     const data: CarData[] = await response.json();
+
+    return data;
+  }
+
+  public async getCar(id: number): Promise<CarData> {
+    const response = await fetch(`${this.baseURL}/garage/${id}`);
+    const data: CarData = await response.json();
 
     return data;
   }

@@ -2,6 +2,8 @@ import './garage.css';
 import createElement from '../../utils/create-element';
 
 export default class GarageView {
+  mainContainer: HTMLElement;
+
   header: HTMLElement;
 
   garage: HTMLElement;
@@ -32,10 +34,22 @@ export default class GarageView {
 
   winnerMessage: HTMLElement;
 
+  paginationPanel: HTMLElement;
+
+  prevButton: HTMLElement;
+
+  nextButton: HTMLElement;
+
   constructor() {
+    this.mainContainer = createElement({
+      tagName: 'div',
+      classNames: ['main-container'],
+    });
+
     this.header = createElement({
       tagName: 'header',
-      classNames: ['garage'],
+      classNames: ['header'],
+      parentNode: this.mainContainer,
     });
 
     this.controlPanel = createElement({
@@ -127,9 +141,30 @@ export default class GarageView {
     this.garage = createElement({
       tagName: 'div',
       classNames: ['garage'],
+      parentNode: this.mainContainer,
     });
 
-    this.textInput.focus();
+    // this.textInput.focus();
+
+    this.paginationPanel = createElement({
+      tagName: 'div',
+      classNames: ['pagination-panel'],
+      parentNode: this.mainContainer,
+    });
+
+    this.prevButton = createElement({
+      tagName: 'div',
+      classNames: ['button'],
+      textContent: 'PREV',
+      parentNode: this.paginationPanel,
+    });
+
+    this.nextButton = createElement({
+      tagName: 'div',
+      classNames: ['button'],
+      textContent: ' NEXT',
+      parentNode: this.paginationPanel,
+    });
   }
 
   public showWinner() {

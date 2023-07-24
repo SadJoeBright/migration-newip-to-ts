@@ -7,10 +7,14 @@ import { CarData } from '../../types/types';
 import getRandomName from '../utils/getRandomName';
 import getRandomColor from '../utils/getRandomColor';
 import carNames from '../../data/carNames';
-// import WinnerView from '../winnerView/winnerView';
+import WinnersView from '../view/winners/winnersView';
+import createElement from '../utils/create-element';
+import svgCode from '../../data/svgCode';
 
 export default class Controller {
-  currentPage: number;
+  currentGaragePage: number;
+
+  currentWinnersPage: number;
 
   api: Api;
 
@@ -20,54 +24,55 @@ export default class Controller {
 
   garageView: GarageView;
 
-  // winnerView: WinnerView;
+  winnersView: WinnersView;
 
   cars: Car[] = [];
-
-  finishedCars:Car[] = [];
 
   private winner: Car | null = null;
 
   private boundDefineWinner = this.defineWinner.bind(this);
 
   constructor() {
-    this.currentPage = 1;
+    this.currentGaragePage = 1;
+    this.currentWinnersPage = 1;
     this.api = new Api();
     this.appView = new AppView();
+    this.winnersView = this.appView.winnersView;
+    this.appView.toWinnersBtn.addEventListener('click', this.renderWinners.bind(this));
     this.garageView = this.appView.garageView;
-    this.appView.nextButton.addEventListener('click', this.newtPage.bind(this));
-    this.appView.prevButton.addEventListener('click', this.prevPage.bind(this));
+    this.garageView.nextButton.addEventListener('click', this.nextPage.bind(this));
+    this.garageView.prevButton.addEventListener('click', this.prevPage.bind(this));
     this.garageView.createButton.addEventListener('click', this.addCar.bind(this));
     this.garageView.updateButton.addEventListener('click', this.updateCar.bind(this));
     this.garageView.raceButton.addEventListener('click', this.startRace.bind(this));
     this.garageView.generateButton.addEventListener('click', this.generateCars.bind(this));
     this.garageView.resetButton.addEventListener('click', this.reset.bind(this));
-    this.render(this.currentPage);
+    this.renderGarage(this.currentGaragePage);
   }
 
-  private newtPage(): void {
-    this.currentPage += 1;
-    this.render(this.currentPage);
+  private nextPage(): void {
+    this.currentGaragePage += 1;
+    this.renderGarage(this.currentGaragePage);
   }
 
   private prevPage(): void {
-    if (this.currentPage > 1) {
-      this.currentPage -= 1;
-      this.render(this.currentPage);
+    if (this.currentGaragePage > 1) {
+      this.currentGaragePage -= 1;
+      this.renderGarage(this.currentGaragePage);
     }
   }
 
   async addCar() {
     const pagesAmount = await this.api.getPagesAmount();
     const carsAmount = await this.api.getCarsAmount();
-    const id = carsAmount + 1;
-    // if ((this.garage.textInput as HTMLInputElement).value) {
+    const allCars = await this.api.getCars(pagesAmount);
+    const id = allCars[allCars.length - 1].id + 1;
     const name = (this.garageView.textInput as HTMLInputElement).value;
     const color = (this.garageView.colorInput as HTMLInputElement).value;
     await this.api.createCar({ name, color, id });
     this.garageView.title.textContent = `Garage(${carsAmount})`;
-    if (this.currentPage === pagesAmount) {
-      this.render(this.currentPage);
+    if (this.currentGaragePage === pagesAmount) {
+      this.renderGarage(this.currentGaragePage);
     }
   }
 
@@ -80,11 +85,11 @@ export default class Controller {
     this.cars.push(car);
   }
 
-  async render(page: number) {
+  async renderGarage(page: number) {
     this.cars = [];
     const carsAmount = await this.api.getCarsAmount();
     this.garageView.title.textContent = `Garage(${carsAmount})`;
-    this.garageView.pageNumber.textContent = `Page #${this.currentPage}`;
+    this.garageView.pageNumber.textContent = `Page #${this.currentGaragePage}`;
     const carsData = await this.api.getCars(page);
     this.garageView.garage.innerHTML = '';
     carsData.forEach((data: CarData) => {
@@ -93,10 +98,64 @@ export default class Controller {
     });
   }
 
+  async renderWinners() {
+    const winners = await this.api.getWinners();
+    const winnersAmount = winners.length;
+    this.winnersView.title.textContent = `Winners (${winnersAmount})`;
+    this.winnersView.pageNumber.textContent = 'Page #1';
+    this.winnersView.chartBody.innerHTML = '';
+    winners.forEach(async (winner, index) => {
+      const line = createElement({
+        tagName: 'div',
+        classNames: ['chart__line'],
+        parentNode: this.winnersView.chartBody,
+      });
+
+      const number = createElement({
+        tagName: 'div',
+        classNames: ['chart__column', 'chart__number'],
+        textContent: `${index + 1}`,
+      });
+
+      const car = createElement({
+        tagName: 'div',
+        classNames: ['chart__column'],
+      });
+      const carData = await this.api.getCar(winner.id);
+      const { color } = carData;
+      car.innerHTML = svgCode;
+      car.children[0].setAttribute('fill', color);
+      car.children[0].setAttribute('width', '38px');
+      car.children[0].setAttribute('height', '16px');
+      const carName = carData.name;
+
+      const name = createElement({
+        tagName: 'div',
+        classNames: ['chart__column', 'chart__name'],
+        textContent: `${carName}`,
+      });
+      const wins = createElement({
+        tagName: 'div',
+        classNames: ['chart__column'],
+        textContent: `${winner.wins}`,
+      });
+      const bestTime = createElement({
+        tagName: 'div',
+        classNames: ['chart__column'],
+        textContent: `${winner.time}`,
+      });
+
+      line.append(number, car, name, wins, bestTime);
+    });
+  }
+
   async removeCar(id: number) {
     await this.api.deleteCar(id);
-    this.render(this.currentPage);
-    this.api.deleteWinner(id);
+    const allWinners = await this.api.getWinners();
+    if (allWinners.some((winner) => winner.id === id)) {
+      this.api.deleteWinner(id);
+    }
+    this.renderGarage(this.currentGaragePage);
   }
 
   async generateCars() {

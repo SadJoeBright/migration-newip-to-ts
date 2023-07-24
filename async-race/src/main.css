@@ -7,15 +7,30 @@ body {
   color: rgb(245, 245, 245);
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .view-switcher {
   display: flex;
   justify-content: space-between;
   gap: 5%;
 }
 
+.main-container {
+  position: absolute;
+  top: 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .button {
   width: fit-content;
-  /* padding: 2% 5%; */
+  /* padding: 2%; */
   border-radius: 5px;
   /* min-width: 120px; */
   height: 25px;
@@ -51,6 +66,5 @@ body {
 
 .hide {
   opacity: 0;
-  position: absolute;
-  top: -100%
+  z-index: -1;
 }

@@ -1,6 +1,7 @@
 import '../../main.css';
 import createElement from '../utils/create-element';
 import GarageView from './garage/garageView';
+import WinnersView from './winners/winnersView';
 
 export default class AppView {
   viewSwitcher: HTMLElement;
@@ -11,11 +12,7 @@ export default class AppView {
 
   garageView: GarageView;
 
-  paginationPanel: HTMLElement;
-
-  prevButton: HTMLElement;
-
-  nextButton: HTMLElement;
+  winnersView: WinnersView;
 
   constructor() {
     this.viewSwitcher = createElement({
@@ -42,41 +39,24 @@ export default class AppView {
     });
 
     this.garageView = new GarageView();
-
-    this.paginationPanel = createElement({
-      tagName: 'div',
-      classNames: ['pagination-panel'],
-    });
-
-    this.prevButton = createElement({
-      tagName: 'div',
-      classNames: ['button'],
-      textContent: 'PREV',
-      parentNode: this.paginationPanel,
-    });
-
-    this.nextButton = createElement({
-      tagName: 'div',
-      classNames: ['button'],
-      textContent: ' NEXT',
-      parentNode: this.paginationPanel,
-    });
+    this.winnersView = new WinnersView();
   }
 
   public create(): void {
     document.body.append(
       this.viewSwitcher,
-      this.garageView.header,
-      this.garageView.garage,
-      this.paginationPanel,
+      this.garageView.mainContainer,
+      this.winnersView.mainContainer,
     );
   }
 
   toWinners() {
-    this.garageView.garage.classList.add('hide');
+    this.garageView.mainContainer.classList.add('hide');
+    this.winnersView.mainContainer.classList.remove('hide');
   }
 
   toGarage() {
-    this.garageView.garage.classList.remove('hide');
+    this.winnersView.mainContainer.classList.add('hide');
+    this.garageView.mainContainer.classList.remove('hide');
   }
 }
