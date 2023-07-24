@@ -1,6 +1,6 @@
 import '../../main.css';
 import createElement from '../utils/create-element';
-import Garage from './garage/garage-view';
+import GarageView from './garage/garageView';
 
 export default class AppView {
   viewSwitcher: HTMLElement;
@@ -9,7 +9,7 @@ export default class AppView {
 
   toWinnersBtn: HTMLElement;
 
-  garage: Garage;
+  garageView: GarageView;
 
   paginationPanel: HTMLElement;
 
@@ -41,7 +41,7 @@ export default class AppView {
       eventType: 'click',
     });
 
-    this.garage = new Garage();
+    this.garageView = new GarageView();
 
     this.paginationPanel = createElement({
       tagName: 'div',
@@ -66,17 +66,17 @@ export default class AppView {
   public create(): void {
     document.body.append(
       this.viewSwitcher,
-      this.garage.header,
-      this.garage.getElement(),
+      this.garageView.header,
+      this.garageView.garage,
       this.paginationPanel,
     );
   }
 
   toWinners() {
-    this.garage.garage.classList.add('hide');
+    this.garageView.garage.classList.add('hide');
   }
 
   toGarage() {
-    this.garage.garage.classList.remove('hide');
+    this.garageView.garage.classList.remove('hide');
   }
 }

@@ -2,7 +2,7 @@ import './garage.css';
 import Car from '../../car/car';
 import createElement from '../../utils/create-element';
 
-export default class Garage {
+export default class GarageView {
   header: HTMLElement;
 
   garage: HTMLElement;

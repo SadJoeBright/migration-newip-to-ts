@@ -42,6 +42,7 @@ export default class Car {
     this.color = color;
     this.id = id;
     this.isSelected = false;
+    this.time = null;
 
     this.garageItem = createElement({
       tagName: 'div',
@@ -97,7 +98,6 @@ export default class Car {
       classNames: ['button_stop'],
       textContent: 'STOP',
       parentNode: this.engineControl,
-      // eventHandler: () => this.goBack(),
       eventType: 'click',
     });
 
