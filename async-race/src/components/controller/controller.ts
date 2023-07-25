@@ -26,6 +26,10 @@ export default class Controller {
 
   winnersView: WinnersView;
 
+  sortingParam: string;
+
+  sortingOrder: string;
+
   cars: Car[] = [];
 
   private winner: Car | null = null;
@@ -35,13 +39,15 @@ export default class Controller {
   constructor() {
     this.currentGaragePage = 1;
     this.currentWinnersPage = 1;
+    this.sortingParam = 'time';
+    this.sortingOrder = 'ASC';
     this.api = new Api();
     this.appView = new AppView();
     this.winnersView = this.appView.winnersView;
-    this.appView.toWinnersBtn.addEventListener('click', this.renderWinners.bind(this, this.currentWinnersPage));
+    this.appView.toWinnersBtn.addEventListener('click', () => this.renderWinners(this.currentWinnersPage));
     this.garageView = this.appView.garageView;
     this.garageView.nextButton.addEventListener('click', this.nextGaragePage.bind(this));
-    this.garageView.prevButton.addEventListener('click', this.prevgGaragePage.bind(this));
+    this.garageView.prevButton.addEventListener('click', this.prevGaragePage.bind(this));
     this.garageView.createButton.addEventListener('click', this.addCar.bind(this));
     this.garageView.updateButton.addEventListener('click', this.updateCar.bind(this));
     this.garageView.raceButton.addEventListener('click', this.startRace.bind(this));
@@ -49,6 +55,8 @@ export default class Controller {
     this.garageView.resetButton.addEventListener('click', this.reset.bind(this));
     this.winnersView.nextButton.addEventListener('click', this.nextWinnersPage.bind(this));
     this.winnersView.prevButton.addEventListener('click', this.prevWinnersPage.bind(this));
+    this.winnersView.chartWins.addEventListener('click', () => this.sortWinnersByTWins());
+    this.winnersView.chartBestTime.addEventListener('click', () => this.sortWinnersByTime());
     this.renderGarage(this.currentGaragePage);
   }
 
@@ -60,11 +68,21 @@ export default class Controller {
     }
   }
 
-  private prevgGaragePage(): void {
+  private prevGaragePage(): void {
     if (this.currentGaragePage > 1) {
       this.currentGaragePage -= 1;
       this.renderGarage(this.currentGaragePage);
     }
+  }
+
+  private async sortWinnersByTime() {
+    this.sortingOrder = this.sortingOrder === 'ACS' ? 'DESC' : 'ACS';
+    this.renderWinners(this.currentWinnersPage, this.sortingParam, this.sortingOrder);
+  }
+
+  private async sortWinnersByTWins() {
+    this.sortingOrder = this.sortingOrder === 'ACS' ? 'DESC' : 'ACS';
+    this.renderWinners(this.currentWinnersPage, this.sortingParam, this.sortingOrder);
   }
 
   private async nextWinnersPage() {
@@ -118,8 +136,8 @@ export default class Controller {
     });
   }
 
-  async renderWinners(page: number) {
-    const winners = await this.api.getWinners(page);
+  async renderWinners(page: number, sort = '', order = '') {
+    const winners = await this.api.getWinners(page, sort, order);
     const winnersAmount = await this.api.getWinnersAmount();
     this.winnersView.title.textContent = `Winners (${winnersAmount})`;
     this.winnersView.pageNumber.textContent = `Page #${this.currentWinnersPage}`;

@@ -92,10 +92,12 @@ export default class Api {
     return response;
   }
 
-  public async getWinners(page?: number): Promise<WinnerData[]> {
-    const pageQqeryParam = page ? `&_page=${page}` : '';
+  public async getWinners(page?: number, sort?: string, order?: string): Promise<WinnerData[]> {
+    const pageQueryParam = page ? `&_page=${page}` : '';
+    const sortQueryParam = sort ? `&_sort=${sort}` : '';
+    const orderQueryParam = order ? `&_order=${order}` : '';
 
-    const response = await fetch(`${this.baseURL}/winners?_limit=${this.winnersPerPageLimit}${pageQqeryParam}`);
+    const response = await fetch(`${this.baseURL}/winners?_limit=${this.winnersPerPageLimit}${pageQueryParam}${sortQueryParam}${orderQueryParam}`);
     const data: WinnerData[] = await response.json();
 
     return data;
