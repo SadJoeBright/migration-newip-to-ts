@@ -58,6 +58,8 @@ export default class Controller {
     this.winnersView.chartWins.addEventListener('click', () => this.sortWinnersByTWins());
     this.winnersView.chartBestTime.addEventListener('click', () => this.sortWinnersByTime());
     this.renderGarage(this.currentGaragePage);
+    window.addEventListener('DOMContentLoaded', this.loadStateFromLocalStorage.bind(this));
+    window.addEventListener('beforeunload', this.saveStateToLocalStorage.bind(this));
   }
 
   private async nextGaragePage() {
@@ -107,10 +109,16 @@ export default class Controller {
     const id = allCars[allCars.length - 1].id + 1;
     const name = (this.garageView.textInput as HTMLInputElement).value;
     const color = (this.garageView.colorInput as HTMLInputElement).value;
-    await this.api.createCar({ name, color, id });
-    this.garageView.title.textContent = `Garage(${carsAmount})`;
-    if (this.currentGaragePage === pagesAmount) {
-      this.renderGarage(this.currentGaragePage);
+    if (name) {
+      await this.api.createCar({ name, color, id });
+      this.garageView.title.textContent = `Garage(${carsAmount})`;
+      if (this.currentGaragePage === pagesAmount) {
+        this.renderGarage(this.currentGaragePage);
+      }
+      (this.garageView.textInput as HTMLInputElement).value = '';
+      this.garageView.textInput.setAttribute('placeholder', '');
+    } else {
+      this.garageView.textInput.setAttribute('placeholder', 'please, type in car\'s name');
     }
   }
 
@@ -187,7 +195,7 @@ export default class Controller {
     });
   }
 
-  async removeCar(id: number) {
+  private async removeCar(id: number) {
     await this.api.deleteCar(id);
     const allWinners = await this.api.getWinners();
     if (allWinners.some((winner) => winner.id === id)) {
@@ -215,23 +223,29 @@ export default class Controller {
     const carsAmount = await this.api.getCarsAmount();
 
     this.garageView.title.textContent = `Garage(${carsAmount})`;
+    if (this.currentGaragePage === pagesAmount) {
+      this.renderGarage(this.currentGaragePage);
+    }
   }
 
-  updateCar() {
-    this.cars.forEach((car) => {
-      if (car.isSelected) {
-        const updatedCar = { ...car };
-        const newBrand = (this.garageView.textInput as HTMLInputElement).value;
-        const newColor = (this.garageView.colorInput as HTMLInputElement).value;
-        updatedCar.car.children[0].setAttribute('fill', newColor);
-        updatedCar.carTitle.textContent = newBrand;
-        updatedCar.isSelected = false;
-        updatedCar.carTitle.classList.toggle('selected');
-
-        Object.assign(car, updatedCar);
+  async updateCar() {
+    const selectedCar = this.cars.filter((car) => car.isSelected)[0];
+    if (selectedCar) {
+      const { id } = selectedCar;
+      const name = (this.garageView.textInput as HTMLInputElement).value;
+      const color = (this.garageView.colorInput as HTMLInputElement).value;
+      if (name && color) {
+        await this.api.updateCar({ name, color, id });
+        this.renderGarage(this.currentGaragePage);
+        selectedCar.isSelected = false;
+        (this.garageView.textInput as HTMLInputElement).value = '';
+        this.garageView.textInput.setAttribute('placeholder', '');
+      } else {
+        this.garageView.textInput.setAttribute('placeholder', 'please, type in car\'s name');
       }
-    });
-    (this.garageView.textInput as HTMLInputElement).value = '';
+    } else {
+      this.garageView.textInput.setAttribute('placeholder', 'please, select the car');
+    }
   }
 
   async start(id: number) {
@@ -282,6 +296,35 @@ export default class Controller {
       await this.api.updateWinner({ id, wins, time });
     } else {
       await this.api.createWinner({ id, wins, time });
+    }
+  }
+
+  private saveStateToLocalStorage() {
+    localStorage.setItem('currentGaragePage', String(this.currentGaragePage));
+    localStorage.setItem('currentWinnersPage', String(this.currentWinnersPage));
+    localStorage.setItem('sortingParam', this.sortingParam);
+    localStorage.setItem('sortingOrder', this.sortingOrder);
+  }
+
+  private loadStateFromLocalStorage() {
+    const savedGaragePage = localStorage.getItem('currentGaragePage');
+    if (savedGaragePage !== null) {
+      this.currentGaragePage = Number(savedGaragePage);
+    }
+
+    const savedWinnersPage = localStorage.getItem('currentWinnersPage');
+    if (savedWinnersPage !== null) {
+      this.currentWinnersPage = Number(savedWinnersPage);
+    }
+
+    const savedSortingParam = localStorage.getItem('sortingParam');
+    if (savedSortingParam !== null) {
+      this.sortingParam = savedSortingParam;
+    }
+
+    const savedSortingOrder = localStorage.getItem('sortingOrder');
+    if (savedSortingOrder !== null) {
+      this.sortingOrder = savedSortingOrder;
     }
   }
 }

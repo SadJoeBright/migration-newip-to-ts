@@ -40,6 +40,26 @@ export default class Api {
     return data;
   }
 
+  public async updateCar(car: CarData) {
+    const response = await fetch(`${this.baseURL}/garage/${car.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(car),
+    });
+
+    return response;
+  }
+
+  public async deleteCar(id: number): Promise<Response> {
+    const response = await fetch(`${this.baseURL}/garage/${id}`, {
+      method: 'DELETE',
+    });
+
+    return response;
+  }
+
   public async getCarsAmount(): Promise<number> {
     const response = await fetch(`${this.baseURL}/garage?_limit=${this.carsPerPageLimit}`);
     const carsAmount = Number(response.headers.get('X-Total-Count'));
@@ -49,14 +69,6 @@ export default class Api {
 
   public async getCarsPagesAmount() {
     return Math.ceil(await this.getCarsAmount() / this.carsPerPageLimit);
-  }
-
-  public async deleteCar(id: number): Promise<Response> {
-    const response = await fetch(`${this.baseURL}/garage/${id}`, {
-      method: 'DELETE',
-    });
-
-    return response;
   }
 
   public async deleteWinner(id: number): Promise<Response> {
