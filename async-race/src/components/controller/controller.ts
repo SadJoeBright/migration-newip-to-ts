@@ -58,8 +58,8 @@ export default class Controller {
     this.winnersView.chartWins.addEventListener('click', () => this.sortWinnersByTWins());
     this.winnersView.chartBestTime.addEventListener('click', () => this.sortWinnersByTime());
     this.renderGarage(this.currentGaragePage);
-    window.addEventListener('DOMContentLoaded', this.loadStateFromLocalStorage.bind(this));
-    window.addEventListener('beforeunload', this.saveStateToLocalStorage.bind(this));
+    // window.addEventListener('DOMContentLoaded', this.loadStateFromLocalStorage.bind(this));
+    // window.addEventListener('beforeunload', this.saveStateToLocalStorage.bind(this));
   }
 
   private async nextGaragePage() {
@@ -309,32 +309,32 @@ export default class Controller {
     }
   }
 
-  private saveStateToLocalStorage() {
-    localStorage.setItem('currentGaragePage', String(this.currentGaragePage));
-    localStorage.setItem('currentWinnersPage', String(this.currentWinnersPage));
-    localStorage.setItem('sortingParam', this.sortingParam);
-    localStorage.setItem('sortingOrder', this.sortingOrder);
-  }
+  // private saveStateToLocalStorage() {
+  //   localStorage.setItem('currentGaragePage', String(this.currentGaragePage));
+  //   localStorage.setItem('currentWinnersPage', String(this.currentWinnersPage));
+  //   localStorage.setItem('sortingParam', this.sortingParam);
+  //   localStorage.setItem('sortingOrder', this.sortingOrder);
+  // }
 
-  private loadStateFromLocalStorage() {
-    const savedGaragePage = localStorage.getItem('currentGaragePage');
-    if (savedGaragePage !== null) {
-      this.currentGaragePage = Number(savedGaragePage);
-    }
+  // private loadStateFromLocalStorage() {
+  //   const savedGaragePage = localStorage.getItem('currentGaragePage');
+  //   if (savedGaragePage !== null) {
+  //     this.currentGaragePage = Number(savedGaragePage);
+  //   }
 
-    const savedWinnersPage = localStorage.getItem('currentWinnersPage');
-    if (savedWinnersPage !== null) {
-      this.currentWinnersPage = Number(savedWinnersPage);
-    }
+  //   const savedWinnersPage = localStorage.getItem('currentWinnersPage');
+  //   if (savedWinnersPage !== null) {
+  //     this.currentWinnersPage = Number(savedWinnersPage);
+  //   }
 
-    const savedSortingParam = localStorage.getItem('sortingParam');
-    if (savedSortingParam !== null) {
-      this.sortingParam = savedSortingParam;
-    }
+  //   const savedSortingParam = localStorage.getItem('sortingParam');
+  //   if (savedSortingParam !== null) {
+  //     this.sortingParam = savedSortingParam;
+  //   }
 
-    const savedSortingOrder = localStorage.getItem('sortingOrder');
-    if (savedSortingOrder !== null) {
-      this.sortingOrder = savedSortingOrder;
-    }
-  }
+  //   const savedSortingOrder = localStorage.getItem('sortingOrder');
+  //   if (savedSortingOrder !== null) {
+  //     this.sortingOrder = savedSortingOrder;
+  //   }
+  // }
 }
