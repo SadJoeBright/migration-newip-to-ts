@@ -88,13 +88,13 @@ export default class WinnersView {
     });
     this.chartWins = createElement({
       tagName: 'div',
-      classNames: ['chart__column'],
+      classNames: ['chart__column', 'chart__wins'],
       textContent: 'Wins',
       parentNode: this.chartHeader,
     });
     this.chartBestTime = createElement({
       tagName: 'div',
-      classNames: ['chart__column'],
+      classNames: ['chart__column', 'chart__time'],
       textContent: 'Best time (seconds)',
       parentNode: this.chartHeader,
     });

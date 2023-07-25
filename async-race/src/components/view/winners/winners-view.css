@@ -45,3 +45,10 @@
 .chart__number {
   text-align: center;
 }
+
+.chart__wins:hover,
+.chart__time:hover{
+  cursor: pointer;
+  filter: brightness(150%);
+}
+
