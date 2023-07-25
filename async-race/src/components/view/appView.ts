@@ -51,8 +51,10 @@ export default class AppView {
   }
 
   toWinners() {
-    this.garageView.mainContainer.classList.add('hide');
-    this.winnersView.mainContainer.classList.remove('hide');
+    setTimeout(() => {
+      this.garageView.mainContainer.classList.add('hide');
+      this.winnersView.mainContainer.classList.remove('hide');
+    }, 200);
   }
 
   toGarage() {

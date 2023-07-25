@@ -47,7 +47,7 @@ export default class Api {
     return carsAmount;
   }
 
-  public async getPagesAmount() {
+  public async getCarsPagesAmount() {
     return Math.ceil(await this.getCarsAmount() / this.carsPerPageLimit);
   }
 
@@ -92,11 +92,24 @@ export default class Api {
     return response;
   }
 
-  public async getWinners(): Promise<WinnerData[]> {
-    const response = await fetch(`${this.baseURL}/winners`);
+  public async getWinners(page?: number): Promise<WinnerData[]> {
+    const pageQqeryParam = page ? `&_page=${page}` : '';
+
+    const response = await fetch(`${this.baseURL}/winners?_limit=${this.winnersPerPageLimit}${pageQqeryParam}`);
     const data: WinnerData[] = await response.json();
 
     return data;
+  }
+
+  public async getWinnersAmount() {
+    const response = await fetch(`${this.baseURL}/winners?_limit=${this.winnersPerPageLimit}`);
+    const winnersAmount = Number(response.headers.get('X-Total-Count'));
+
+    return winnersAmount;
+  }
+
+  public async getWinnersPagesAmount() {
+    return Math.ceil(await this.getWinnersAmount() / this.winnersPerPageLimit);
   }
 
   public async createWinner(winner: WinnerData) {

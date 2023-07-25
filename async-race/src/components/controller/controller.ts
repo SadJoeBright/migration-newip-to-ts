@@ -38,32 +38,52 @@ export default class Controller {
     this.api = new Api();
     this.appView = new AppView();
     this.winnersView = this.appView.winnersView;
-    this.appView.toWinnersBtn.addEventListener('click', this.renderWinners.bind(this));
+    this.appView.toWinnersBtn.addEventListener('click', this.renderWinners.bind(this, this.currentWinnersPage));
     this.garageView = this.appView.garageView;
-    this.garageView.nextButton.addEventListener('click', this.nextPage.bind(this));
-    this.garageView.prevButton.addEventListener('click', this.prevPage.bind(this));
+    this.garageView.nextButton.addEventListener('click', this.nextGaragePage.bind(this));
+    this.garageView.prevButton.addEventListener('click', this.prevgGaragePage.bind(this));
     this.garageView.createButton.addEventListener('click', this.addCar.bind(this));
     this.garageView.updateButton.addEventListener('click', this.updateCar.bind(this));
     this.garageView.raceButton.addEventListener('click', this.startRace.bind(this));
     this.garageView.generateButton.addEventListener('click', this.generateCars.bind(this));
     this.garageView.resetButton.addEventListener('click', this.reset.bind(this));
+    this.winnersView.nextButton.addEventListener('click', this.nextWinnersPage.bind(this));
+    this.winnersView.prevButton.addEventListener('click', this.prevWinnersPage.bind(this));
     this.renderGarage(this.currentGaragePage);
   }
 
-  private nextPage(): void {
-    this.currentGaragePage += 1;
-    this.renderGarage(this.currentGaragePage);
+  private async nextGaragePage() {
+    const pagesAmount = await this.api.getCarsPagesAmount();
+    if (this.currentGaragePage < pagesAmount) {
+      this.currentGaragePage += 1;
+      this.renderGarage(this.currentGaragePage);
+    }
   }
 
-  private prevPage(): void {
+  private prevgGaragePage(): void {
     if (this.currentGaragePage > 1) {
       this.currentGaragePage -= 1;
       this.renderGarage(this.currentGaragePage);
     }
   }
 
+  private async nextWinnersPage() {
+    const pagesAmount = await this.api.getWinnersPagesAmount();
+    if (this.currentWinnersPage < pagesAmount) {
+      this.currentWinnersPage += 1;
+      this.renderWinners(this.currentWinnersPage);
+    }
+  }
+
+  private prevWinnersPage() {
+    if (this.currentWinnersPage > 1) {
+      this.currentWinnersPage -= 1;
+      this.renderWinners(this.currentWinnersPage);
+    }
+  }
+
   async addCar() {
-    const pagesAmount = await this.api.getPagesAmount();
+    const pagesAmount = await this.api.getCarsPagesAmount();
     const carsAmount = await this.api.getCarsAmount();
     const allCars = await this.api.getCars(pagesAmount);
     const id = allCars[allCars.length - 1].id + 1;
@@ -85,7 +105,7 @@ export default class Controller {
     this.cars.push(car);
   }
 
-  async renderGarage(page: number) {
+  private async renderGarage(page: number) {
     this.cars = [];
     const carsAmount = await this.api.getCarsAmount();
     this.garageView.title.textContent = `Garage(${carsAmount})`;
@@ -98,11 +118,11 @@ export default class Controller {
     });
   }
 
-  async renderWinners() {
-    const winners = await this.api.getWinners();
-    const winnersAmount = winners.length;
+  async renderWinners(page: number) {
+    const winners = await this.api.getWinners(page);
+    const winnersAmount = await this.api.getWinnersAmount();
     this.winnersView.title.textContent = `Winners (${winnersAmount})`;
-    this.winnersView.pageNumber.textContent = 'Page #1';
+    this.winnersView.pageNumber.textContent = `Page #${this.currentWinnersPage}`;
     this.winnersView.chartBody.innerHTML = '';
     winners.forEach(async (winner, index) => {
       const line = createElement({
@@ -159,7 +179,7 @@ export default class Controller {
   }
 
   async generateCars() {
-    const pagesAmount = await this.api.getPagesAmount();
+    const pagesAmount = await this.api.getCarsPagesAmount();
     const carsData = await this.api.getCars(pagesAmount);
     const lastCarId = carsData[carsData.length - 1].id;
 
@@ -240,7 +260,7 @@ export default class Controller {
   private async addWinner() {
     const allWinners = await this.api.getWinners();
     const { id, wins, time } = this.winner;
-    if (allWinners.some((winner) => winner.id === id)) {
+    if (allWinners.some((winner) => winner.id === id && time < winner.time)) {
       await this.api.updateWinner({ id, wins, time });
     } else {
       await this.api.createWinner({ id, wins, time });

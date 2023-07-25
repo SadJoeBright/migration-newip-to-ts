@@ -16,7 +16,15 @@ export default class WinnersView {
 
   chartBody: HTMLElement;
 
-  chartColumn: HTMLElement;
+  chartNumber: HTMLElement;
+
+  chartCarIcon: HTMLElement;
+
+  chartCarName: HTMLElement;
+
+  chartWins: HTMLElement;
+
+  chartBestTime: HTMLElement;
 
   paginationPanel: HTMLElement;
 
@@ -60,41 +68,41 @@ export default class WinnersView {
       parentNode: this.chart,
     });
 
-    this.chartBody = createElement({
-      tagName: 'div',
-      classNames: ['chart__body'],
-      parentNode: this.chart,
-    });
-
-    this.chartColumn = createElement({
+    this.chartNumber = createElement({
       tagName: 'div',
       classNames: ['chart__column', 'chart__number'],
       textContent: 'Number',
       parentNode: this.chartHeader,
     });
-    this.chartColumn = createElement({
+    this.chartCarIcon = createElement({
       tagName: 'div',
       classNames: ['chart__column'],
       textContent: 'Car',
       parentNode: this.chartHeader,
     });
-    this.chartColumn = createElement({
+    this.chartCarName = createElement({
       tagName: 'div',
       classNames: ['chart__column', 'chart__name'],
       textContent: 'Name',
       parentNode: this.chartHeader,
     });
-    this.chartColumn = createElement({
+    this.chartWins = createElement({
       tagName: 'div',
       classNames: ['chart__column'],
       textContent: 'Wins',
       parentNode: this.chartHeader,
     });
-    this.chartColumn = createElement({
+    this.chartBestTime = createElement({
       tagName: 'div',
       classNames: ['chart__column'],
       textContent: 'Best time (seconds)',
       parentNode: this.chartHeader,
+    });
+
+    this.chartBody = createElement({
+      tagName: 'div',
+      classNames: ['chart__body'],
+      parentNode: this.chart,
     });
 
     this.paginationPanel = createElement({

@@ -1,10 +1,12 @@
-@import '~normalize.css';
+/* @import '~normalize.css'; */
 body {
   background-color: rgb(155, 154, 154);
   display: flex;
   flex-direction: column;
+  /* justify-content: start; */
   align-items: center;
   color: rgb(245, 245, 245);
+  
 }
 
 * {
@@ -15,9 +17,9 @@ body {
 
 .view-switcher {
   display: flex;
-  justify-content: space-between;
-  gap: 5%;
+  justify-content: space-around;
 }
+
 
 .main-container {
   position: absolute;
@@ -29,11 +31,11 @@ body {
 }
 
 .button {
-  width: fit-content;
+  /* width: fit-content; */
   /* padding: 2%; */
   border-radius: 5px;
   /* min-width: 120px; */
-  height: 25px;
+  /* height: 25px; */
   background-color: blueviolet;
   text-align: center;
   line-height: 150%;
