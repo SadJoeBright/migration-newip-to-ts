@@ -1,9 +1,5 @@
 .garage {
   width: 100%;
-  /* padding: 55px; */
-  /* margin: 0 auto; */
-
-  /* border: solid 1px red; */
 }
 
 .header {
@@ -26,6 +22,7 @@
   display: flex;
   justify-content: space-between;
   gap: 5px;
+  padding: 5px;
 }
 
 .control-buttons {
@@ -37,12 +34,23 @@
   outline: none;
   border-radius: 5px;
   padding: 2px 5px;
+  outline: none;
+  border: none;
 }
 
 .color-input {
   border-radius: 5px;
+  padding: 2px;
   border: none;
   cursor: pointer;
+}
+
+.garage__title {
+  padding: 0 0 5px 0;
+}
+
+.garage__page-number {
+  font-size: 20px;
 }
 
 .winner-massage {

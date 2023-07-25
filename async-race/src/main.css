@@ -18,6 +18,8 @@ body {
 .view-switcher {
   display: flex;
   justify-content: space-around;
+  padding: 15px;
+  gap: 5px;
 }
 
 
@@ -31,12 +33,10 @@ body {
 }
 
 .button {
-  /* width: fit-content; */
-  /* padding: 2%; */
+  padding: 2px 5px;
   border-radius: 5px;
-  /* min-width: 120px; */
-  /* height: 25px; */
-  background-color: blueviolet;
+  font-size: 14px;
+  background-color: rgb(11, 169, 183);
   text-align: center;
   line-height: 150%;
   cursor: pointer;
@@ -46,8 +46,7 @@ body {
 
 .button:hover {
   filter: brightness(120%);
-  box-shadow: 0 0 15px 1px blueviolet;
-  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.1); */
+  box-shadow: 0 0 15px 1px rgb(11, 169, 183);
 
 }
 
@@ -59,7 +58,7 @@ body {
 .button_disabled {
   cursor: not-allowed; 
   pointer-events: none;
-  opacity: 0.7;
+  opacity: 0.5;
 }
 
 .pagination-panel {

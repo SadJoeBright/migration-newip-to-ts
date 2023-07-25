@@ -46,13 +46,13 @@ export default class WinnersView {
 
     this.title = createElement({
       tagName: 'h2',
-      classNames: ['winners__title'],
+      classNames: ['garage__title'],
       parentNode: this.header,
     });
 
     this.pageNumber = createElement({
       tagName: 'p',
-      classNames: ['winners__page-number'],
+      classNames: ['garagae__page-number'],
       parentNode: this.header,
     });
 
