@@ -106,13 +106,13 @@ export default class Controller {
     const pagesAmount = await this.api.getCarsPagesAmount();
     const carsAmount = await this.api.getCarsAmount();
     const allCars = await this.api.getCars(pagesAmount);
-    const id = allCars[allCars.length - 1].id + 1;
+    const id = allCars.length ? (allCars[allCars.length - 1].id + 1) : 1;
     const name = (this.garageView.textInput as HTMLInputElement).value;
     const color = (this.garageView.colorInput as HTMLInputElement).value;
     if (name) {
       await this.api.createCar({ name, color, id });
       this.garageView.title.textContent = `Garage(${carsAmount})`;
-      if (this.currentGaragePage === pagesAmount) {
+      if (this.currentGaragePage === pagesAmount || pagesAmount === 0) {
         this.renderGarage(this.currentGaragePage);
       }
       (this.garageView.textInput as HTMLInputElement).value = '';
@@ -207,7 +207,7 @@ export default class Controller {
   async generateCars() {
     const pagesAmount = await this.api.getCarsPagesAmount();
     const carsData = await this.api.getCars(pagesAmount);
-    const lastCarId = carsData[carsData.length - 1].id;
+    const lastCarId = carsData.length ? (carsData[carsData.length - 1].id) : 1;
 
     const createCarPromises = [];
 
@@ -223,7 +223,7 @@ export default class Controller {
     const carsAmount = await this.api.getCarsAmount();
 
     this.garageView.title.textContent = `Garage(${carsAmount})`;
-    if (this.currentGaragePage === pagesAmount) {
+    if (this.currentGaragePage === pagesAmount || pagesAmount === 0) {
       this.renderGarage(this.currentGaragePage);
     }
   }
