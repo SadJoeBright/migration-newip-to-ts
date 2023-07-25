@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import AppView from '../view/appView';
 import Car from '../car/car';
 import Api from '../api/api';
@@ -58,6 +57,7 @@ export default class Controller {
     this.winnersView.chartWins.addEventListener('click', () => this.sortWinnersByTWins());
     this.winnersView.chartBestTime.addEventListener('click', () => this.sortWinnersByTime());
     this.renderGarage(this.currentGaragePage);
+
     // window.addEventListener('DOMContentLoaded', this.loadStateFromLocalStorage.bind(this));
     // window.addEventListener('beforeunload', this.saveStateToLocalStorage.bind(this));
   }
@@ -124,6 +124,8 @@ export default class Controller {
 
   private renderCar(name: string, color: string, id: number): void {
     const car = new Car(name, color, id);
+    car.selectButton.addEventListener('click', this.select.bind(this));
+
     car.removeButton.addEventListener('click', this.removeCar.bind(this, car.id));
     car.startButton.addEventListener('click', this.start.bind(this, car.id));
     car.stopButton.addEventListener('click', this.stop.bind(this, car.id));
@@ -228,6 +230,13 @@ export default class Controller {
     }
   }
 
+  select(event: Event) {
+    const targetElement = event.target as HTMLElement;
+    const unselectedCars = this.cars.filter((car) => !car.isSelected);
+    unselectedCars.forEach((car) => car.selectButton.classList.toggle('button_disabled'));
+    targetElement.classList.remove('button_disabled');
+  }
+
   async updateCar() {
     const selectedCar = this.cars.filter((car) => car.isSelected)[0];
     if (selectedCar) {
@@ -250,6 +259,7 @@ export default class Controller {
 
   async start(id: number) {
     const targetCar = this.cars.filter((car) => car.id === id)[0];
+    targetCar.isStopped = false;
     targetCar.startButton.classList.add('button_disabled');
     targetCar.selectButton.classList.add('button_disabled');
     targetCar.removeButton.classList.add('button_disabled');
@@ -268,12 +278,16 @@ export default class Controller {
 
   async stop(id: number) {
     const targetCar = this.cars.filter((car) => car.id === id)[0];
+    targetCar.isStopped = true;
     targetCar.stopButton.classList.add('button_disabled');
     targetCar.startButton.classList.remove('button_disabled');
     targetCar.selectButton.classList.remove('button_disabled');
     targetCar.removeButton.classList.remove('button_disabled');
     await this.api.stop(id);
     targetCar.getCarBack();
+    if (this.cars.every((car) => car.isStopped)) {
+      this.garageView.raceButton.classList.remove('button_disabled');
+    }
   }
 
   private async startRace() {

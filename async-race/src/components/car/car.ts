@@ -33,6 +33,8 @@ export default class Car {
 
   isSelected: boolean;
 
+  isStopped: boolean;
+
   time: number | null;
 
   id: number;
@@ -44,6 +46,7 @@ export default class Car {
     this.color = color;
     this.id = id;
     this.isSelected = false;
+    this.isStopped = true;
     this.time = null;
     this.wins = 0;
 
