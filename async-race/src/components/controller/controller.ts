@@ -278,16 +278,18 @@ export default class Controller {
 
   private async startRace() {
     this.garageView.raceButton.classList.add('button_disabled');
+    await this.reset();
+    this.garageView.raceButton.classList.add('button_disabled');
     this.garageView.garage.addEventListener('animationend', this.boundDefineWinner);
     const promises = this.cars.map((car) => this.start(car.id));
     await Promise.all(promises);
   }
 
   private async reset() {
-    this.garageView.raceButton.classList.remove('button_disabled');
     this.garageView.hideWinner();
     const promises = this.cars.map((car) => this.stop(car.id));
     await Promise.all(promises);
+    this.garageView.raceButton.classList.remove('button_disabled');
   }
 
   private async defineWinner(event: AnimationEvent): Promise<void> {
