@@ -251,6 +251,8 @@ export default class Controller {
   async start(id: number) {
     const targetCar = this.cars.filter((car) => car.id === id)[0];
     targetCar.startButton.classList.add('button_disabled');
+    targetCar.selectButton.classList.add('button_disabled');
+    targetCar.removeButton.classList.add('button_disabled');
     targetCar.stopButton.classList.remove('button_disabled');
     const data = await this.api.start(id);
     const { velocity } = data;
@@ -268,6 +270,8 @@ export default class Controller {
     const targetCar = this.cars.filter((car) => car.id === id)[0];
     targetCar.stopButton.classList.add('button_disabled');
     targetCar.startButton.classList.remove('button_disabled');
+    targetCar.selectButton.classList.remove('button_disabled');
+    targetCar.removeButton.classList.remove('button_disabled');
     await this.api.stop(id);
     targetCar.getCarBack();
   }
