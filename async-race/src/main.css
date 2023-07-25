@@ -57,7 +57,9 @@ body {
 }
 
 .button_disabled {
-  background-color: gray;
+  cursor: not-allowed; 
+  pointer-events: none;
+  opacity: 0.7;
 }
 
 .pagination-panel {

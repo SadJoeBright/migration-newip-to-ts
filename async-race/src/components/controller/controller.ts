@@ -250,6 +250,8 @@ export default class Controller {
 
   async start(id: number) {
     const targetCar = this.cars.filter((car) => car.id === id)[0];
+    targetCar.startButton.classList.add('button_disabled');
+    targetCar.stopButton.classList.remove('button_disabled');
     const data = await this.api.start(id);
     const { velocity } = data;
     const { distance } = data;
@@ -264,17 +266,21 @@ export default class Controller {
 
   async stop(id: number) {
     const targetCar = this.cars.filter((car) => car.id === id)[0];
+    targetCar.stopButton.classList.add('button_disabled');
+    targetCar.startButton.classList.remove('button_disabled');
     await this.api.stop(id);
     targetCar.getCarBack();
   }
 
   private async startRace() {
+    this.garageView.raceButton.classList.add('button_disabled');
     this.garageView.garage.addEventListener('animationend', this.boundDefineWinner);
     const promises = this.cars.map((car) => this.start(car.id));
     await Promise.all(promises);
   }
 
   private async reset() {
+    this.garageView.raceButton.classList.remove('button_disabled');
     this.garageView.hideWinner();
     const promises = this.cars.map((car) => this.stop(car.id));
     await Promise.all(promises);

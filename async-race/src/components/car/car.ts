@@ -98,7 +98,7 @@ export default class Car {
 
     this.stopButton = createElement({
       tagName: 'div',
-      classNames: ['button_stop'],
+      classNames: ['button_stop', 'button_disabled'],
       textContent: 'STOP',
       parentNode: this.engineControl,
       eventType: 'click',
@@ -150,4 +150,8 @@ export default class Car {
     this.car.classList.remove('moove');
     this.car.style.left = '90px';
   }
+
+  // public disable(event): void {
+  //   event.target.classList.add('disabled')
+  // }
 }
