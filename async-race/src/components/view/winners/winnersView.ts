@@ -1,5 +1,7 @@
 import './winners-view.css';
 import createElement from '../../utils/create-element';
+import WinnersChartItem from './winnersChartItem';
+import { WinnerData } from '../../../types/types';
 
 export default class WinnersView {
   public mainContainer: HTMLElement;
@@ -31,6 +33,8 @@ export default class WinnersView {
   public prevButton: HTMLElement;
 
   public nextButton: HTMLElement;
+
+  newWinner: WinnersChartItem;
 
   constructor() {
     this.mainContainer = createElement({
@@ -124,5 +128,11 @@ export default class WinnersView {
       textContent: ' NEXT',
       parentNode: this.paginationPanel,
     });
+  }
+
+  public addWinner(index: number, page: number, winner: WinnerData): WinnersChartItem {
+    const winnersChartItem = new WinnersChartItem(index, page, winner);
+    this.chartBody.append(winnersChartItem.chartLine);
+    return winnersChartItem;
   }
 }

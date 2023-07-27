@@ -7,8 +7,6 @@ import getRandomName from '../utils/getRandomName';
 import getRandomColor from '../utils/getRandomColor';
 import carNames from '../../data/carNames';
 import WinnersView from '../view/winners/winnersView';
-import createElement from '../utils/create-element';
-import svgCode from '../../data/svgCode';
 
 export default class Controller {
   currentGaragePage: number;
@@ -270,48 +268,15 @@ export default class Controller {
     this.winnersView.title.textContent = `Winners (${winnersAmount})`;
     this.winnersView.pageNumber.textContent = `Page #${this.currentWinnersPage}`;
     this.winnersView.chartBody.innerHTML = '';
+
     winners.forEach(async (winner, index) => {
-      const line = createElement({
-        tagName: 'div',
-        classNames: ['chart__line'],
-        parentNode: this.winnersView.chartBody,
-      });
+      const winnersChartItem = this.winnersView.addWinner(index, page, winner);
 
-      const number = createElement({
-        tagName: 'div',
-        classNames: ['chart__column', 'chart__number'],
-        textContent: `${index + 1 + 10 * (page - 1)}`,
-      });
-
-      const car = createElement({
-        tagName: 'div',
-        classNames: ['chart__column'],
-      });
       const carData = await this.api.getCar(winner.id);
-      const { color } = carData;
-      car.innerHTML = svgCode;
-      car.children[0].setAttribute('fill', color);
-      car.children[0].setAttribute('width', '38px');
-      car.children[0].setAttribute('height', '16px');
-      const carName = carData.name;
+      const { color, name } = carData;
 
-      const name = createElement({
-        tagName: 'div',
-        classNames: ['chart__column', 'chart__name'],
-        textContent: `${carName}`,
-      });
-      const wins = createElement({
-        tagName: 'div',
-        classNames: ['chart__column'],
-        textContent: `${winner.wins}`,
-      });
-      const bestTime = createElement({
-        tagName: 'div',
-        classNames: ['chart__column'],
-        textContent: `${winner.time}`,
-      });
-
-      line.append(number, car, name, wins, bestTime);
+      winnersChartItem.carIcon.children[0].setAttribute('fill', color);
+      winnersChartItem.name.textContent = name;
     });
 
     if (this.currentWinnersPage < pagesAmount) {
