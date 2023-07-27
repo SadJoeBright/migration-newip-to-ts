@@ -327,11 +327,13 @@ export default class Controller {
   }
 
   private async sortWinnersByTime() {
+    this.sortingParam = 'time';
     this.sortingOrder = this.sortingOrder === 'ACS' ? 'DESC' : 'ACS';
     this.renderWinners(this.currentWinnersPage, this.sortingParam, this.sortingOrder);
   }
 
   private async sortWinnersByTWins() {
+    this.sortingParam = 'wins';
     this.sortingOrder = this.sortingOrder === 'ACS' ? 'DESC' : 'ACS';
     this.renderWinners(this.currentWinnersPage, this.sortingParam, this.sortingOrder);
   }

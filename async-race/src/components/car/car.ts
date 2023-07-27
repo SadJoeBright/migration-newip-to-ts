@@ -138,6 +138,7 @@ export default class Car {
 
   public startAnimation(time: number): void {
     this.car.style.animationDuration = `${time}s`;
+    this.car.classList.remove('stop');
     this.car.classList.add('moove');
   }
 

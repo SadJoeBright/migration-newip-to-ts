@@ -86,6 +86,7 @@
   animation-name: moove;
   animation-fill-mode: forwards;
   animation-timing-function: ease-in;
+  animation-play-state: running;
 }
 
 .stop {
