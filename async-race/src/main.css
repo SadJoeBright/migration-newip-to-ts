@@ -1,12 +1,10 @@
-/* @import '~normalize.css'; */
+@import '~normalize.css';
 body {
-  background-color: rgb(155, 154, 154);
+  background-color: rgb(142, 179, 186);
   display: flex;
   flex-direction: column;
-  /* justify-content: start; */
   align-items: center;
-  color: rgb(245, 245, 245);
-  
+  color: rgb(245, 245, 245);  
 }
 
 * {
@@ -36,7 +34,7 @@ body {
   padding: 2px 5px;
   border-radius: 5px;
   font-size: 14px;
-  background-color: rgb(11, 169, 183);
+  background-color: rgb(13, 152, 164);
   text-align: center;
   line-height: 150%;
   cursor: pointer;
@@ -46,7 +44,7 @@ body {
 
 .button:hover {
   filter: brightness(120%);
-  box-shadow: 0 0 15px 1px rgb(11, 169, 183);
+    box-shadow: 0 0 15px 1px rgb(11, 169, 183);
 
 }
 

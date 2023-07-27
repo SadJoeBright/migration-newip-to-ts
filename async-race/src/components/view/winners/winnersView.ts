@@ -2,35 +2,35 @@ import './winners-view.css';
 import createElement from '../../utils/create-element';
 
 export default class WinnersView {
-  mainContainer: HTMLElement;
+  public mainContainer: HTMLElement;
 
-  header: HTMLElement;
+  private header: HTMLElement;
 
-  title: HTMLElement;
+  public title: HTMLElement;
 
-  pageNumber: HTMLElement;
+  public pageNumber: HTMLElement;
 
-  chart: HTMLElement;
+  private chart: HTMLElement;
 
-  chartHeader: HTMLElement;
+  private chartHeader: HTMLElement;
 
-  chartBody: HTMLElement;
+  public chartBody: HTMLElement;
 
-  chartNumber: HTMLElement;
+  private chartNumber: HTMLElement;
 
-  chartCarIcon: HTMLElement;
+  private chartCarIcon: HTMLElement;
 
-  chartCarName: HTMLElement;
+  private chartCarName: HTMLElement;
 
-  chartWins: HTMLElement;
+  public chartWins: HTMLElement;
 
-  chartBestTime: HTMLElement;
+  public chartBestTime: HTMLElement;
 
-  paginationPanel: HTMLElement;
+  private paginationPanel: HTMLElement;
 
-  prevButton: HTMLElement;
+  public prevButton: HTMLElement;
 
-  nextButton: HTMLElement;
+  public nextButton: HTMLElement;
 
   constructor() {
     this.mainContainer = createElement({
@@ -52,7 +52,7 @@ export default class WinnersView {
 
     this.pageNumber = createElement({
       tagName: 'p',
-      classNames: ['garagae__page-number'],
+      classNames: ['garage__page-number'],
       parentNode: this.header,
     });
 

@@ -4,15 +4,15 @@ import GarageView from './garage/garageView';
 import WinnersView from './winners/winnersView';
 
 export default class AppView {
-  viewSwitcher: HTMLElement;
+  private viewSwitcher: HTMLElement;
 
-  toGarageBtn: HTMLElement;
+  private toGarageBtn: HTMLElement;
 
-  toWinnersBtn: HTMLElement;
+  public toWinnersBtn: HTMLElement;
 
-  garageView: GarageView;
+  public garageView: GarageView;
 
-  winnersView: WinnersView;
+  public winnersView: WinnersView;
 
   constructor() {
     this.viewSwitcher = createElement({
@@ -50,14 +50,14 @@ export default class AppView {
     );
   }
 
-  toWinners() {
+  private toWinners() {
     setTimeout(() => {
       this.garageView.mainContainer.classList.add('hide');
       this.winnersView.mainContainer.classList.remove('hide');
     }, 200);
   }
 
-  toGarage() {
+  private toGarage() {
     this.winnersView.mainContainer.classList.add('hide');
     this.garageView.mainContainer.classList.remove('hide');
   }

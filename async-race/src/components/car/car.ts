@@ -3,43 +3,41 @@ import createElement from '../utils/create-element';
 import svgCode from '../../data/svgCode';
 
 export default class Car {
-  name: string;
+  public name: string;
 
-  model: string;
+  public color: string;
 
-  color: string;
+  private garageItem: HTMLElement;
 
-  garageItem: HTMLElement;
+  private carControl: HTMLElement;
 
-  carControl: HTMLElement;
+  public selectButton: HTMLElement;
 
-  selectButton: HTMLElement;
+  public removeButton: HTMLElement;
 
-  removeButton: HTMLElement;
+  private carTitle: HTMLElement;
 
-  carTitle: HTMLElement;
+  private engineControl: HTMLElement;
 
-  engineControl: HTMLElement;
+  public startButton: HTMLElement;
 
-  startButton: HTMLElement;
+  public stopButton: HTMLElement;
 
-  stopButton: HTMLElement;
+  private track: HTMLElement;
 
-  track: HTMLElement;
+  public car:HTMLElement;
 
-  car:HTMLElement;
+  private flag: HTMLElement;
 
-  flag: HTMLElement;
+  public isSelected: boolean;
 
-  isSelected: boolean;
+  public isStopped: boolean;
 
-  isStopped: boolean;
+  public time: number | null;
 
-  time: number | null;
+  public id: number;
 
-  id: number;
-
-  wins: number;
+  public wins: number;
 
   constructor(name: string, color: string, id: number) {
     this.name = name;
@@ -146,15 +144,13 @@ export default class Car {
   public stopAnimation(): void {
     const position = window.getComputedStyle(this.car).getPropertyValue('left');
     this.car.style.left = position;
+
     this.car.classList.remove('moove');
+    this.car.classList.add('stop');
   }
 
   public getCarBack(): void {
     this.car.classList.remove('moove');
     this.car.style.left = '90px';
   }
-
-  // public disable(event): void {
-  //   event.target.classList.add('disabled')
-  // }
 }

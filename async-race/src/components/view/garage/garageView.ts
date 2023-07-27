@@ -2,43 +2,43 @@ import './garage.css';
 import createElement from '../../utils/create-element';
 
 export default class GarageView {
-  mainContainer: HTMLElement;
+  public mainContainer: HTMLElement;
 
-  header: HTMLElement;
+  private header: HTMLElement;
 
-  garage: HTMLElement;
+  public garage: HTMLElement;
 
-  controlPanel: HTMLElement;
+  private controlPanel: HTMLElement;
 
-  controlInput: HTMLElement;
+  private controlInput: HTMLElement;
 
-  controlButtons: HTMLElement;
+  private controlButtons: HTMLElement;
 
-  textInput: HTMLInputElement | HTMLElement;
+  public textInput: HTMLInputElement | HTMLElement;
 
-  colorInput: HTMLElement;
+  public colorInput: HTMLElement;
 
-  createButton: HTMLElement;
+  public createButton: HTMLElement;
 
-  updateButton: HTMLElement;
+  public updateButton: HTMLElement;
 
-  generateButton: HTMLElement;
+  public generateButton: HTMLElement;
 
-  raceButton: HTMLElement;
+  public raceButton: HTMLElement;
 
-  resetButton: HTMLElement;
+  public resetButton: HTMLElement;
 
-  title: HTMLElement;
+  public title: HTMLElement;
 
-  pageNumber: HTMLElement;
+  public pageNumber: HTMLElement;
 
-  winnerMessage: HTMLElement;
+  public winnerMessage: HTMLElement;
 
-  paginationPanel: HTMLElement;
+  private paginationPanel: HTMLElement;
 
-  prevButton: HTMLElement;
+  public prevButton: HTMLElement;
 
-  nextButton: HTMLElement;
+  public nextButton: HTMLElement;
 
   constructor() {
     this.mainContainer = createElement({
@@ -143,8 +143,6 @@ export default class GarageView {
       classNames: ['garage'],
       parentNode: this.mainContainer,
     });
-
-    // this.textInput.focus();
 
     this.paginationPanel = createElement({
       tagName: 'div',

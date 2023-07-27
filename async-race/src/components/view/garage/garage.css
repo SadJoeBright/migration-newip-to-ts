@@ -55,10 +55,14 @@
 
 .winner-massage {
   margin: 0;
-  padding: 5px;
-  height: 16px;
-  font-size: 16px;
+  padding: 15px;
+  height: 24px;
+  font-size: 24px;
+  font-weight: 800;
   visibility: hidden;
+  color: rgb(219, 11, 11);
+  text-shadow: 5px 5px 10px rgb(219, 11, 11);
+  filter: brightness(150%);
 }
 
 .winner-massage_visible {
