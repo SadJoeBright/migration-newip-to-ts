@@ -280,7 +280,7 @@ export default class Controller {
       const number = createElement({
         tagName: 'div',
         classNames: ['chart__column', 'chart__number'],
-        textContent: `${index + 1}`,
+        textContent: `${index + 1 + 10 * (page - 1)}`,
       });
 
       const car = createElement({
